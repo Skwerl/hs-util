@@ -7,7 +7,7 @@ $cleaned = preg_replace("!\s+!m",' ',urldecode($postdata));
 $posted_obj = json_decode($cleaned); 
 
 // Simulate a post
-require_once('sample_post.php');
+#require_once('sample_post.php');
 
 $in = $posted_obj;
 

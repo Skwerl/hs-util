@@ -11,8 +11,13 @@
 <body>
 <div id="everything">
 	<form id="form1" name="form1" method="post" action="/cmts/">
-		<textarea name="data" id="data" cols="100" rows="10"></textarea><br/>
-		<input type="submit" name="button" id="button" value="Submit" />
+		<textarea name="data1" id="data1" cols="100" rows="10"></textarea><br/>
+		<input type="submit" name="button" id="button1" value="Serialize JSON" />
+	</form>
+	<br/>
+	<form id="form2" name="form2" method="post" action="/cmts/">
+		<textarea name="data2" id="data2" cols="100" rows="10"></textarea><br/>
+		<input type="submit" name="button" id="button2" value="Deserialize HL7" />
 	</form>
 <br><b>Output:</b><br><pre id="output"></pre>
 </div>
@@ -22,7 +27,13 @@
 
 $(document).ready(function() {
 	$("#form1").submit(function() {
-		$.post("/cmts/", $("#data").val(), function(data) {
+		$.post("/cmts/serialize/", $("#data1").val(), function(data) {
+			$("#output").html(data);
+		});
+		return false;
+	});
+	$("#form2").submit(function() {
+		$.post("/cmts/deserialize/", $("#data2").val(), function(data) {
 			$("#output").html(data);
 		});
 		return false;
