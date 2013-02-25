@@ -95,6 +95,85 @@ foreach ($pv1 as $soap) {
 	);
 }
 
+/*//// DG1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+$dg1 = $msg->getSegmentsByName('DG1');
+
+foreach ($dg1 as $problem) {
+	$code = explode($cs,$problem->getField(4));
+	$obj['problem'][] = array(
+		'icd9' => array(
+			'code' => $code[0],
+			'desc' => $code[1]
+		),
+		'problemStartedAt' => $problem->getField(5)
+	);
+}
+
+/*//// RXD SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+$rxd = $msg->getSegmentsByName('RXD');
+
+foreach ($rxd as $prescription) {
+
+	$drug = explode($cs,$prescription->getField(2));
+
+	$obj['medicationProfile']['medication']['patientPrescription'][] = array(
+		'prescribe' => array(
+			'sig' => array(
+				'drug' => array(
+					'ndcid' => $drug[0],
+					'brandName' => $drug[1],
+					'form' => $prescription->getField(6),
+				),
+				'quantity' => $prescription->getField(4),
+				'quantityUnits' => $prescription->getField(5),
+				'writtenDate' => $problem->getField(3)
+			)
+		)
+	);
+}
+
+/*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+$al1 = $msg->getSegmentsByName('AL1');
+
+foreach ($al1 as $allergy) {
+	$code = explode($cs,$allergy->getField(3));
+	$obj['allergy'][] = array(
+		'ndcidCode' => $code[0],
+		'name' => $code[1],
+		'allergicReaction' => $allergy->getField(5),
+		'allergicReactionDate' => $allergy->getField(6)
+	);
+}
+
+/*//// RXA SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+$rxa = $msg->getSegmentsByName('RXA');
+
+foreach ($rxa as $immunization) {
+	$code = explode($cs,$immunization->getField(5));
+	$obj['immunization'][] = array(
+		'cvxCode' => $code[0],
+		'vaccine' => $code[1],
+		'activityTime' => $immunization->getField(3),
+		'administeredAmount' => $immunization->getField(6),
+		'notes' => $immunization->getField(9)
+	);
+}
+
+/*//// IN1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+$in1 = $msg->getSegmentsByName('IN1');
+
+foreach ($in1 as $insurance) {
+	$obj['patient']['insurance'][] = array(
+		'name' => $insurance->getField(4),
+		'carrierPayerId' => $insurance->getField(49)
+	);
+}
+
 /*//// OUTPUT MESSAGE ////////////////////////////////////////////////////////////////////////////*/
 
 echo json_encode($obj); ?>
