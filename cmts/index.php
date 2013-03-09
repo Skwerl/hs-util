@@ -29,7 +29,43 @@ switch($type_code) {
 	case 'ADT-A13': // Cancel Discharge
 	case 'ORU-R01': // Observation Report Update
 	case 'VXU-V04': // Vaccination Update
-		$type_string = $type.$cs.$mvar.$cs.$type_code;
+		$type_string = $type.$cs.$mvar.$cs.$type_code.$cs.str_replace('-','_',$type_code);
+		break;
+}
+
+$segments = array('MSH');
+switch($type) {
+	case 'ADT':
+		array_push($segments,
+			'EVN',
+			'PID',
+			'PV1',
+			'OBX',
+			'AL1',
+			'DG1'
+		);
+		break;
+	case 'ORU':
+		array_push($segments,
+			'PID',
+			'NTE',
+			'PV1',
+			'ORC',
+			'OBR',
+			'OBX'
+		);
+		break;
+	case 'VXU':
+		array_push($segments,
+			'PID',
+			'PV1',
+			'IN1',
+			'ORC',
+			'RXA',
+			'RXR',
+			'OBX',
+			'NTE'
+		);
 		break;
 }
 
