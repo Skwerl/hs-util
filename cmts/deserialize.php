@@ -159,6 +159,7 @@ foreach ($rxa as $immunization) {
 		'vaccine' => $code[1],
 		'activityTime' => $immunization->getField(3),
 		'administeredAmount' => $immunization->getField(6),
+		'administeredUnit' => $immunization->getField(7),
 		'notes' => $immunization->getField(9)
 	);
 }
