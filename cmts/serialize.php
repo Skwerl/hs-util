@@ -66,6 +66,18 @@ if (in_array('PV1',$segments)) {
 	}
 }
 
+/*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+if (in_array('AL1',$segments)) {
+	foreach ($in->allergy as $allergy) {
+		$al1 = new Net_HL7_Segment('AL1');
+		$al1->setField(3, $allergy->ndcidCode.$cs.$allergy->name.$cs.'NDC');
+		$al1->setField(5, $allergy->allergicReaction);
+		$al1->setField(6, date('YmdHis',strtotime($allergy->allergicReactionDate)));
+		$msg->addSegment($al1);
+	}
+}
+
 /*//// DG1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('DG1',$segments)) {
@@ -80,7 +92,7 @@ if (in_array('DG1',$segments)) {
 /*//// RXD SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('RXD',$segments)) {
-	foreach ($in->medicationProfile->medication as $medication) {
+	foreach ($in->medication as $medication) {
 		foreach ($medication->patientPrescription as $prescription) {
 			$sig = $prescription->prescribe->sig;
 			$rxd = new Net_HL7_Segment('RXD');
@@ -91,18 +103,6 @@ if (in_array('RXD',$segments)) {
 			$rxd->setField(6, $sig->drug->form);
 			$msg->addSegment($rxd);
 		}
-	}
-}
-
-/*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
-
-if (in_array('AL1',$segments)) {
-	foreach ($in->allergy as $allergy) {
-		$al1 = new Net_HL7_Segment('AL1');
-		$al1->setField(3, $allergy->ndcidCode.$cs.$allergy->name.$cs.'NDC');
-		$al1->setField(5, $allergy->allergicReaction);
-		$al1->setField(6, date('YmdHis',strtotime($allergy->allergicReactionDate)));
-		$msg->addSegment($al1);
 	}
 }
 
@@ -122,6 +122,20 @@ if (in_array('RXA',$segments)) {
 		$rxa->setField(9, $immunization->notes);
 		$msg->addSegment($rxa);
 		$admin_sub_id++;
+	}
+}
+
+/*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+if (in_array('OBX',$segments)) {
+	foreach ($in->lab as $lab) {
+		$obx = new Net_HL7_Segment('OBX');
+		$obx->setField(3, $lab->loincCode.$cs.$lab->labDescription.$cs.'LN');
+		$obx->setField(7, $lab->idealRange);
+		$obx->setField(5, $lab->labResult);
+		$obx->setField(6, 'Units');
+		$obx->setField(14, date('YmdHis',strtotime($lab->dateLabPerformed)));
+		$msg->addSegment($obx);
 	}
 }
 
