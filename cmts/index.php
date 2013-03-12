@@ -15,21 +15,21 @@ switch($type) {
 	case 'VXU': $default_mvar = 'V04'; break;
 }
 $mvar = (isset($_GET['var']) ? strtoupper($_GET['var']) : $default_mvar);
-$type_code = $type.'-'.$mvar;
+$type_code = $type.'_'.$mvar;
 
 switch($type_code) {
-	case 'ADT-A01': // Admit
-	case 'ADT-A02': // Transfer
-	case 'ADT-A03': // Discharge
-	case 'ADT-A04': // Registration
-	case 'ADT-A05': // Pre-Admit
-	case 'ADT-A08': // Information Update
-	case 'ADT-A11': // Cancel Admit
-	case 'ADT-A12': // Cancel Transfer
-	case 'ADT-A13': // Cancel Discharge
-	case 'ORU-R01': // Observation Report Update
-	case 'VXU-V04': // Vaccination Update
-		$type_string = $type.$cs.$mvar.$cs.$type_code.$cs.str_replace('-','_',$type_code);
+	case 'ADT_A01': // Admit
+	case 'ADT_A02': // Transfer
+	case 'ADT_A03': // Discharge
+	case 'ADT_A04': // Registration
+	case 'ADT_A05': // Pre-Admit
+	case 'ADT_A08': // Information Update
+	case 'ADT_A11': // Cancel Admit
+	case 'ADT_A12': // Cancel Transfer
+	case 'ADT_A13': // Cancel Discharge
+	case 'ORU_R01': // Observation Report Update
+	case 'VXU_V04': // Vaccination Update
+		$type_string = $type.$cs.$mvar.$cs.$type_code;
 		break;
 }
 
@@ -59,12 +59,10 @@ switch($type) {
 		array_push($segments,
 			'PID',
 			'PV1',
-			'IN1',
 			'ORC',
 			'RXA',
 			'RXR',
-			'OBX',
-			'NTE'
+			'OBX'
 		);
 		break;
 }

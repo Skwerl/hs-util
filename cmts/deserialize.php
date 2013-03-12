@@ -36,13 +36,13 @@ $obj = array();
 $pid = $msg->getSegmentsByName('PID');
 $pid = $pid[0];
 
-$name = explode($cs,$pid->getField(4));
+$name = explode($cs,$pid->getField(5));
 $obj['patient']['lastName'] = $name[0];
 $obj['patient']['firstName'] = $name[1];
 
 $obj['patient']['externalId'] = $pid->getField(3);
 $obj['patient']['dob'] = $pid->getField(7);
-$obj['patient']['ssn'] = $pid->getField(16);
+$obj['patient']['ssn'] = $pid->getField(19);
 $obj['patient']['gender'] = $pid->getField(8);
 $obj['patient']['race'] = $pid->getField(10);
 $obj['patient']['ethnicity'] = $pid->getField(22);

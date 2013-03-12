@@ -24,9 +24,9 @@ if (in_array('PID',$segments)) {
 
 	$pid = new Net_HL7_Segment('PID');
 	$pid->setField(3, $in->patient->externalId);
-	$pid->setField(4, implode($cs, array($in->patient->lastName,$in->patient->firstName)));
+	$pid->setField(5, implode($cs, array($in->patient->lastName,$in->patient->firstName)));
 	$pid->setField(7, date('Ymd',strtotime($in->patient->dob)));
-	$pid->setField(16, $in->patient->ssn);
+	$pid->setField(19, $in->patient->ssn);
 	$pid->setField(8, $in->patient->gender);
 	$pid->setField(10, $in->patient->race);
 	$pid->setField(22, $in->patient->ethnicity);
@@ -110,7 +110,10 @@ if (in_array('AL1',$segments)) {
 
 if (in_array('RXA',$segments)) {
 	foreach ($in->immunization as $immunization) {
+		$admin_sub_id = 1;
 		$rxa = new Net_HL7_Segment('RXA');
+		$rxa->setField(1, 0);
+		$rxa->setField(2, $admin_sub_id);
 		$rxa->setField(3, date('YmdHis',strtotime($immunization->activityTime)));
 		$rxa->setField(4, date('YmdHis',strtotime($immunization->activityTime)));
 		$rxa->setField(5, $immunization->cvxCode.$cs.$immunization->vaccine.$cs.'CVX');
@@ -118,6 +121,7 @@ if (in_array('RXA',$segments)) {
 		$rxa->setField(7, $immunization->administeredUnit);
 		$rxa->setField(9, $immunization->notes);
 		$msg->addSegment($rxa);
+		$admin_sub_id++;
 	}
 }
 
