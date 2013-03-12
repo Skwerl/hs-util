@@ -26,9 +26,9 @@ if (in_array('PID',$segments)) {
 	$pid->setField(3, $in->patient->externalId);
 	$pid->setField(5, implode($cs, array($in->patient->lastName,$in->patient->firstName)));
 	$pid->setField(7, date('Ymd',strtotime($in->patient->dob)));
-	$pid->setField(19, $in->patient->ssn);
 	$pid->setField(8, $in->patient->gender);
 	$pid->setField(10, $in->patient->race);
+	$pid->setField(19, $in->patient->ssn);
 	$pid->setField(22, $in->patient->ethnicity);
 	
 	$addr_collapsed = array();
