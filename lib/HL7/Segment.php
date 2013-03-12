@@ -94,7 +94,7 @@ class Net_HL7_Segment {
      */
     function setField($index, $value= "")
     {
-        if (!($index && $value)) {
+        if (!($index)) {
             return false;
         }
 
