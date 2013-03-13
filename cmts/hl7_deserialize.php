@@ -40,7 +40,8 @@ $name = explode($cs,$pid->getField(5));
 $obj['patient']['lastName'] = $name[0];
 $obj['patient']['firstName'] = $name[1];
 
-$obj['patient']['externalId'] = $pid->getField(3);
+$guid = array_shift(explode($cs,$pid->getField(3)));
+$obj['patient']['externalId'] = $guid;
 $obj['patient']['dob'] = $pid->getField(7);
 $obj['patient']['ssn'] = $pid->getField(19);
 $obj['patient']['gender'] = $pid->getField(8);
@@ -154,12 +155,13 @@ $rxa = $msg->getSegmentsByName('RXA');
 
 foreach ($rxa as $immunization) {
 	$code = explode($cs,$immunization->getField(5));
+	$unit = array_shift(explode($cs,$immunization->getField(7)));
 	$obj['immunization'][] = array(
 		'cvxCode' => $code[0],
 		'vaccine' => $code[1],
 		'activityTime' => $immunization->getField(3),
 		'administeredAmount' => $immunization->getField(6),
-		'administeredUnit' => $immunization->getField(7),
+		'administeredUnit' => $unit,
 		'notes' => $immunization->getField(9)
 	);
 }
