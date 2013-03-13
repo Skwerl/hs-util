@@ -473,6 +473,151 @@ foreach ($problemsData as $problemData) {
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// MEDICATIONS ///////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$medicationsSchema = array('MEDSUMMARY' => array(
+	'Medication' => 'MEDNAME',
+	'Dose' => 'MEDDOSE',
+	'Form' => 'MEDFORM',
+	'Route' => 'MEDROUTE',
+	'Sig Text' => 'SIGTXT',
+	'Dates' => 'MEDDATES',
+	'Status' => 'MEDSTATUS',
+));
+$medicationsData = array(
+	array(
+		'Albuterol inhalant',
+		'2 puffs',
+		'inhaler',
+		'inhale',
+		'2 puffs QID PRN (as needed for wheezing)',
+		'July 2005+',
+		'Active',
+		'Meta' => array(
+			'medicationName' => 'Albuterol inhalant',
+			'medicationCode' => '195967001',
+			'adminCode' => 'inhaler',
+			'routeCode' => 'inhallation',
+			'doseValue' => '2',
+			'doseUnit' => 'puffs',
+			'lowValue' => '1950',
+			'typeCode' => 'SUBJ',
+			'statusCode' => 'completed',
+			'inversionInd' => 'false'
+		)
+	),
+	array(
+		'clopidogrel (Plavix)',
+		'75 mg',
+		'tablet',
+		'oral',
+		'75mg PO daily',
+		'unknown',
+		'Active',
+		'Meta' => array(
+			'medicationName' => 'clopidogrel (Plavix)',
+			'medicationCode' => '195967001',
+			'adminCode' => 'tablet',
+			'routeCode' => 'taken orally',
+			'doseValue' => '75',
+			'doseUnit' => 'mg',
+			'lowValue' => '1950',
+			'typeCode' => 'SUBJ',
+			'statusCode' => 'active',
+			'inversionInd' => 'false'
+		)
+	)
+);
+
+$medications = $ccdBody->addChild('component')->addChild('section');
+XMLaddManyChildren($medications, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.112', 'assigningAuthorityName' => 'HITSP/C83')));
+XMLaddManyChildren($medications, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.3.19', 'assigningAuthorityName' => 'IHE PCC')));
+XMLaddManyChildren($medications, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.8', 'assigningAuthorityName' => 'HL7 CCD')));
+XMLaddManyAttributes($medications->addChild('code'), array(
+	'code' => '10160-0',
+	'codeSystem' => '2.16.840.1.113883.6.1',
+	'codeSystemName' => 'LOINC',
+	'displayName' => 'History of medication use'
+));
+
+$medications->addChild('title', 'Medications');
+
+XMLaddTableSection($medications->addChild('text'), $medicationsSchema, $medicationsData);
+
+$medicationIndex = 1;
+
+foreach ($medicationsData as $medicationData) {
+
+	$medicationDataGroup = array_shift(array_keys($medicationsSchema));
+	$medicationDataReference = '#'.$medicationDataGroup.'_'.$medicationIndex;
+	$medicationDataSchema = array_shift(array_values($medicationsSchema));
+	$medicationMeta = $medicationsData[$medicationIndex-1]['Meta'];
+	
+	$medication = $medications->addChild('entry');
+	$medication->addAttribute('typeCode','DRIV');
+
+	$substanceAdministration = $medication->addChild('substanceAdministration');
+	$substanceAdministration->addAttribute('classCode', 'SBADM');
+	$substanceAdministration->addAttribute('moodCode', 'EVN');
+
+	XMLaddManyChildren($substanceAdministration, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.8', 'assigningAuthorityName' => 'HITSP/C83')));
+	XMLaddManyChildren($substanceAdministration, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.24', 'assigningAuthorityName' => 'CCD')));
+	XMLaddManyChildren($substanceAdministration, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.7', 'assigningAuthorityName' => 'IHE PCC')));
+	XMLaddManyChildren($substanceAdministration, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.7.1', 'assigningAuthorityName' => 'IHE PCC')));
+
+	$substanceAdministration->addChild('id')->addAttribute('root', 'cdbd33f0-6cde-11db-9fe1-0800200c9a66');
+	$substanceAdministration->addChild('text')->addChild('reference')->addAttribute('value', '#SIGTEXT_'.$medicationIndex);
+	$substanceAdministration->addChild('statusCode')->addAttribute('code', $medicationMeta['statusCode']);
+
+	$substanceAdministrationEffectiveTime = $substanceAdministration->addChild('effectiveTime');
+	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'IVL_TS');
+	XMLaddManyChildren($substanceAdministrationEffectiveTime, array(
+		'low' => array(
+			'value' => $medicationMeta['lowValue']
+		),
+		'high' => array(
+			'nullFlavor' => 'UNK'
+		)
+	));
+
+	$substanceAdministrationEffectiveTime = $substanceAdministration->addChild('effectiveTime');
+	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'PIVL_TS');
+	XMLaddManyChildren($substanceAdministrationEffectiveTime, array(
+		'period' => array(
+			'value' => '6',
+			'unit' => 'h',
+		)
+	));
+
+	$substanceAdministration->addChild('routeCode')->addChild('originalText', $medicationMeta['routeCode']);
+
+	XMLaddManyAttributes($substanceAdministration->addChild('doseQuantity'), array(
+		'value' => $medicationMeta['doseValue'],
+		'unit' => $medicationMeta['doseUnit']
+	));
+
+	$substanceAdministration->addChild('administrationUnitCode')->addChild('originalText', $medicationMeta['adminCode']);
+
+	$manufacturedProduct = $medication->addChild('consumable')->addChild('manufacturedProduct');
+	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.8.2', 'assigningAuthorityName' => 'HITSP/C83')));
+	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.53', 'assigningAuthorityName' => 'CCD')));
+	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.7.2', 'assigningAuthorityName' => 'IHE PCC')));
+
+	$manufacturedMaterialCode = $manufacturedProduct->addChild('manufacturedMaterial')->addChild('code');
+	$manufacturedMaterialCode->addChild('originalText', $medicationMeta['medicationName'])->addChild('reference');
+	XMLaddManyAttributes($manufacturedMaterialCode, array(
+		'code' => $medicationMeta['medicationCode'],
+		'codeSystem' => '2.16.840.1.113883.6.88',
+		'displayName' => $medicationMeta['medicationName'],
+		'codeSystemName' => 'RxNorm'
+	));
+
+	$medicationIndex++;
+
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// OUTPUT ////////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
