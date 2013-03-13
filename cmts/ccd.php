@@ -8,16 +8,20 @@ date_default_timezone_set('America/Los_Angeles');
 /*//// CREATE XML DOC ////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$ccdXML = new SimpleXMLElement('<ClinicalDocument></ClinicalDocument>');
-$ccdXML->addAttribute('xmlns', 'urn:hl7-org:v3');
-$ccdXML->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-$ccdXML->addAttribute('xsi:schemalocation', 'urn:hl7-org:v3 http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd');
+$xsi = 'http://www.w3.org/2001/XMLSchema-instance';
+$xsd = 'http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd';
+$xschema = 'urn:hl7-org:v3';
+$ccdXML = new SimpleXMLElement('<ClinicalDocument xmlns="'.$xschema.'" xmlns:xsi="'.$xsi.'" xsi:schemaLocation="'.$xschema.' '.$xsd.'"></ClinicalDocument>');
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// SET UP CCD HEADER /////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $ccdXML->addChild('realmCode')->addAttribute('code','US');
+XMLaddManyAttributes($ccdXML->addChild('typeId'), array(
+	'root' => '2.16.840.1.113883.1.3',
+	'extension' => 'POCD_HD000040'
+));
 
 XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '2.16.840.1.113883.3.27.1776', 'assigningAuthorityName' => 'CDA/R2')));
 XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '2.16.840.1.113883.10.20.3', 'assigningAuthorityName' => 'HL7/CDT Header')));
@@ -112,7 +116,7 @@ $languageCommunication->addChild('languageCode')->addAttribute('code', 'en-US');
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $author = $ccdXML->addChild('author');
-$author->addChild('time')->addAttribute('code', date('YmdHis'));
+$author->addChild('time')->addAttribute('value', date('YmdHis'));
 $assignedAuthor = $author->addChild('assignedAuthor');
 $assignedAuthor->addChild('id');
 $assignedAuthor->addChild('addr');
@@ -283,12 +287,12 @@ foreach ($allergiesData as $allergyData) {
 
 	$observationValue = $observation->addChild('value');
 	XMLaddManyAttributes($observationValue, array(
-		'xsi:type' => 'CD',
 		'code' => $allergyMeta['allergyCode'],
 		'codeSystem' => '2.16.840.1.113883.6.88',
 		'displayName' => $allergyMeta['allergyName'],
 		'codeSystemName' => 'RxNorm'
 	));
+	$observationValue->addAttribute('xsi:type', 'CD', $xsi);
 	$observationValue->addChild('originalText')->addChild('reference')->addAttribute('value', '#'.$allergyDataSchema['Substance'].'_'.$allergyIndex);
 
 	$observationParticipant = $observation->addChild('participant');
@@ -302,12 +306,12 @@ foreach ($allergiesData as $allergyData) {
 	$observationParticipantRolePlayingEntityCode = $observationParticipantRolePlayingEntity->addChild('code');
 	$observationParticipantRolePlayingEntityCode->addChild('originalText')->addChild('reference')->addAttribute('value', '#'.$allergyDataSchema['Substance'].'_'.$allergyIndex);
 	XMLaddManyAttributes($observationParticipantRolePlayingEntityCode, array(
-		'xsi:type' => 'CD',
 		'code' => $allergyMeta['allergyCode'],
 		'codeSystem' => '2.16.840.1.113883.6.88',
 		'displayName' => $allergyMeta['allergyName'],
 		'codeSystemName' => 'RxNorm'
 	));
+	$observationParticipantRolePlayingEntityCode->addAttribute('xsi:type', 'CD', $xsi);
 	$observationParticipantRolePlayingEntity->addChild('name', $allergyMeta['allergyName']);
 	
 	$allergyIndex++;
@@ -460,8 +464,8 @@ foreach ($problemsData as $problemData) {
 	$observation->addChild('effectiveTime')->addChild('low')->addAttribute('value', $problemMeta['lowValue']);
 
 	$observationValue = $observation->addChild('value');
+	$observationValue->addAttribute('xsi:type', 'CD', $xsi);
 	XMLaddManyAttributes($observationValue, array(
-		'xsi:type' => 'CD',
 		'code' => $problemMeta['problemCode'],
 		'codeSystem' => '2.16.840.1.113883.6.96',
 		'displayName' => $problemMeta['problemName'],
@@ -571,7 +575,7 @@ foreach ($medicationsData as $medicationData) {
 	$substanceAdministration->addChild('statusCode')->addAttribute('code', $medicationMeta['statusCode']);
 
 	$substanceAdministrationEffectiveTime = $substanceAdministration->addChild('effectiveTime');
-	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'IVL_TS');
+	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'IVL_TS', $xsi);
 	XMLaddManyChildren($substanceAdministrationEffectiveTime, array(
 		'low' => array(
 			'value' => $medicationMeta['lowValue']
@@ -582,7 +586,7 @@ foreach ($medicationsData as $medicationData) {
 	));
 
 	$substanceAdministrationEffectiveTime = $substanceAdministration->addChild('effectiveTime');
-	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'PIVL_TS');
+	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'PIVL_TS', $xsi);
 	XMLaddManyChildren($substanceAdministrationEffectiveTime, array(
 		'period' => array(
 			'value' => '6',
@@ -614,6 +618,158 @@ foreach ($medicationsData as $medicationData) {
 	));
 
 	$medicationIndex++;
+
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// LABS //////////////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$labsData = array(
+	array(
+		'labName' => 'CBC WO DIFFERENTIAL',
+		'loincCode' => '43789009',
+		'labDate' => '200003231430',
+		'labProcedures' => array(
+			array(
+				'procedureDescription' => 'Extract blood for CBC test',
+				'effectiveTime' => '200003231430',
+				'statusCode' => 'completed',
+			)
+		),
+		'labResults' => array(
+			array(
+				'resultCode' => '30313-1',
+				'resultDisplayName' => 'HGB',
+				'resultIdealRange' => 'M 13-18 g/dl; F 12-16 g/dl',
+				'resultMeasurement' => '13.2',
+				'resultUnit' => 'g/dl',
+				'effectiveTime' => '200003231430',
+				'statusCode' => 'completed',
+				'interpretationCode' => 'N'
+			),
+			array(
+				'resultCode' => '30313-1',
+				'resultDisplayName' => 'WBC',
+				'resultIdealRange' => 'M 13-18 g/dl; F 12-16 g/dl',
+				'resultMeasurement' => '13.2',
+				'resultUnit' => 'g/dl',
+				'effectiveTime' => '200003231430',
+				'statusCode' => 'completed',
+				'interpretationCode' => 'N'
+			)
+		)
+	)
+);
+
+$labs = $ccdBody->addChild('component')->addChild('section');
+XMLaddManyChildren($labs, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.122', 'assigningAuthorityName' => 'HITSP/C83')));
+XMLaddManyChildren($labs, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.3.28', 'assigningAuthorityName' => 'IHE PCC')));
+XMLaddManyAttributes($labs->addChild('code'), array(
+	'code' => '30954-2',
+	'codeSystem' => '2.16.840.1.113883.6.1',
+	'codeSystemName' => 'LOINC',
+	'displayName' => 'Results'
+));
+
+$labs->addChild('title', 'Diagnostic Results');
+
+$labsTable = $labs->addChild('text')->addChild('table');
+XMLaddManyAttributes($labsTable, array(
+	'border' => '1',
+	'width' => '100%'
+));
+
+// Need to build out labs table...
+
+foreach ($labsData as $labData) {
+
+	$lab = $labs->addChild('entry');
+	$lab->addAttribute('typeCode','DRIV');
+
+	$organizer = $lab->addChild('organizer');
+	$organizer->addAttribute('classCode', 'BATTERY');
+	$organizer->addAttribute('moodCode', 'EVN');
+
+	XMLaddManyChildren($organizer, array(
+		'id' => array(
+			'root' => '7d5a02b0-67a4-11db-bd13-0800200c9a66'
+		),
+		'code' => array(
+			'code' => $labData['loincCode'],
+			'codeSystem' => '2.16.840.1.113883.6.96',
+			'displayName' => 'CBC WO DIFFERENTIAL'
+		),
+		'statusCode' => array(
+			'code' => 'completed' 
+		),
+		'effectiveTime' => array(
+			'value' => $labData['labDate'] 
+		)
+	));
+
+	foreach ($labData['labProcedures'] as $procedure) {
+
+		$procedureComponent = $organizer->addChild('component')->addChild('procedure');	
+		$procedureComponent->addAttribute('classCode', 'PROC');
+		$procedureComponent->addAttribute('moodCode', 'EVN');
+		XMLaddManyChildren($procedureComponent, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.17', 'assigningAuthorityName' => 'HITSP/C83')));
+		XMLaddManyChildren($procedureComponent, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.29', 'assigningAuthorityName' => 'CCD')));
+		XMLaddManyChildren($procedureComponent, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.19', 'assigningAuthorityName' => 'IHE PCC')));
+		$procedureComponent->addChild('id');
+
+		$procedureComponentCode = $procedureComponent->addChild('code');
+		$procedureComponentCode->addChild('originalText', $procedure['procedureDescription'])->addChild('reference')->addAttribute('value', 'Ptr to text in parent Section');
+
+		XMLaddManyAttributes($procedureComponentCode, array(
+			'code' => $labData['procedureCode'],
+			'codeSystem' => '2.16.840.1.113883.6.96',
+			'displayName' => $labData['labName']
+		));
+
+		$procedureComponent->addChild('text', $procedure['procedureDescription'])->addChild('reference')->addAttribute('value', 'PtrToParentInsectionText');
+		$procedureComponent->addChild('statusCode')->addAttribute('code', $procedure['statusCode']);
+		$procedureComponent->addChild('effectiveTime')->addAttribute('value', $procedure['effectiveTime']);
+
+	}
+
+	foreach ($labData['labResults'] as $observation) {
+
+		$observationComponent = $organizer->addChild('component')->addChild('observation');	
+		$observationComponent->addAttribute('classCode', 'OBS');
+		$observationComponent->addAttribute('moodCode', 'EVN');
+		XMLaddManyChildren($observationComponent, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.15.1', 'assigningAuthorityName' => 'HITSP/C83')));
+		XMLaddManyChildren($observationComponent, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.31', 'assigningAuthorityName' => 'CCD')));
+		XMLaddManyChildren($observationComponent, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.13', 'assigningAuthorityName' => 'IHE PCC')));
+		$observationComponent->addChild('id')->addAttribute('root', '107c2dc0-67a5-11db-bd13-0800200c9a66');
+
+		$observationComponentCode = $observationComponent->addChild('code');
+		XMLaddManyAttributes($observationComponentCode, array(
+			'code' => $observation['resultCode'],
+			'codeSystem' => '2.16.840.1.113883.6.1',
+			'displayName' => $observation['resultDisplayName']
+		));
+
+		$observationComponent->addChild('text')->addChild('reference')->addAttribute('value', 'PtrToValueInsectionText');
+
+		XMLaddManyChildren($observationComponent, array(
+			'statusCode' => array('code' => $observation['statusCode']),
+			'effectiveTime' => array('value' => $observation['effectiveTime'])
+		));
+
+		$observationComponentValue = $observationComponent->addChild('value');
+		$observationComponentValue->addAttribute('xsi:type', 'PQ', $xsi);
+		$observationComponentValue->addAttribute('value', $observation['resultMeasurement']);
+		$observationComponentValue->addAttribute('unit', $observation['resultUnit']);
+
+		$observationComponent->addChild('statusCode')->addAttribute('code', $observation['statusCode']);
+
+		XMLaddManyAttributes($observationComponent->addChild('interpretationCode'), array(
+			'code' => $observation['interpretationCode'],
+			'codeSystem' => '2.16.840.1.113883.5.83'
+		));
+
+	}
 
 }
 
