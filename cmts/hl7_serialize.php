@@ -46,9 +46,11 @@ if (in_array('PID',$segments)) {
 	$pid->setField(11, implode($rs,$addr_collapsed));
 	$pid->setField(12, implode($rs,array_unique($countries)));
 	
-	foreach ($in->patient->phone as $ph) {
-		if ($ph->type == 'HOME') { $pid->setField(13, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
-		if ($ph->type == 'OFFICE') { $pid->setField(14, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
+	if (!empty($in->patient->phone)) {
+		foreach ($in->patient->phone as $ph) {
+			if ($ph->type == 'HOME') { $pid->setField(13, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
+			if ($ph->type == 'OFFICE') { $pid->setField(14, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
+		}
 	}
 	
 	$msg->addSegment($pid);
@@ -129,12 +131,13 @@ if (in_array('RXA',$segments)) {
 
 if (in_array('OBX',$segments)) {
 	foreach ($in->lab as $lab) {
+		$result = $lab->labResult;
 		$obx = new Net_HL7_Segment('OBX');
-		$obx->setField(3, $lab->loincCode.$cs.$lab->labDescription.$cs.'LN');
-		$obx->setField(7, $lab->idealRange);
-		$obx->setField(5, $lab->labResult);
+		$obx->setField(3, $result->loincCode.$cs.$result->labType.$cs.'LN');
+		$obx->setField(7, $result->idealRange);
+		$obx->setField(5, $result->labResult);
 		$obx->setField(6, 'Units');
-		$obx->setField(14, date('YmdHis',strtotime($lab->dateLabPerformed)));
+		$obx->setField(14, date('YmdHis',strtotime($result->dateLabPerformed)));
 		$msg->addSegment($obx);
 	}
 }

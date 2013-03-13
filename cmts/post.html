@@ -6,6 +6,13 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
+<style type="text/css">
+	#output {
+		font-family: "Courier New", Courier, monospace;
+		font-size: 12px;
+	}
+</style>
+
 </head>
 
 <body>
@@ -13,111 +20,66 @@
 	<form id="form1" name="form1" method="post" action="/cmts/">
 		<textarea name="data1" id="data1" cols="100" rows="10">{
     "patient": {
-        "firstName": "Jeremy1",
-        "lastName": "ODay2",
-        "ssn": "ssn",
-        "preferredContact": null,
-        "phone": [{
-            "areaCode": "123",
-            "prefix": "456",
-            "suffix": "7890",
-            "type": "OFFICE"
-        }, {
-            "areaCode": "123",
-            "prefix": "456",
-            "suffix": "7890",
-            "type": "FAX"
-        }],
-        "address": [{
-            "name": "address name",
-            "address1": "address1",
-            "address2": "address2",
-            "city": "city",
-            "state": "state",
-            "postalCode": "90403",
-            "countryCode": "US"
-        }, {
-            "name": "address name",
-            "address1": "address1",
-            "address2": "address2",
-            "city": "city",
-            "state": "state",
-            "postalCode": "90403",
-            "countryCode": "US"
-        }],
-        "email": [{
-            "emailAddress": "jeremy@chaoslabs.com",
-            "primary": true
-        }],
-        "dob": "2012-11-30T21:07:49.005Z",
+        "identity": "7d2ed041-fa93-472d-97a8-324b8fde982c",
+        "firstName": "export",
+        "lastName": "patient",
+        "ssn": "345-34-1120",
+        "address": [
+            {
+                "name": "Home",
+                "address1": "2645 Mulberry Lane",
+                "address2": "",
+                "city": "Toledo",
+                "state": "OH",
+                "postalCode": "43605",
+                "countryCode": "US",
+                "phone": [
+                    {
+                        "areaCode": "234",
+                        "prefix": "837",
+                        "suffix": "2345",
+                        "type": "OFFICE"
+                    }
+                ]
+            }
+        ],
+        "phone": null,
+        "email": null,
+        "dob": "1960-04-22",
         "gender": "M",
-        "language": "language",
-        "patientConsent": false,
-        "maritalStatus": "D",
-        "race": "R",
-        "ethnicity": "E",
-        "smoking": "1",
-        "paymentProfile": "A",
-        "emergency": [{
-            "name": "Name",
-            "phone": {
-                "areaCode": "123",
-                "prefix": "456",
-                "suffix": "7890",
-                "type": "OFFICE"
+        "language": "English",
+        "patientConsent": null,
+        "maritalStatus": null,
+        "race": "A",
+        "ethnicity": "H",
+        "smoking": 2,
+        "paymentProfile": null,
+        "emergency": [
+            {
+                "name": "emergency",
+                "phone": {
+                    "areaCode": "234",
+                    "prefix": "837",
+                    "suffix": "2345",
+                    "type": "OFFICE"
+                }
             }
-        }, {
-            "name": "Name",
-            "phone": {
-                "areaCode": "123",
-                "prefix": "456",
-                "suffix": "7890",
-                "type": "OFFICE"
-            }
-        }],
-        "subscriberIsPatient": true,
-        "insurance": [{
-            "name": "Insurance Name",
-            "copayPennies": 500,
-            "primary": false,
-            "idNumber": "123456",
-            "carrierPayerId": "987654"
-        }, {
-            "name": "Insurance Name",
-            "copayPennies": 500,
-            "primary": false,
-            "idNumber": "123456",
-            "carrierPayerId": "987654"
-        }],
-        "externalId": "99927557",
-        "middleName": null,
+        ],
+        "subscriberIsPatient": null,
+        "insurance": null,
+        "externalId": "5369509",
+        "middleName": "d",
         "suffix": null,
-        "smokingFrequency": "1-9 cigarettes/day"
+        "preferredContact": null,
+        "smokingFrequency": "1 pack/day",
+        "ageInYears": 52
     },
-    "author": "Author",
-    "organization": "Organization",
-    "problem": [{
-        "problemNoteIdentity": null,
-        "icd9": {
-            "code": "290.0.2",
-            "desc": "Senile dementia, uncomplicated"
-        },
-        "note": "hallucinations",
-        "problemStartedAt": "2012-12-24T08:58:52.186-08:00",
-        "problemStoppedAt": null,
-        "createdAt": 1356368332328,
-        "createdBy": null,
-        "soapNoteIdentity": null,
-        "status": "new",
-        "significant": true
-    }],
-    "medication": [{
-        "active": true,
-        "00069421030": {
+    "medication": [
+        {
             "drug": {
                 "rcopiaId": null,
-                "ndcid": "00069421030",
-                "brandName": "Viagra",
+                "ndcid": "00071015640",
+                "brandName": "Lipitor",
                 "genericName": null,
                 "fullDescription": null,
                 "brandType": null,
@@ -125,245 +87,282 @@
                 "strength": null,
                 "routeCode": null,
                 "rxNormType": null,
-                "rxNormId": null
+                "rxNormId": null,
+                "drugGroup": null
             },
             "note": [],
-            "patientPrescription": [{
-                "active": true,
-                "prescribe": {
-                    "prescribeIdentity": "aa1cc96a-6333-4d84-8eb6-50f295d9e8ee",
-                    "patientIdentity": "2f6154dc-f7a2-42e9-8c79-d18001d94d69",
-                    "patientExternalIdentity": "5288541",
-                    "pharmacyIdentity": "9900004",
-                    "hasScheduledDrug": false,
-                    "stopDate": null,
-                    "addToMedicationList": true,
-                    "sig": {
-                        "drug": {
-                            "rcopiaId": null,
-                            "ndcid": "00069421030",
-                            "brandName": "Viagra",
-                            "genericName": null,
-                            "fullDescription": null,
-                            "brandType": null,
-                            "form": "Tablet",
-                            "strength": null,
-                            "routeCode": null,
-                            "rxNormType": null,
-                            "rxNormId": null
+            "patientPrescription": [
+                {
+                    "prescribe": {
+                        "prescribeIdentity": "664a66ec-12d0-4530-80b2-1d03e93ba6bd",
+                        "patientIdentity": "7d2ed041-fa93-472d-97a8-324b8fde982c",
+                        "patientExternalIdentity": "",
+                        "pharmacyIdentity": "",
+                        "hasScheduledDrug": false,
+                        "stopDate": null,
+                        "addToMedicationList": true,
+                        "sig": {
+                            "drug": {
+                                "rcopiaId": null,
+                                "ndcid": "00071015640",
+                                "brandName": "Lipitor",
+                                "genericName": null,
+                                "fullDescription": null,
+                                "brandType": null,
+                                "form": "Tablet",
+                                "strength": null,
+                                "routeCode": null,
+                                "rxNormType": null,
+                                "rxNormId": null,
+                                "drugGroup": null
+                            },
+                            "action": "Apply",
+                            "dose": "1",
+                            "doseUnit": "tablet",
+                            "route": "as directed",
+                            "doseTiming": "once a day",
+                            "doseOther": null,
+                            "duration": "7 days",
+                            "quantity": "14",
+                            "quantityUnits": "tablets",
+                            "refills": "2",
+                            "substitutionPermitted": true,
+                            "otherNotes": "Other Notes",
+                            "patientNotes": "Patient Notes",
+                            "comments": "Comments",
+                            "schedule": null,
+                            "writtenDate": null,
+                            "effectiveDate": null,
+                            "lastFillDate": null,
+                            "soldDate": null
                         },
-                        "action": null,
-                        "dose": null,
-                        "doseUnit": null,
-                        "route": null,
-                        "doseTiming": null,
-                        "doseOther": null,
-                        "duration": null,
-                        "quantity": "14",
-                        "quantityUnits": "tablets",
-                        "refills": null,
-                        "substitutionPermitted": true,
-                        "otherNotes": "Other notes",
-                        "patientNotes": "Patient notes",
-                        "comments": "Comments",
-                        "schedule": null,
-                        "writtenDate": null,
-                        "effectiveDate": null,
-                        "lastFillDate": null,
-                        "soldDate": null
+                        "checkId": null,
+                        "signaturePassword": "1234",
+                        "prescriberOrderNumber": null,
+                        "rxReferenceNumber": null,
+                        "formularyNote": null,
+                        "interactionNote": null,
+                        "allergyReaction": null,
+                        "interactionReaction": null,
+                        "drugInteractionCheckPerformed": false,
+                        "icd9": null,
+                        "ePrescribe": false,
+                        "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+                        "createdByFirstName": "chuck",
+                        "createdByLastName": "norris"
                     },
-                    "checkId": null,
-                    "signaturePassword": "1234",
-                    "prescriberOrderNumber": null,
-                    "rxReferenceNumber": null,
-                    "formularyNote": null,
-                    "interactionNote": null,
-                    "allergyReaction": null,
-                    "interactionReaction": null,
-                    "drugInteractionCheckPerformed": false
-                },
-                "createdAt": 1360125449195,
-                "createdBy": "c8ccd370-322f-43db-9165-8fc21812448a"
-            }, {
-                "prescribe": {
-                    "prescribeIdentity": "d31f2a56-b3d7-4a07-9519-d641a55d3c07",
-                    "patientIdentity": "2f6154dc-f7a2-42e9-8c79-d18001d94d69",
-                    "patientExternalIdentity": "5288541",
-                    "pharmacyIdentity": "9900004",
-                    "hasScheduledDrug": false,
-                    "stopDate": null,
-                    "addToMedicationList": true,
-                    "sig": {
-                        "drug": {
-                            "rcopiaId": null,
-                            "ndcid": "00069421030",
-                            "brandName": "Viagra",
-                            "genericName": null,
-                            "fullDescription": null,
-                            "brandType": null,
-                            "form": "Tablet",
-                            "strength": null,
-                            "routeCode": null,
-                            "rxNormType": null,
-                            "rxNormId": null
-                        },
-                        "action": null,
-                        "dose": null,
-                        "doseUnit": null,
-                        "route": null,
-                        "doseTiming": null,
-                        "doseOther": null,
-                        "duration": null,
-                        "quantity": "14",
-                        "quantityUnits": "tablets",
-                        "refills": null,
-                        "substitutionPermitted": true,
-                        "otherNotes": "Other notes",
-                        "patientNotes": "Patient notes",
-                        "comments": "Comments",
-                        "schedule": null,
-                        "writtenDate": null,
-                        "effectiveDate": null,
-                        "lastFillDate": null,
-                        "soldDate": null
-                    },
-                    "checkId": null,
-                    "signaturePassword": "1234",
-                    "prescriberOrderNumber": null,
-                    "rxReferenceNumber": null,
-                    "formularyNote": null,
-                    "interactionNote": null,
-                    "allergyReaction": null,
-                    "interactionReaction": null,
-                    "drugInteractionCheckPerformed": false
-                },
-                "createdAt": 1360125458877,
-                "createdBy": "c8ccd370-322f-43db-9165-8fc21812448a"
-            }]
+                    "createdAt": 1363130900488,
+                    "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+                    "active": true
+                }
+            ],
+            "active": true,
+            "source": "SOCIAL_CARE"
         }
-    }],
-    "allergy": [{
-        "identity": null,
-        "name": "peanut",
-        "ndcidCode": "Arachis hypogaea",
-        "allergyGroupId": "Arachis Ara h 1",
-        "allergicReaction": "Anaphylaxis",
-        "allergicReactionDate": "2013-01-15T10:39:20.546-08:00",
-        "active": true
-    }],
-    "soapNote": [{
-        "identity": "27598610-397c-456b-a8a0-f394bd704414",
-        "subjective": {
-            "chiefComplaint": "Knee pain",
-            "note": "motorcycle injury",
-            "symptoms": [
-                "sensative",
-                "swelling",
-                "discoloration"],
-            "historyOfCurrentIllness": "previous surgery",
-            "appointmentDate": "2013-01-16T05:45:08.459-08:00"
+    ],
+    "problem": [
+        {
+            "problemNoteIdentity": "03a00868-0947-4497-bc85-4afb5f3357e8",
+            "icd9": {
+                "code": "0022",
+                "desc": "flu"
+            },
+            "note": null,
+            "problemStartedAt": null,
+            "problemStoppedAt": null,
+            "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+            "significant": false,
+            "active": true,
+            "updatedAt": "2013-03-12T23:28:19.633Z",
+            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
         },
-        "objectiveVitals": {
-            "vitalNotes": "sample vitals notes",
-            "temperature": 98.6,
-            "heightFeet": 5,
-            "heightInches": 8,
-            "respiratoryRate": 16,
-            "weight": 175,
-            "bpSystolic": 120,
-            "bpDiastolic": 80,
-            "pulse": 75,
-            "headCircumference": 22.5,
-            "oxygenSaturation": 82,
-            "smoking": 1,
-            "painPoints": [{
-                "painLocation": "Knee",
-                "painLevel": 3
-            }],
-            "bmi": 26.61
+        {
+            "problemNoteIdentity": "78d5c06f-c1ae-4841-ac88-c52429677fc8",
+            "icd9": {
+                "code": "250.02",
+                "desc": "Diabetes Mellitus, Type 2"
+            },
+            "note": "Low blood sugar",
+            "problemStartedAt": "2009-12-24",
+            "problemStoppedAt": null,
+            "soapNoteIdentity": null,
+            "significant": true,
+            "active": false,
+            "updatedAt": "2013-03-12T23:28:21.208Z",
+            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
         },
-        "objectivePhysical": {
-            "physicalNotes": "patient is complaining of knee pain",
-            "problemAreas": [{
-                "bodyPart": {
-                    "name": "KNEE",
-                    "category": "leg"
-                },
-                "notes": "throbbing pain",
-                "imageUrl": "http://xxx/yyy"
-            }, {
-                "bodyPart": {
-                    "name": "HEENT",
-                    "category": "Mouth"
-                },
-                "notes": "Redness in Throat",
-                "imageUrl": null
-            }],
-            "patientEducationTopicsDiscussed": null
-        },
-        "assessment": {
-            "notes": "Update to Serious problems here",
-            "problems": [{
-                "problemNoteIdentity": null,
-                "icd9": {
-                    "code": "321",
-                    "desc": "Cough"
-                },
-                "note": "some notes",
-                "problemStartedAt": null,
-                "problemStoppedAt": null,
-                "soapNoteIdentity": null,
-                "significant": false,
-                "status": null,
-                "updatedAt": null,
-                "createdBy": null
-            }, {
-                "problemNoteIdentity": null,
-                "icd9": {
-                    "code": "543.2",
-                    "desc": "id Pulvinar"
-                },
-                "note": "some more notes",
-                "problemStartedAt": null,
-                "problemStoppedAt": null,
-                "soapNoteIdentity": null,
-                "significant": false,
-                "status": "open",
-                "updatedAt": null,
-                "createdBy": null
-            }]
-        },
-        "plan": {
-            "notes": "Physical Therapy 2x a week",
-            "comments": "Follow up visit"
-        },
-        "updateBy": "Mieke Mocke",
-        "updatedAt": "2013-01-03T15:49:35.346-08:00"
-    }],
-    "lab": [{
-        "identity": "219be44e-43f1-4808-8c3a-4dc51a3f7532",
-        "loincCode": "1003-3",
-        "dateLabPerformed": "2013-01-01",
-        "labType": "Blood Test",
-        "labDescription": "Indirect antiglobulin test.complement specific reagent",
-        "idealRange": "True/False",
-        "labResult": "False",
-        "labIdentity": "febf1a86-03b3-4982-b56d-3f570bf43edc"
-    }],
-    "immunization": [{
-        "createTime": "2013-03-01T05:58:12.785Z",
-        "vaccine": "Influenza",
-        "notes": "Administered Flu Shot for patient",
-        "userAssertion": "CONFIRMED",
-        "activityTime": "2012-11-02",
-        "activityBy": "CVS Pharmacy",
-        "administeredAmount": "3",
-        "administeredUnit": "vials",
-        "vaccineLotNumber": "003843",
-        "manufacturerName": "Merck",
-        "manufacturerCode": "ME-394",
-        "cvxCode": "15"
-    }]
+        {
+            "problemNoteIdentity": "5bf226b3-72c8-480a-b24c-3d07b60f0ee3",
+            "icd9": {
+                "code": "01116",
+                "desc": "bronchitis"
+            },
+            "note": null,
+            "problemStartedAt": null,
+            "problemStoppedAt": null,
+            "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+            "significant": false,
+            "active": true,
+            "updatedAt": "2013-03-12T23:28:19.633Z",
+            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
+        }
+    ],
+    "allergy": [
+        {
+            "identity": "13e04179-826f-4534-adab-92db2438c44d",
+            "name": "Allergy to penicillin",
+            "ndcidCode": null,
+            "allergyGroupId": null,
+            "active": true,
+            "allergicReaction": "Rash",
+            "allergicReactionDate": "2001-01-01",
+            "snomed": "91936005",
+            "substance": null,
+            "reaction": null,
+            "createdAt": "2013-03-12",
+            "updatedAt": "2013-03-12"
+        }
+    ],
+    "immunization": [
+        {
+            "createTime": "2013-03-12T23:28:21.910Z",
+            "vaccine": "Influenza",
+            "notes": "Administered Flu Shot for patient",
+            "userAssertion": "CONFIRMED",
+            "activityTime": "2012-11-02",
+            "activityBy": "CVS Pharmacy",
+            "administeredAmount": "3",
+            "administeredUnit": "vials",
+            "vaccineLotNumber": "003843",
+            "manufacturerName": "Merck",
+            "manufacturerCode": "ME-394",
+            "cvxCode": "15"
+        }
+    ],
+    "soapNote": [
+        {
+            "identity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+            "subjective": {
+                "chiefComplaint": "Knee pain",
+                "note": "motorcycle injury",
+                "symptoms": [
+                    "grinding",
+                    "headache",
+                    "ear pain"
+                ],
+                "historyOfCurrentIllness": "previous surgery",
+                "appointmentDate": "2012-01-19"
+            },
+            "objectiveVitals": {
+                "vitalNotes": "getting basic measurements",
+                "temperature": 99.1,
+                "heightFeet": 5,
+                "heightInches": 9,
+                "respiratoryRate": 10,
+                "weight": 165.3,
+                "bpSystolic": 120,
+                "bpDiastolic": 80,
+                "pulse": 75,
+                "headCircumference": 20.7,
+                "oxygenSaturation": 82,
+                "smoking": 2,
+                "painPoints": [
+                    {
+                        "painLocation": "UPPER SHOULDER",
+                        "painLevel": 3
+                    }
+                ],
+                "smokingFrequency": "1 pack/day",
+                "bmi": 24.410273
+            },
+            "objectivePhysical": {
+                "physicalNotes": "patient is complaining of back pain and is unable to sleep",
+                "problemAreas": [
+                    {
+                        "bodyPart": {
+                            "name": "CHEST",
+                            "category": "Inspection"
+                        },
+                        "notes": "Heartbeat regular",
+                        "imageUrl": ""
+                    },
+                    {
+                        "bodyPart": {
+                            "name": "NEURO II-XII",
+                            "category": "Sensory"
+                        },
+                        "notes": "No issues",
+                        "imageUrl": ""
+                    }
+                ],
+                "patientEducationTopicsDiscussed": [
+                    "Asthma",
+                    "Injury Prevention"
+                ]
+            },
+            "assessment": {
+                "notes": "minor back strain",
+                "problems": [
+                    {
+                        "problemNoteIdentity": null,
+                        "icd9": {
+                            "code": "0022",
+                            "desc": "flu"
+                        },
+                        "note": null,
+                        "problemStartedAt": null,
+                        "problemStoppedAt": null,
+                        "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+                        "significant": false,
+                        "active": true,
+                        "updatedAt": null,
+                        "createdBy": null
+                    },
+                    {
+                        "problemNoteIdentity": null,
+                        "icd9": {
+                            "code": "01116",
+                            "desc": "bronchitis"
+                        },
+                        "note": null,
+                        "problemStartedAt": null,
+                        "problemStoppedAt": null,
+                        "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+                        "significant": false,
+                        "active": true,
+                        "updatedAt": null,
+                        "createdBy": null
+                    }
+                ]
+            },
+            "plan": {
+                "notes": "prescribing some painkillers, follow up in 2 weeks",
+                "comments": "prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks"
+            },
+            "updateBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+            "updatedAt": "2013-03-12T23:28:20.133Z",
+            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+            "createdAt": "2013-03-12T23:28:17.485Z"
+        }
+    ],
+    "lab": [
+        {
+            "labOrder": null,
+            "labResult": {
+                "identity": "95164077-bc6d-4fe8-b098-c47901899816",
+                "loincCode": "14471-0",
+                "dateLabPerformed": "2013-01-01",
+                "labType": "Fasting Blood Glucose",
+                "labDescription": "Fasting Blood Glucose",
+                "idealRange": "170 mg/dl - 170 mg/dl",
+                "labResult": "178 mg/dl",
+                "labIdentity": "c9f347ba-8bf0-47e8-8d96-1e735b449137"
+            },
+            "labIdentity": "c9f347ba-8bf0-47e8-8d96-1e735b449137"
+        }
+    ],
+    "author": "chuck norris",
+    "organization": "Health Symmetric"
 }</textarea><br/>
 		<select name="format" id="format">
 			<option value="ccd" selected>CCD</option>

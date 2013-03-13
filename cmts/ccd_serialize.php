@@ -327,13 +327,13 @@ foreach ($inputProblems as $inputProblem) {
 	$problemsData[] = array(
 		$inputProblem->icd9->desc,
 		date('Ymd',strtotime($inputProblem->problemStartedAt)),
-		$inputProblem->status,
+		($inputProblem->active == '1' ? 'Active' : 'Inactive'),
 		'Meta' => array(
 			'problemName' => $inputProblem->icd9->desc,
 			'problemCode' => $inputProblem->icd9->code,
 			'lowValue' => date('Ymd',strtotime($inputProblem->problemStartedAt)),
 			'typeCode' => 'SUBJ',
-			'statusCode' => $inputProblem->status,
+			'statusCode' => ($inputProblem->active == '1' ? 'Active' : 'Inactive'),
 			'inversionInd' => 'false',
 		)
 	);
@@ -450,34 +450,30 @@ $medicationsSchema = array('MEDSUMMARY' => array(
 
 $medicationsData = array();
 $inputMedications = $in->medication;
-foreach ($inputMedications as $inputMedicationObject) {
-	foreach ($inputMedicationObject as $inputMedicationKey => $inputMedication) {
-		if ($inputMedicationKey != 'active') { // Kludge!
-			foreach ($inputMedication->patientPrescription as $inputPrescription) {
-				$inputSig = $inputPrescription->prescribe->sig;
-				$medicationsData[] = array(
-					$inputSig->drug->brandName,
-					$inputSig->quantity.' '.$inputSig->quantityUnits,
-					$inputSig->route,
-					$inputSig->route,
-					$inputSig->schedule,
-					date('Ymd',strtotime($inputSig->effectiveDate)),
-					($inputMedicationObject->active == '1' ? 'Active' : 'Inactive'),
-					'Meta' => array(
-						'medicationName' => $inputSig->drug->brandName,
-						'medicationCode' => $inputSig->drug->ndcid,
-						'adminCode' => $inputSig->route,
-						'routeCode' => $inputSig->route,
-						'doseValue' => $inputSig->dose,
-						'doseUnit' => $inputSig->doseUnit,
-						'lowValue' => date('Ymd',strtotime($inputSig->effectiveDate)),
-						'typeCode' => 'SUBJ',
-						'statusCode' => ($inputMedicationObject->active == '1' ? 'Active' : 'Inactive'),
-						'inversionInd' => 'false'
-					)
-				);
-			}
-		}
+foreach ($inputMedications as $inputMedication) {
+	foreach ($inputMedication->patientPrescription as $inputPrescription) {
+		$inputSig = $inputPrescription->prescribe->sig;
+		$medicationsData[] = array(
+			$inputSig->drug->brandName,
+			$inputSig->quantity.' '.$inputSig->quantityUnits,
+			$inputSig->route,
+			$inputSig->route,
+			$inputSig->schedule,
+			date('Ymd',strtotime($inputSig->effectiveDate)),
+			($inputMedication->active == '1' ? 'Active' : 'Inactive'),
+			'Meta' => array(
+				'medicationName' => $inputSig->drug->brandName,
+				'medicationCode' => $inputSig->drug->ndcid,
+				'adminCode' => $inputSig->route,
+				'routeCode' => $inputSig->route,
+				'doseValue' => $inputSig->dose,
+				'doseUnit' => $inputSig->doseUnit,
+				'lowValue' => date('Ymd',strtotime($inputSig->effectiveDate)),
+				'typeCode' => 'SUBJ',
+				'statusCode' => ($inputPrescription->active == '1' ? 'Active' : 'Inactive'),
+				'inversionInd' => 'false'
+			)
+		);
 	}
 }
 
@@ -669,7 +665,7 @@ foreach ($labsData as $labData) {
 		$procedureComponentCode->addChild('originalText', $procedure['procedureDescription'])->addChild('reference')->addAttribute('value', 'Ptr to text in parent Section');
 
 		XMLaddManyAttributes($procedureComponentCode, array(
-			'code' => $labData['procedureCode'],
+			'code' => $labData['loincCode'],
 			'codeSystem' => '2.16.840.1.113883.6.96',
 			'displayName' => $labData['labName']
 		));

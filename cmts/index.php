@@ -28,14 +28,17 @@ switch($type_code) {
 	case 'ADT_A13': // Cancel Discharge
 	case 'ORU_R01': // Observation Report Update
 	case 'VXU_V04': // Vaccination Update
-		$type_string = $type.$cs.$mvar.$cs.$type_code;
 		$translate_context = 'hl7';
 		break;
 	case 'CCD_025': // HITSP/C32 v2.5 CCD
-		$type_string = 'HITSP/C32 v2.5 CCD';
 		$translate_context = 'ccd';
 		break;
 }
+
+require_once('globals.php');
+
+if (!isset($cs)) { $cs = '^'; } 
+$type_string = $type.$cs.$mvar.$cs.$type_code;
 
 $segments = array('MSH');
 switch($type) {
@@ -65,13 +68,10 @@ switch($type) {
 			'PV1',
 			'ORC',
 			'RXA',
-			'RXR',
-			'OBX'
+			'RXR'
 		);
 		break;
 }
-
-require_once('globals.php');
 
 switch($mode) {
 	case 'serialize': include_once($translate_context.'_serialize.php'); break;
