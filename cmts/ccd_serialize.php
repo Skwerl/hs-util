@@ -1,16 +1,28 @@
 <?php
 
-require_once('functions.php');
+$translate_context = 'ccd';
+require_once('globals.php');
 
-date_default_timezone_set('America/Los_Angeles');
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// PREPARE INPUT /////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$postdata = file_get_contents("php://input");
+$cleaned = preg_replace("!\s+!m",' ',urldecode($postdata));
+$posted_obj = json_decode($cleaned); 
+
+// Simulate a post
+//require_once('sample_post.php');
+
+$in = $posted_obj;
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// CREATE XML DOC ////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$xsi = 'http://www.w3.org/2001/XMLSchema-instance';
-$xsd = 'http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd';
-$xschema = 'urn:hl7-org:v3';
+$xsi = $XMLGlobals['XSI'];
+$xsd = $XMLGlobals['XSD'];
+$xschema = $XMLGlobals['XSCHEMA'];
 $ccdXML = new SimpleXMLElement('<ClinicalDocument xmlns="'.$xschema.'" xmlns:xsi="'.$xsi.'" xsi:schemaLocation="'.$xschema.' '.$xsd.'"></ClinicalDocument>');
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -31,7 +43,7 @@ XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '2.16.840.1.11
 XMLaddManyChildren($ccdXML, array(
 	'id' => array(
 		'root' => '2.16.840.1.113883.3.72',
-		'extension' => 'MU_Rev2_HITSP_C32C83_4Sections_MeaningfulEntryContent_NoErrors',
+		'extension' => 'MU_Rev2_HITSP_C32C83',
 		'assigningAuthorityName' => 'NIST Healthcare Project'
 	),
 	'code' => array(
@@ -50,7 +62,7 @@ XMLaddManyChildren($ccdXML, array(
 		// null
 	),
 	'languageCode' => array(
-		'code' => 'en-US'
+		'code' => $XMLGlobals['languageCode']
 	)
 ));
 
@@ -66,35 +78,39 @@ XMLaddManyAttributes($patientRole->addChild('id'), array(
 	'assigningAuthorityName' => 'Provider Name'
 ));
 
-$address = $patientRole->addChild('addr');
-$address->addAttribute('use', 'HP');
-$address->addChild('streetAddressLine', 'Address Line 1');
-$address->addChild('streetAddressLine', 'Address Line 2');
-$address->addChild('city', 'City');
-$address->addChild('state', 'State');
-$address->addChild('postalCode', '10101');
-$address->addChild('country', 'USA');
+$inputPatient = $in->patient;
+
+foreach($inputPatient->address as $addressData) {
+	$address = $patientRole->addChild('addr');
+	$address->addAttribute('use', 'HP');
+	$address->addChild('streetAddressLine', $addressData->address1);
+	$address->addChild('streetAddressLine', $addressData->address2);
+	$address->addChild('city', $addressData->city);
+	$address->addChild('state', $addressData->state);
+	$address->addChild('postalCode', $addressData->postalCode);
+	$address->addChild('country', $addressData->countryCode);
+}
 
 $patientRole->addChild('telecom');
 
 $patient = $patientRole->addChild('patient');
 $patientName = $patient->addChild('name');
-$patientName->addChild('given', 'FirstName');
-$patientName->addChild('given', 'M');
-$patientName->addChild('family', 'LastName');
+$patientName->addChild('given', $inputPatient->firstName);
+//$patientName->addChild('given', 'M');
+$patientName->addChild('family', $inputPatient->lastName);
 
 XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
-	'code' => 'F',
-	'displayName' => 'Female',
+	'code' => $inputPatient->gender,
+	'displayName' => ($inputPatient->gender == 'M' ? 'Male' : 'Female'),
 	'codeSystem' => '2.16.840.1.113883.5.1',
 	'codeSystemName' => 'HL7 AdministrativeGender'
 ));
 
-$patient->addChild('birthTime')->addAttribute('value', date('Ymd'));
+$patient->addChild('birthTime')->addAttribute('value', date('Ymd',strtotime($inputPatient->dob)));
 
 XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
-	'code' => 'S',
-	'displayName' => 'Single',
+	'code' => $inputPatient->maritalStatus,
+	'displayName' => 'MartialStatusDisplay',
 	'codeSystem' => '2.16.840.1.113883.5.2',
 	'codeSystemName' => 'HL7 Marital status'
 ));
@@ -109,7 +125,7 @@ XMLaddManyAttributes($languageCommunication->addChild('templateId'), array(
 	'assigningAuthorityName' => 'IHE/PCC'
 ));
 
-$languageCommunication->addChild('languageCode')->addAttribute('code', 'en-US');
+$languageCommunication->addChild('languageCode')->addAttribute('code', $XMLGlobals['languageCode']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// AUTHOR ////////////////////////////////////////////////////////////////////////////////////*/
@@ -159,47 +175,24 @@ $allergiesSchema = array('ALGSUMMARY' => array(
 	'Reaction' => 'ALGREACT',
 	'Status' => 'ALGSTATUS',
 ));
-$allergiesData = array(
-	array(
+
+$allergiesData = array();
+$inputAllergies = $in->allergy;
+foreach ($inputAllergies as $inputAllergy) {
+	$allergiesData[] = array(
 		'Drug Allergy',
-		'Penicillin',
-		'Hives',
-		'Active',
+		$inputAllergy->name,
+		$inputAllergy->allergicReaction,
+		($inputAllergy->active == '1' ? 'Active' : 'Inactive'),
 		'Meta' => array(
 			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
+			'statusCode' => ($inputAllergy->active == '1' ? 'Active' : 'Inactive'),
 			'inversionInd' => 'false',
-			'allergyCode' => '416098002',
-			'allergyName' => 'Penicillin'
+			'allergyCode' => $inputAllergy->ndcidCode,
+			'allergyName' => $inputAllergy->name
 		)
-	),
-	array(
-		'Drug Intolerance',
-		'Aspirin',
-		'Wheezing',
-		'Active',
-		'Meta' => array(
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false',
-			'allergyCode' => '416098002',
-			'allergyName' => 'Aspirin'
-		)
-	),
-	array(
-		'Drug Intolerance',
-		'Codeine',
-		'Nausea',
-		'Active',
-		'Meta' => array(
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false',
-			'allergyCode' => '416098002',
-			'allergyName' => 'Codeine'
-		)
-	)
-);
+	);
+}
 
 $allergies = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($allergies, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.102', 'assigningAuthorityName' => 'HITSP/C83')));
@@ -327,60 +320,24 @@ $problemsSchema = array('PROBSUMMARY' => array(
 	'Effective Dates' => 'PROBDATE',
 	'Problem Status' => 'PROBSTATUS',
 ));
-$problemsData = array(
-	array(
-		'Asthma',
-		'1950',
-		'Active',
+
+$problemsData = array();
+$inputProblems = $in->problem;
+foreach ($inputProblems as $inputProblem) {
+	$problemsData[] = array(
+		$inputProblem->icd9->desc,
+		date('Ymd',strtotime($inputProblem->problemStartedAt)),
+		$inputProblem->status,
 		'Meta' => array(
-			'problemName' => 'Asthma',
-			'problemCode' => '195967001',
-			'lowValue' => '1950',
+			'problemName' => $inputProblem->icd9->desc,
+			'problemCode' => $inputProblem->icd9->code,
+			'lowValue' => date('Ymd',strtotime($inputProblem->problemStartedAt)),
 			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
+			'statusCode' => $inputProblem->status,
 			'inversionInd' => 'false',
 		)
-	),
-	array(
-		'Pneumonia',
-		'Mar 1999',
-		'Resolved',
-		'Meta' => array(
-			'problemName' => 'Pneumonia',
-			'problemCode' => '195967001',
-			'lowValue' => 'Mar 1999',
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false',
-		)
-	),
-	array(
-		'Myocardial Infarction',
-		'Jan 1997',
-		'Resolved',
-		'Meta' => array(
-			'problemName' => 'Myocardial Infarction',
-			'problemCode' => '195967001',			
-			'lowValue' => 'Jan 1997',
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false',
-		)
-	),
-	array(
-		'Pregnancy',
-		'Oct 26, 2010',
-		'NOT currently pregnant',
-		'Meta' => array(
-			'problemName' => 'Pregnancy',
-			'problemCode' => '195967001',			
-			'lowValue' => 'Oct 26, 2010',
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false',
-		)
-	)
-);
+	);
+}
 
 $problems = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($problems, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.103', 'assigningAuthorityName' => 'HITSP/C83')));
@@ -489,50 +446,40 @@ $medicationsSchema = array('MEDSUMMARY' => array(
 	'Dates' => 'MEDDATES',
 	'Status' => 'MEDSTATUS',
 ));
-$medicationsData = array(
-	array(
-		'Albuterol inhalant',
-		'2 puffs',
-		'inhaler',
-		'inhale',
-		'2 puffs QID PRN (as needed for wheezing)',
-		'July 2005+',
-		'Active',
-		'Meta' => array(
-			'medicationName' => 'Albuterol inhalant',
-			'medicationCode' => '195967001',
-			'adminCode' => 'inhaler',
-			'routeCode' => 'inhallation',
-			'doseValue' => '2',
-			'doseUnit' => 'puffs',
-			'lowValue' => '1950',
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'completed',
-			'inversionInd' => 'false'
-		)
-	),
-	array(
-		'clopidogrel (Plavix)',
-		'75 mg',
-		'tablet',
-		'oral',
-		'75mg PO daily',
-		'unknown',
-		'Active',
-		'Meta' => array(
-			'medicationName' => 'clopidogrel (Plavix)',
-			'medicationCode' => '195967001',
-			'adminCode' => 'tablet',
-			'routeCode' => 'taken orally',
-			'doseValue' => '75',
-			'doseUnit' => 'mg',
-			'lowValue' => '1950',
-			'typeCode' => 'SUBJ',
-			'statusCode' => 'active',
-			'inversionInd' => 'false'
-		)
-	)
-);
+
+
+$medicationsData = array();
+$inputMedications = $in->medication;
+foreach ($inputMedications as $inputMedicationObject) {
+	foreach ($inputMedicationObject as $inputMedicationKey => $inputMedication) {
+		if ($inputMedicationKey != 'active') { // Kludge!
+			foreach ($inputMedication->patientPrescription as $inputPrescription) {
+				$inputSig = $inputPrescription->prescribe->sig;
+				$medicationsData[] = array(
+					$inputSig->drug->brandName,
+					$inputSig->quantity.' '.$inputSig->quantityUnits,
+					$inputSig->route,
+					$inputSig->route,
+					$inputSig->schedule,
+					date('Ymd',strtotime($inputSig->effectiveDate)),
+					($inputMedicationObject->active == '1' ? 'Active' : 'Inactive'),
+					'Meta' => array(
+						'medicationName' => $inputSig->drug->brandName,
+						'medicationCode' => $inputSig->drug->ndcid,
+						'adminCode' => $inputSig->route,
+						'routeCode' => $inputSig->route,
+						'doseValue' => $inputSig->dose,
+						'doseUnit' => $inputSig->doseUnit,
+						'lowValue' => date('Ymd',strtotime($inputSig->effectiveDate)),
+						'typeCode' => 'SUBJ',
+						'statusCode' => ($inputMedicationObject->active == '1' ? 'Active' : 'Inactive'),
+						'inversionInd' => 'false'
+					)
+				);
+			}
+		}
+	}
+}
 
 $medications = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($medications, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.112', 'assigningAuthorityName' => 'HITSP/C83')));

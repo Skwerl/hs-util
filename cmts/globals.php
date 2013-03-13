@@ -5,7 +5,10 @@ date_default_timezone_set('America/Los_Angeles');
 if ($translate_context == 'ccd') {
 	
 	$XMLGlobals = Array();
-	$XMLGlobals['HL7_VERSION'] = '2.3.1';
+	$XMLGlobals['XSI'] = 'http://www.w3.org/2001/XMLSchema-instance';
+	$XMLGlobals['XSD'] = 'http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd';
+	$XMLGlobals['XSCHEMA'] = 'urn:hl7-org:v3';
+	$XMLGlobals['languageCode'] = 'en-US';
 
 }
 

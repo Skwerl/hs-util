@@ -366,7 +366,8 @@
     }]
 }</textarea><br/>
 		<select name="format" id="format">
-			<option value="adt" selected>ADT</option>
+			<option value="ccd" selected>CCD</option>
+			<option value="adt">ADT</option>
 			<option value="oru">ORU</option>
 			<option value="vxu">VXU</option>
 		</select>
@@ -389,7 +390,7 @@ $(document).ready(function() {
 		$.post(endpoint, $("#data1").val(), function(data) {
 			$("#output").html(data);
 			$("#endpoint").html(endpoint);			
-		});
+		}, "text");
 		return false;
 	});
 	$("#form2").submit(function() {
@@ -397,7 +398,7 @@ $(document).ready(function() {
 		$.post(endpoint, $("#data2").val(), function(data) {
 			$("#output").html(data);
 			$("#endpoint").html(endpoint);			
-		});
+		}, "text");
 		return false;
 	});
 });
