@@ -68,8 +68,8 @@ switch($type) {
 }
 
 switch($mode) {
-	case 'serialize': include_once('serialize.php'); break;
-	case 'deserialize': include_once('deserialize.php'); break;
+	case 'serialize': include_once('hl7_serialize.php'); break;
+	case 'deserialize': include_once('hl7_deserialize.php'); break;
 }
 
 ?>
