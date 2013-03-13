@@ -64,7 +64,7 @@ function XMLaddTableSection($parent,$schema,$data) {
 		$fieldIndex = 0;
 		foreach ($array as $item) {
 			if (!is_array($item)) {
-				$row->addChild($fieldIDs[$fieldIndex].'_'.$rowID, $item);
+				$row->addChild('td', $item)->addAttribute('ID', $fieldIDs[$fieldIndex].'_'.$rowID);
 				$fieldIndex++;
 			}
 		}
