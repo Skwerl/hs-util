@@ -102,8 +102,8 @@ $al1 = $msg->getSegmentsByName('AL1');
 foreach ($al1 as $allergy) {
 	$code = explode($cs,$allergy->getField(3));
 	$obj['allergy'][] = array(
-		'ndcidCode' => $code[0],
 		'name' => $code[1],
+		'snomed' => $code[0],
 		'allergicReaction' => $allergy->getField(5),
 		'allergicReactionDate' => $allergy->getField(6)
 	);
@@ -170,13 +170,16 @@ $obx = $msg->getSegmentsByName('OBX');
 
 foreach ($obx as $lab) {
 	$code = explode($cs,$lab->getField(3));
-	$obj['lab'][] = array(
+	$obj['lab'][] = array('labResult' => array(
 		'loincCode' => $code[0],
-		'dateLabPerformed' => $lab->getField(14),
-		'labDescription' => $code[1],
-		'idealRange' => $lab->getField(7),
-		'labResult' => $lab->getField(5)
-	);
+		//'labDescription' => $code[1],
+		'labTestResult' => array(array(
+			'date' => $lab->getField(14),
+			'name' => $code[1].' ('.$lab->getField(7).')',
+			'value' => $lab->getField(5),
+			'unitOfMeasure' => $lab->getField(6)
+		))
+	));
 }
 
 /*//// IN1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/

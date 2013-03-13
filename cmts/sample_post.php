@@ -2,15 +2,14 @@
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 stdClass Object
 (
     [patient] => stdClass Object
         (
-            [identity] => 7d2ed041-fa93-472d-97a8-324b8fde982c
+            [identity] => 4429d93f-1ddc-4677-8625-f497ea708419
             [firstName] => export
             [lastName] => patient
-            [ssn] => 345-34-1120
+            [ssn] => 345-34-1122
             [address] => Array
                 (
                     [0] => stdClass Object
@@ -40,7 +39,7 @@ stdClass Object
 
             [phone] => 
             [email] => 
-            [dob] => 1960-04-22
+            [dob] => 1960-04-24
             [gender] => M
             [language] => English
             [patientConsent] => 
@@ -68,7 +67,7 @@ stdClass Object
 
             [subscriberIsPatient] => 
             [insurance] => 
-            [externalId] => 5369509
+            [externalId] => 5371091
             [middleName] => d
             [suffix] => 
             [preferredContact] => 
@@ -106,8 +105,8 @@ stdClass Object
                                 (
                                     [prescribe] => stdClass Object
                                         (
-                                            [prescribeIdentity] => 664a66ec-12d0-4530-80b2-1d03e93ba6bd
-                                            [patientIdentity] => 7d2ed041-fa93-472d-97a8-324b8fde982c
+                                            [prescribeIdentity] => 70d4c765-1f6d-497c-8417-b58889bf30bf
+                                            [patientIdentity] => 4429d93f-1ddc-4677-8625-f497ea708419
                                             [patientExternalIdentity] => 
                                             [pharmacyIdentity] => 
                                             [hasScheduledDrug] => 
@@ -163,13 +162,13 @@ stdClass Object
                                             [drugInteractionCheckPerformed] => 
                                             [icd9] => 
                                             [ePrescribe] => 
-                                            [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
+                                            [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
                                             [createdByFirstName] => chuck
                                             [createdByLastName] => norris
                                         )
 
-                                    [createdAt] => 1363130900488
-                                    [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
+                                    [createdAt] => 1363199053574
+                                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
                                     [active] => 1
                                 )
 
@@ -185,7 +184,26 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [problemNoteIdentity] => 03a00868-0947-4497-bc85-4afb5f3357e8
+                    [problemNoteIdentity] => 5a832c03-5c4e-467d-9fe8-075473e4c0fb
+                    [icd9] => stdClass Object
+                        (
+                            [code] => 01116
+                            [desc] => bronchitis
+                        )
+
+                    [note] => 
+                    [problemStartedAt] => 
+                    [problemStoppedAt] => 
+                    [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
+                    [significant] => 
+                    [active] => 1
+                    [updatedAt] => 2013-03-13T18:24:12.318Z
+                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                )
+
+            [1] => stdClass Object
+                (
+                    [problemNoteIdentity] => 705d624f-c6ea-44e0-bdc3-a427787460c9
                     [icd9] => stdClass Object
                         (
                             [code] => 0022
@@ -195,16 +213,16 @@ stdClass Object
                     [note] => 
                     [problemStartedAt] => 
                     [problemStoppedAt] => 
-                    [soapNoteIdentity] => 4dc0029b-76bc-412e-b7d3-6398fcfac4e3
+                    [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
                     [significant] => 
                     [active] => 1
-                    [updatedAt] => 2013-03-12T23:28:19.633Z
-                    [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
+                    [updatedAt] => 2013-03-13T18:24:12.318Z
+                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
                 )
 
-            [1] => stdClass Object
+            [2] => stdClass Object
                 (
-                    [problemNoteIdentity] => 78d5c06f-c1ae-4841-ac88-c52429677fc8
+                    [problemNoteIdentity] => 2f3fbf82-266b-462f-b0eb-0a19a248747f
                     [icd9] => stdClass Object
                         (
                             [code] => 250.02
@@ -217,27 +235,8 @@ stdClass Object
                     [soapNoteIdentity] => 
                     [significant] => 1
                     [active] => 
-                    [updatedAt] => 2013-03-12T23:28:21.208Z
-                    [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
-                )
-
-            [2] => stdClass Object
-                (
-                    [problemNoteIdentity] => 5bf226b3-72c8-480a-b24c-3d07b60f0ee3
-                    [icd9] => stdClass Object
-                        (
-                            [code] => 01116
-                            [desc] => bronchitis
-                        )
-
-                    [note] => 
-                    [problemStartedAt] => 
-                    [problemStoppedAt] => 
-                    [soapNoteIdentity] => 4dc0029b-76bc-412e-b7d3-6398fcfac4e3
-                    [significant] => 
-                    [active] => 1
-                    [updatedAt] => 2013-03-12T23:28:19.633Z
-                    [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
+                    [updatedAt] => 2013-03-13T18:24:14.596Z
+                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
                 )
 
         )
@@ -246,7 +245,7 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [identity] => 13e04179-826f-4534-adab-92db2438c44d
+                    [identity] => f378bf55-6f3d-45f9-b454-e2a012ebb87e
                     [name] => Allergy to penicillin
                     [ndcidCode] => 
                     [allergyGroupId] => 
@@ -256,8 +255,8 @@ stdClass Object
                     [snomed] => 91936005
                     [substance] => 
                     [reaction] => 
-                    [createdAt] => 2013-03-12
-                    [updatedAt] => 2013-03-12
+                    [createdAt] => 2013-03-13
+                    [updatedAt] => 2013-03-13
                 )
 
         )
@@ -266,7 +265,7 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [createTime] => 2013-03-12T23:28:21.910Z
+                    [createTime] => 2013-03-13T18:24:15.342Z
                     [vaccine] => Influenza
                     [notes] => Administered Flu Shot for patient
                     [userAssertion] => CONFIRMED
@@ -286,7 +285,7 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [identity] => 4dc0029b-76bc-412e-b7d3-6398fcfac4e3
+                    [identity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
                     [subjective] => stdClass Object
                         (
                             [chiefComplaint] => Knee pain
@@ -386,7 +385,7 @@ stdClass Object
                                             [note] => 
                                             [problemStartedAt] => 
                                             [problemStoppedAt] => 
-                                            [soapNoteIdentity] => 4dc0029b-76bc-412e-b7d3-6398fcfac4e3
+                                            [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
                                             [significant] => 
                                             [active] => 1
                                             [updatedAt] => 
@@ -405,7 +404,7 @@ stdClass Object
                                             [note] => 
                                             [problemStartedAt] => 
                                             [problemStoppedAt] => 
-                                            [soapNoteIdentity] => 4dc0029b-76bc-412e-b7d3-6398fcfac4e3
+                                            [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
                                             [significant] => 
                                             [active] => 1
                                             [updatedAt] => 
@@ -420,12 +419,13 @@ stdClass Object
                         (
                             [notes] => prescribing some painkillers, follow up in 2 weeks
                             [comments] => prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks
+                            [patientRequestedRecords] => 
                         )
 
-                    [updateBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
-                    [updatedAt] => 2013-03-12T23:28:20.133Z
-                    [createdBy] => dc30fc2d-5901-481a-bafe-7b44bfe5fe4d
-                    [createdAt] => 2013-03-12T23:28:17.485Z
+                    [updateBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                    [updatedAt] => 2013-03-13T18:24:12.828Z
+                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                    [createdAt] => 2013-03-13T18:24:08.616Z
                 )
 
         )
@@ -437,17 +437,45 @@ stdClass Object
                     [labOrder] => 
                     [labResult] => stdClass Object
                         (
-                            [identity] => 95164077-bc6d-4fe8-b098-c47901899816
-                            [loincCode] => 14471-0
-                            [dateLabPerformed] => 2013-01-01
-                            [labType] => Fasting Blood Glucose
-                            [labDescription] => Fasting Blood Glucose
-                            [idealRange] => 170 mg/dl - 170 mg/dl
-                            [labResult] => 178 mg/dl
-                            [labIdentity] => c9f347ba-8bf0-47e8-8d96-1e735b449137
+                            [identity] => 7f1bc3cc-71ef-4e01-950c-505b1b602f42
+                            [loincCode] => 718-7
+                            [labIdentity] => 08bcebf1-da49-43b9-ae13-746ccc6ca246
+                            [facilityName] => XYZ MRI Lab
+                            [facilityStreetAddress] => 101 Main Street
+                            [facilityCity] => Los Angeles
+                            [facilityState] => CA
+                            [facilityPostalCode] => 92617
+                            [labTestResult] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [date] => 2013-01-01
+                                            [type] => Hermatology
+                                            [name] => Eosinophil Count (1-3%)
+                                            [value] => 2
+                                            [unitOfMeasure] => %
+                                            [source] => Not Applicable
+                                            [condition] => Not Applicable
+                                            [abnormal] => 
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [date] => 2013-01-01
+                                            [type] => Hermatology
+                                            [name] => Hemoglobin (male: 14-18 g/dl female: 12-16 g/dl)
+                                            [value] => 16
+                                            [unitOfMeasure] => g/dl
+                                            [source] => Not Applicable
+                                            [condition] => Not Applicable
+                                            [abnormal] => 1
+                                        )
+
+                                )
+
                         )
 
-                    [labIdentity] => c9f347ba-8bf0-47e8-8d96-1e735b449137
+                    [labIdentity] => 08bcebf1-da49-43b9-ae13-746ccc6ca246
                 )
 
         )
@@ -460,10 +488,10 @@ stdClass Object
 
 $posted_obj = json_decode('{
     "patient": {
-        "identity": "7d2ed041-fa93-472d-97a8-324b8fde982c",
+        "identity": "4429d93f-1ddc-4677-8625-f497ea708419",
         "firstName": "export",
         "lastName": "patient",
-        "ssn": "345-34-1120",
+        "ssn": "345-34-1122",
         "address": [
             {
                 "name": "Home",
@@ -485,7 +513,7 @@ $posted_obj = json_decode('{
         ],
         "phone": null,
         "email": null,
-        "dob": "1960-04-22",
+        "dob": "1960-04-24",
         "gender": "M",
         "language": "English",
         "patientConsent": null,
@@ -507,7 +535,7 @@ $posted_obj = json_decode('{
         ],
         "subscriberIsPatient": null,
         "insurance": null,
-        "externalId": "5369509",
+        "externalId": "5371091",
         "middleName": "d",
         "suffix": null,
         "preferredContact": null,
@@ -534,8 +562,8 @@ $posted_obj = json_decode('{
             "patientPrescription": [
                 {
                     "prescribe": {
-                        "prescribeIdentity": "664a66ec-12d0-4530-80b2-1d03e93ba6bd",
-                        "patientIdentity": "7d2ed041-fa93-472d-97a8-324b8fde982c",
+                        "prescribeIdentity": "70d4c765-1f6d-497c-8417-b58889bf30bf",
+                        "patientIdentity": "4429d93f-1ddc-4677-8625-f497ea708419",
                         "patientExternalIdentity": "",
                         "pharmacyIdentity": "",
                         "hasScheduledDrug": false,
@@ -587,12 +615,12 @@ $posted_obj = json_decode('{
                         "drugInteractionCheckPerformed": false,
                         "icd9": null,
                         "ePrescribe": false,
-                        "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+                        "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
                         "createdByFirstName": "chuck",
                         "createdByLastName": "norris"
                     },
-                    "createdAt": 1363130900488,
-                    "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
+                    "createdAt": 1363199053574,
+                    "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
                     "active": true
                 }
             ],
@@ -602,7 +630,22 @@ $posted_obj = json_decode('{
     ],
     "problem": [
         {
-            "problemNoteIdentity": "03a00868-0947-4497-bc85-4afb5f3357e8",
+            "problemNoteIdentity": "5a832c03-5c4e-467d-9fe8-075473e4c0fb",
+            "icd9": {
+                "code": "01116",
+                "desc": "bronchitis"
+            },
+            "note": null,
+            "problemStartedAt": null,
+            "problemStoppedAt": null,
+            "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
+            "significant": false,
+            "active": true,
+            "updatedAt": "2013-03-13T18:24:12.318Z",
+            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
+        },
+        {
+            "problemNoteIdentity": "705d624f-c6ea-44e0-bdc3-a427787460c9",
             "icd9": {
                 "code": "0022",
                 "desc": "flu"
@@ -610,14 +653,14 @@ $posted_obj = json_decode('{
             "note": null,
             "problemStartedAt": null,
             "problemStoppedAt": null,
-            "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+            "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
             "significant": false,
             "active": true,
-            "updatedAt": "2013-03-12T23:28:19.633Z",
-            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
+            "updatedAt": "2013-03-13T18:24:12.318Z",
+            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
         },
         {
-            "problemNoteIdentity": "78d5c06f-c1ae-4841-ac88-c52429677fc8",
+            "problemNoteIdentity": "2f3fbf82-266b-462f-b0eb-0a19a248747f",
             "icd9": {
                 "code": "250.02",
                 "desc": "Diabetes Mellitus, Type 2"
@@ -628,28 +671,13 @@ $posted_obj = json_decode('{
             "soapNoteIdentity": null,
             "significant": true,
             "active": false,
-            "updatedAt": "2013-03-12T23:28:21.208Z",
-            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
-        },
-        {
-            "problemNoteIdentity": "5bf226b3-72c8-480a-b24c-3d07b60f0ee3",
-            "icd9": {
-                "code": "01116",
-                "desc": "bronchitis"
-            },
-            "note": null,
-            "problemStartedAt": null,
-            "problemStoppedAt": null,
-            "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
-            "significant": false,
-            "active": true,
-            "updatedAt": "2013-03-12T23:28:19.633Z",
-            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d"
+            "updatedAt": "2013-03-13T18:24:14.596Z",
+            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
         }
     ],
     "allergy": [
         {
-            "identity": "13e04179-826f-4534-adab-92db2438c44d",
+            "identity": "f378bf55-6f3d-45f9-b454-e2a012ebb87e",
             "name": "Allergy to penicillin",
             "ndcidCode": null,
             "allergyGroupId": null,
@@ -659,13 +687,13 @@ $posted_obj = json_decode('{
             "snomed": "91936005",
             "substance": null,
             "reaction": null,
-            "createdAt": "2013-03-12",
-            "updatedAt": "2013-03-12"
+            "createdAt": "2013-03-13",
+            "updatedAt": "2013-03-13"
         }
     ],
     "immunization": [
         {
-            "createTime": "2013-03-12T23:28:21.910Z",
+            "createTime": "2013-03-13T18:24:15.342Z",
             "vaccine": "Influenza",
             "notes": "Administered Flu Shot for patient",
             "userAssertion": "CONFIRMED",
@@ -681,7 +709,7 @@ $posted_obj = json_decode('{
     ],
     "soapNote": [
         {
-            "identity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+            "identity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
             "subjective": {
                 "chiefComplaint": "Knee pain",
                 "note": "motorcycle injury",
@@ -752,7 +780,7 @@ $posted_obj = json_decode('{
                         "note": null,
                         "problemStartedAt": null,
                         "problemStoppedAt": null,
-                        "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+                        "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
                         "significant": false,
                         "active": true,
                         "updatedAt": null,
@@ -767,7 +795,7 @@ $posted_obj = json_decode('{
                         "note": null,
                         "problemStartedAt": null,
                         "problemStoppedAt": null,
-                        "soapNoteIdentity": "4dc0029b-76bc-412e-b7d3-6398fcfac4e3",
+                        "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
                         "significant": false,
                         "active": true,
                         "updatedAt": null,
@@ -777,28 +805,51 @@ $posted_obj = json_decode('{
             },
             "plan": {
                 "notes": "prescribing some painkillers, follow up in 2 weeks",
-                "comments": "prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks"
+                "comments": "prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks",
+                "patientRequestedRecords": false
             },
-            "updateBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
-            "updatedAt": "2013-03-12T23:28:20.133Z",
-            "createdBy": "dc30fc2d-5901-481a-bafe-7b44bfe5fe4d",
-            "createdAt": "2013-03-12T23:28:17.485Z"
+            "updateBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
+            "updatedAt": "2013-03-13T18:24:12.828Z",
+            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
+            "createdAt": "2013-03-13T18:24:08.616Z"
         }
     ],
     "lab": [
         {
             "labOrder": null,
             "labResult": {
-                "identity": "95164077-bc6d-4fe8-b098-c47901899816",
-                "loincCode": "14471-0",
-                "dateLabPerformed": "2013-01-01",
-                "labType": "Fasting Blood Glucose",
-                "labDescription": "Fasting Blood Glucose",
-                "idealRange": "170 mg/dl - 170 mg/dl",
-                "labResult": "178 mg/dl",
-                "labIdentity": "c9f347ba-8bf0-47e8-8d96-1e735b449137"
+                "identity": "7f1bc3cc-71ef-4e01-950c-505b1b602f42",
+                "loincCode": "718-7",
+                "labIdentity": "08bcebf1-da49-43b9-ae13-746ccc6ca246",
+                "facilityName": "XYZ MRI Lab",
+                "facilityStreetAddress": "101 Main Street",
+                "facilityCity": "Los Angeles",
+                "facilityState": "CA",
+                "facilityPostalCode": "92617",
+                "labTestResult": [
+                    {
+                        "date": "2013-01-01",
+                        "type": "Hermatology",
+                        "name": "Eosinophil Count (1-3%)",
+                        "value": "2",
+                        "unitOfMeasure": "%",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": false
+                    },
+                    {
+                        "date": "2013-01-01",
+                        "type": "Hermatology",
+                        "name": "Hemoglobin (male: 14-18 g/dl female: 12-16 g/dl)",
+                        "value": "16",
+                        "unitOfMeasure": "g/dl",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": true
+                    }
+                ]
             },
-            "labIdentity": "c9f347ba-8bf0-47e8-8d96-1e735b449137"
+            "labIdentity": "08bcebf1-da49-43b9-ae13-746ccc6ca246"
         }
     ],
     "author": "chuck norris",

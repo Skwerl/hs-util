@@ -18,6 +18,17 @@ $hl7Header->setField(9, $type_string);
 $msg =& new Net_HL7_Message(null, $hl7Globals);
 $msg->addSegment($hl7Header);
 
+/*//// SFT SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+if (in_array('SFT',$segments)) {
+	$sft = new Net_HL7_Segment('SFT');
+	$sft->setField(1, $allGlobals['VENDOR']);
+	$sft->setField(2, $allGlobals['VERSION']);
+	$sft->setField(3, $allGlobals['APPLICATION']);
+	$sft->setField(4, $allGlobals['BINARY_ID']);
+	$msg->addSegment($sft);
+}
+
 /*//// PID SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('PID',$segments)) {
@@ -41,18 +52,15 @@ if (in_array('PID',$segments)) {
 			$address->state,
 			$address->postalCode
 		));
+		foreach ($address->phone as $ph) {
+			if ($ph->type == 'HOME') { $pid->setField(13, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
+			if ($ph->type == 'OFFICE') { $pid->setField(14, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
+		}
 		$countries[] = $address->countryCode;
 	}
 	$pid->setField(11, implode($rs,$addr_collapsed));
 	$pid->setField(12, implode($rs,array_unique($countries)));
-	
-	if (!empty($in->patient->phone)) {
-		foreach ($in->patient->phone as $ph) {
-			if ($ph->type == 'HOME') { $pid->setField(13, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
-			if ($ph->type == 'OFFICE') { $pid->setField(14, '('.$ph->areaCode.')'.$ph->prefix.'-'.$ph->suffix); }
-		}
-	}
-	
+		
 	$msg->addSegment($pid);
 
 }
@@ -73,7 +81,7 @@ if (in_array('PV1',$segments)) {
 if (in_array('AL1',$segments)) {
 	foreach ($in->allergy as $allergy) {
 		$al1 = new Net_HL7_Segment('AL1');
-		$al1->setField(3, $allergy->ndcidCode.$cs.$allergy->name.$cs.'NDC');
+		$al1->setField(3, $allergy->snomed.$cs.$allergy->name.$cs.'SNOMED');
 		$al1->setField(5, $allergy->allergicReaction);
 		$al1->setField(6, date('YmdHis',strtotime($allergy->allergicReactionDate)));
 		$msg->addSegment($al1);
@@ -127,18 +135,30 @@ if (in_array('RXA',$segments)) {
 	}
 }
 
+/*//// OBR SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+if (in_array('OBR',$segments)) {
+	$obr = new Net_HL7_Segment('OBR');
+	$msg->addSegment($obr);
+}
+
 /*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('OBX',$segments)) {
 	foreach ($in->lab as $lab) {
-		$result = $lab->labResult;
-		$obx = new Net_HL7_Segment('OBX');
-		$obx->setField(3, $result->loincCode.$cs.$result->labType.$cs.'LN');
-		$obx->setField(7, $result->idealRange);
-		$obx->setField(5, $result->labResult);
-		$obx->setField(6, 'Units');
-		$obx->setField(14, date('YmdHis',strtotime($result->dateLabPerformed)));
-		$msg->addSegment($obx);
+		$results = $lab->labResult;
+		foreach ($results->labTestResult as $result) {
+			preg_match_all("^\((.*?)\)^",$result->name, $nameParts, PREG_OFFSET_CAPTURE);
+			$resultDescription = trim(substr($result->name,0,$nameParts[0][0][1]));
+			$resultIdealRange = $nameParts[1][0][0];
+			$obx = new Net_HL7_Segment('OBX');
+			$obx->setField(3, $results->loincCode.$cs.$resultDescription.$cs.'LN');
+			$obx->setField(7, $resultIdealRange);
+			$obx->setField(5, $result->value);
+			$obx->setField(6, $result->unitOfMeasure);
+			$obx->setField(14, date('YmdHis',strtotime($result->date)));
+			$msg->addSegment($obx);
+		}
 	}
 }
 

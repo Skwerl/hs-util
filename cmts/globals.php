@@ -2,6 +2,11 @@
 
 date_default_timezone_set('America/Los_Angeles');
 
+$allGlobals['VENDOR'] = 'HealthSymmetric, Inc.';
+$allGlobals['APPLICATION'] = 'SocialCare Connect';
+$allGlobals['BINARY_ID'] = '000';
+$allGlobals['VERSION'] = '0.1';
+
 if ($translate_context == 'ccd') {
 	
 	$XMLGlobals = Array();
@@ -21,9 +26,10 @@ if ($translate_context == 'hl7') {
 	require_once $lib_path.'HL7/Message.php';
 	require_once $lib_path.'HL7/Segment.php';
 	require_once $lib_path.'HL7/Segments/MSH.php';
-	
-	$hl7Globals = Array();
-	$hl7Globals['HL7_VERSION'] = '2.3.1';
+
+	if (!isset($hl7Globals['HL7_VERSION'])) {
+		$hl7Globals['HL7_VERSION'] = '2.3.1';
+	}
 	$hl7Globals['FIELD_SEPARATOR'] = '|';
 	$hl7Globals['COMPONENT_SEPARATOR'] = '^';
 	$hl7Globals['REPETITION_SEPARATOR'] = '~';
@@ -31,8 +37,8 @@ if ($translate_context == 'hl7') {
 	$hl7Globals['SUBCOMPONENT_SEPARATOR'] = '&';
 	
 	$hl7Header =& new Net_HL7_Segments_MSH(null,$hl7Globals);
-	$hl7Header->setField(3, 'SocialCare Connect');
-	$hl7Header->setField(4, 'HealthSymmetric, Inc.');
+	$hl7Header->setField(3, $allGlobals['APPLICATION']);
+	$hl7Header->setField(4, $allGlobals['VENDOR']);
 	$hl7Header->setField(11, 'T');
 	
 	$cs = $hl7Globals['COMPONENT_SEPARATOR'];
