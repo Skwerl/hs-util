@@ -34,7 +34,7 @@ if (in_array('SFT',$segments)) {
 if (in_array('PID',$segments)) {
 
 	$pid = new Net_HL7_Segment('PID');
-	$pid->setField(3, $in->patient->externalId);
+	$pid->setField(3, $in->patient->externalId.$cs.$cs.$cs.$cs.'PI');
 	$pid->setField(5, implode($cs, array($in->patient->lastName,$in->patient->firstName)));
 	$pid->setField(7, date('Ymd',strtotime($in->patient->dob)));
 	$pid->setField(8, $in->patient->gender);
@@ -128,7 +128,7 @@ if (in_array('RXA',$segments)) {
 		$rxa->setField(4, date('YmdHis',strtotime($immunization->activityTime)));
 		$rxa->setField(5, $immunization->cvxCode.$cs.$immunization->vaccine.$cs.'CVX');
 		$rxa->setField(6, $immunization->administeredAmount);
-		$rxa->setField(7, $immunization->administeredUnit);
+		$rxa->setField(7, $immunization->administeredUnit.$cs.$cs.'ANS+');
 		$rxa->setField(9, $immunization->notes);
 		$msg->addSegment($rxa);
 		$admin_sub_id++;

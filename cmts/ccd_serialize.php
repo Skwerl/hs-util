@@ -108,9 +108,34 @@ XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
 
 $patient->addChild('birthTime')->addAttribute('value', date('Ymd',strtotime($inputPatient->dob)));
 
+$HL7martialStatuses = array(
+	'N' => 'Annulled',
+	'C' => 'Common law',
+	'D' => 'Divorced',
+	'P' => 'Domestic partner',
+	'I' => 'Interlocutory',
+	'E' => 'Legally Separated',
+	'G' => 'Living together',
+	'M' => 'Married',
+	'O' => 'Other',
+	'R' => 'Registered domestic partner',
+	'A' => 'Separated',
+	'S' => 'Single',
+	'U' => 'Unknown',
+	'B' => 'Unmarried',
+	'T' => 'Unreported',
+	'W' => 'Widowed'	
+);
+
+if (!empty($inputPatient->maritalStatus)) {
+	$inputMaritalStatus = $inputPatient->maritalStatus;
+} else {
+	$inputMaritalStatus = 'U';
+}
+
 XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
-	'code' => $inputPatient->maritalStatus,
-	'displayName' => 'MartialStatusDisplay',
+	'code' => $inputMaritalStatus,
+	'displayName' => $HL7martialStatuses[$inputMaritalStatus],
 	'codeSystem' => '2.16.840.1.113883.5.2',
 	'codeSystemName' => 'HL7 Marital status'
 ));
@@ -183,10 +208,10 @@ foreach ($inputAllergies as $inputAllergy) {
 		'Drug Allergy',
 		$inputAllergy->name,
 		$inputAllergy->allergicReaction,
-		($inputAllergy->active == '1' ? 'Active' : 'Inactive'),
+		($inputAllergy->active == '1' ? 'active' : 'completed'),
 		'Meta' => array(
 			'typeCode' => 'SUBJ',
-			'statusCode' => ($inputAllergy->active == '1' ? 'Active' : 'Inactive'),
+			'statusCode' => ($inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
 			'allergyCode' => $inputAllergy->ndcidCode,
 			'allergyName' => $inputAllergy->name
@@ -275,7 +300,7 @@ foreach ($allergiesData as $allergyData) {
 	));
 
 	$observation->addChild('text')->addChild('reference')->addAttribute('value', $allergyDataReference);
-	$observation->addChild('statusCode')->addAttribute('code', $allergyMeta['statusCode']);
+	$observation->addChild('statusCode')->addAttribute('code', 'completed');
 	$observation->addChild('effectiveTime')->addChild('low')->addAttribute('nullFlavor', 'UNK');
 
 	$observationValue = $observation->addChild('value');
@@ -327,13 +352,13 @@ foreach ($inputProblems as $inputProblem) {
 	$problemsData[] = array(
 		$inputProblem->icd9->desc,
 		date('Ymd',strtotime($inputProblem->problemStartedAt)),
-		($inputProblem->active == '1' ? 'Active' : 'Inactive'),
+		($inputProblem->active == '1' ? 'active' : 'completed'),
 		'Meta' => array(
 			'problemName' => $inputProblem->icd9->desc,
 			'problemCode' => $inputProblem->icd9->code,
 			'lowValue' => date('Ymd',strtotime($inputProblem->problemStartedAt)),
 			'typeCode' => 'SUBJ',
-			'statusCode' => ($inputProblem->active == '1' ? 'Active' : 'Inactive'),
+			'statusCode' => ($inputProblem->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
 		)
 	);
@@ -417,7 +442,7 @@ foreach ($problemsData as $problemData) {
 	));
 
 	$observation->addChild('text')->addChild('reference')->addAttribute('value', $problemDataReference);
-	$observation->addChild('statusCode')->addAttribute('code', $problemMeta['statusCode']);
+	$observation->addChild('statusCode')->addAttribute('code', 'completed');
 	$observation->addChild('effectiveTime')->addChild('low')->addAttribute('value', $problemMeta['lowValue']);
 
 	$observationValue = $observation->addChild('value');
@@ -460,7 +485,7 @@ foreach ($inputMedications as $inputMedication) {
 			$inputSig->route,
 			$inputSig->schedule,
 			date('Ymd',strtotime($inputSig->effectiveDate)),
-			($inputMedication->active == '1' ? 'Active' : 'Inactive'),
+			($inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
 				'medicationName' => $inputSig->drug->brandName,
 				'medicationCode' => $inputSig->drug->ndcid,
@@ -470,7 +495,7 @@ foreach ($inputMedications as $inputMedication) {
 				'doseUnit' => $inputSig->doseUnit,
 				'lowValue' => date('Ymd',strtotime($inputSig->effectiveDate)),
 				'typeCode' => 'SUBJ',
-				'statusCode' => ($inputPrescription->active == '1' ? 'Active' : 'Inactive'),
+				'statusCode' => ($inputPrescription->active == '1' ? 'active' : 'completed'),
 				'inversionInd' => 'false'
 			)
 		);
@@ -546,7 +571,7 @@ foreach ($medicationsData as $medicationData) {
 
 	$substanceAdministration->addChild('administrationUnitCode')->addChild('originalText', $medicationMeta['adminCode']);
 
-	$manufacturedProduct = $medication->addChild('consumable')->addChild('manufacturedProduct');
+	$manufacturedProduct = $substanceAdministration->addChild('consumable')->addChild('manufacturedProduct');
 	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.8.2', 'assigningAuthorityName' => 'HITSP/C83')));
 	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '2.16.840.1.113883.10.20.1.53', 'assigningAuthorityName' => 'CCD')));
 	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.7.2', 'assigningAuthorityName' => 'IHE PCC')));
@@ -696,7 +721,7 @@ foreach ($labsData as $labData) {
 		$observationComponent->addChild('text')->addChild('reference')->addAttribute('value', 'PtrToValueInsectionText');
 
 		XMLaddManyChildren($observationComponent, array(
-			'statusCode' => array('code' => $observation['statusCode']),
+			'statusCode' => array('code' => 'completed'),
 			'effectiveTime' => array('value' => $observation['effectiveTime'])
 		));
 
@@ -704,8 +729,6 @@ foreach ($labsData as $labData) {
 		$observationComponentValue->addAttribute('xsi:type', 'PQ', $xsi);
 		$observationComponentValue->addAttribute('value', $observation['resultMeasurement']);
 		$observationComponentValue->addAttribute('unit', $observation['resultUnit']);
-
-		$observationComponent->addChild('statusCode')->addAttribute('code', $observation['statusCode']);
 
 		XMLaddManyAttributes($observationComponent->addChild('interpretationCode'), array(
 			'code' => $observation['interpretationCode'],
