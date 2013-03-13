@@ -10,6 +10,8 @@
 	#output {
 		font-family: "Courier New", Courier, monospace;
 		font-size: 12px;
+		width: 100%;
+		word-wrap: break-word;
 	}
 </style>
 
@@ -387,7 +389,7 @@ $(document).ready(function() {
 	$("#form1").submit(function() {
 		var endpoint = "/cmts/serialize/"+$("#format").val();
 		$.post(endpoint, $("#data1").val(), function(data) {
-			$("#output").html(data);
+			$("#output").html(safe_tags(data));
 			$("#endpoint").html(endpoint);			
 		}, "text");
 		return false;
@@ -395,12 +397,16 @@ $(document).ready(function() {
 	$("#form2").submit(function() {
 		var endpoint = "/cmts/deserialize/";
 		$.post(endpoint, $("#data2").val(), function(data) {
-			$("#output").html(data);
+			$("#output").html(safe_tags(data));
 			$("#endpoint").html(endpoint);			
 		}, "text");
 		return false;
 	});
 });
+
+function safe_tags(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
 
 </script>
 
