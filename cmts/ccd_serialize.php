@@ -62,7 +62,7 @@ XMLaddManyChildren($ccdXML, array(
 		// null
 	),
 	'languageCode' => array(
-		'code' => $XMLGlobals['languageCode']
+		'code' => $XMLGlobals['LANGUAGE_CODE']
 	)
 ));
 
@@ -96,7 +96,6 @@ $patientRole->addChild('telecom');
 $patient = $patientRole->addChild('patient');
 $patientName = $patient->addChild('name');
 $patientName->addChild('given', $inputPatient->firstName);
-//$patientName->addChild('given', 'M');
 $patientName->addChild('family', $inputPatient->lastName);
 
 XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
@@ -108,37 +107,32 @@ XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
 
 $patient->addChild('birthTime')->addAttribute('value', date('Ymd',strtotime($inputPatient->dob)));
 
-$HL7martialStatuses = array(
-	'N' => 'Annulled',
-	'C' => 'Common law',
-	'D' => 'Divorced',
-	'P' => 'Domestic partner',
-	'I' => 'Interlocutory',
-	'E' => 'Legally Separated',
-	'G' => 'Living together',
-	'M' => 'Married',
-	'O' => 'Other',
-	'R' => 'Registered domestic partner',
-	'A' => 'Separated',
-	'S' => 'Single',
-	'U' => 'Unknown',
-	'B' => 'Unmarried',
-	'T' => 'Unreported',
-	'W' => 'Widowed'	
-);
-
 if (!empty($inputPatient->maritalStatus)) {
-	$inputMaritalStatus = $inputPatient->maritalStatus;
-} else {
-	$inputMaritalStatus = 'U';
+	$HL7martialStatuses = array(
+		'N' => 'Annulled',
+		'C' => 'Common law',
+		'D' => 'Divorced',
+		'P' => 'Domestic partner',
+		'I' => 'Interlocutory',
+		'E' => 'Legally Separated',
+		'G' => 'Living together',
+		'M' => 'Married',
+		'O' => 'Other',
+		'R' => 'Registered domestic partner',
+		'A' => 'Separated',
+		'S' => 'Single',
+		'U' => 'Unknown',
+		'B' => 'Unmarried',
+		'T' => 'Unreported',
+		'W' => 'Widowed'	
+	);
+	XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
+		'code' => $inputMaritalStatus,
+		'displayName' => $HL7martialStatuses[$inputMaritalStatus],
+		'codeSystem' => '2.16.840.1.113883.5.2',
+		'codeSystemName' => 'HL7 Marital status'
+	));
 }
-
-XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
-	'code' => $inputMaritalStatus,
-	'displayName' => $HL7martialStatuses[$inputMaritalStatus],
-	'codeSystem' => '2.16.840.1.113883.5.2',
-	'codeSystemName' => 'HL7 Marital status'
-));
 
 $languageCommunication = $patient->addChild('languageCommunication');
 XMLaddManyAttributes($languageCommunication->addChild('templateId'), array(
@@ -150,7 +144,7 @@ XMLaddManyAttributes($languageCommunication->addChild('templateId'), array(
 	'assigningAuthorityName' => 'IHE/PCC'
 ));
 
-$languageCommunication->addChild('languageCode')->addAttribute('code', $XMLGlobals['languageCode']);
+$languageCommunication->addChild('languageCode')->addAttribute('code', $XMLGlobals['LANGUAGE_CODE']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// AUTHOR ////////////////////////////////////////////////////////////////////////////////////*/
@@ -198,11 +192,14 @@ $allergiesSchema = array('ALGSUMMARY' => array(
 	'Type' => 'ALGTYPE',
 	'Substance' => 'ALGSUB',
 	'Reaction' => 'ALGREACT',
-	'Status' => 'ALGSTATUS',
+	'Status' => 'ALGSTATUS'
 ));
 
 $allergiesData = array();
 $inputAllergies = $in->allergy;
+
+#print_r($in);
+
 foreach ($inputAllergies as $inputAllergy) {
 	$allergiesData[] = array(
 		'Drug Allergy',
@@ -218,6 +215,9 @@ foreach ($inputAllergies as $inputAllergy) {
 		)
 	);
 }
+
+#print_r($allergiesSchema);
+#print_r($allergiesData);
 
 $allergies = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($allergies, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.102', 'assigningAuthorityName' => 'HITSP/C83')));
@@ -263,7 +263,7 @@ foreach ($allergiesData as $allergyData) {
 			'nullFlavor' => 'NA'
 		),
 		'statusCode' => array(
-			'code' => $allergyMeta['statusCode']
+			'code' => 'completed'
 		)
 	));
 
@@ -408,7 +408,7 @@ foreach ($problemsData as $problemData) {
 			'nullFlavor' => 'NA'
 		),
 		'statusCode' => array(
-			'code' => $problemMeta['statusCode']
+			'code' => 'completed'
 		)
 	));
 
@@ -540,7 +540,7 @@ foreach ($medicationsData as $medicationData) {
 
 	$substanceAdministration->addChild('id')->addAttribute('root', 'cdbd33f0-6cde-11db-9fe1-0800200c9a66');
 	$substanceAdministration->addChild('text')->addChild('reference')->addAttribute('value', '#SIGTEXT_'.$medicationIndex);
-	$substanceAdministration->addChild('statusCode')->addAttribute('code', $medicationMeta['statusCode']);
+	$substanceAdministration->addChild('statusCode')->addAttribute('code', 'completed');
 
 	$substanceAdministrationEffectiveTime = $substanceAdministration->addChild('effectiveTime');
 	$substanceAdministrationEffectiveTime->addAttribute('xsi:type', 'IVL_TS', $xsi);

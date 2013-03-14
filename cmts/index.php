@@ -35,12 +35,6 @@ switch($type_code) {
 		break;
 }
 
-if ($type_code == 'ORU_R01') {
-	$hl7Globals['HL7_VERSION'] = '2.5.1';
-} else {
-	$hl7Globals['HL7_VERSION'] = '2.3.1';
-}
-
 require_once('globals.php');
 
 if (!isset($cs)) { $cs = '^'; } 
@@ -64,6 +58,7 @@ switch($type) {
 			'PID',
 			'NTE',
 			'PV1',
+			'SPM',
 			'ORC',
 			'OBR',
 			'OBX'
