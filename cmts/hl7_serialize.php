@@ -213,9 +213,9 @@ if (in_array('OBX',$segments)) {
 		$subId = 1; foreach ($results->labTestResult as $result) {
 			$specimens[] = $result->source;
 			if (!empty($result->abnormal)) { $abnormal = 1; } else { $abnormal = 0; }
-			preg_match_all("^\((.*?)\)^",$result->name, $nameParts, PREG_OFFSET_CAPTURE);
-			$resultDescription = trim(substr($result->name,0,$nameParts[0][0][1]));
-			$resultIdealRange = $nameParts[1][0][0];
+			$nameParts = splitLabDescription($result->name);
+			$resultDescription = $nameParts['resultDescription'];
+			$resultIdealRange = $nameParts['resultIdealRange'];
 			$obx = new Net_HL7_Segment('OBX');
 			$obx->setField(1, $setId);
 			$obx->setField(2, 'NM');

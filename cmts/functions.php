@@ -73,4 +73,15 @@ function XMLaddTableSection($parent,$schema,$data) {
 	return $obj;
 }
 
+function splitLabDescription($input) {
+	preg_match_all("^\((.*?)\)^",$input, $nameParts, PREG_OFFSET_CAPTURE);
+	$resultDescription = trim(substr($input,0,$nameParts[0][0][1]));
+	$resultIdealRange = $nameParts[1][0][0];
+	return array(
+		'resultDescription' => $resultDescription,
+		'resultIdealRange' => $resultIdealRange,
+		'completeDescription' => $input
+	);
+}
+
 ?>

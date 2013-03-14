@@ -210,7 +210,7 @@ foreach ($inputAllergies as $inputAllergy) {
 			'typeCode' => 'SUBJ',
 			'statusCode' => ($inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
-			'allergyCode' => $inputAllergy->ndcidCode,
+			'allergyCode' => $inputAllergy->snomed,
 			'allergyName' => $inputAllergy->name
 		)
 	);
@@ -329,7 +329,6 @@ foreach ($allergiesData as $allergyData) {
 		'displayName' => $allergyMeta['allergyName'],
 		'codeSystemName' => 'RxNorm'
 	));
-	$observationParticipantRolePlayingEntityCode->addAttribute('xsi:type', 'CD', $xsi);
 	$observationParticipantRolePlayingEntity->addChild('name', $allergyMeta['allergyName']);
 	
 	$allergyIndex++;
@@ -593,42 +592,41 @@ foreach ($medicationsData as $medicationData) {
 /*//// LABS //////////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$labsData = array(
-	array(
-		'labName' => 'CBC WO DIFFERENTIAL',
-		'loincCode' => '43789009',
-		'labDate' => '200003231430',
-		'labProcedures' => array(
-			array(
-				'procedureDescription' => 'Extract blood for CBC test',
-				'effectiveTime' => '200003231430',
-				'statusCode' => 'completed',
-			)
-		),
-		'labResults' => array(
-			array(
-				'resultCode' => '30313-1',
-				'resultDisplayName' => 'HGB',
-				'resultIdealRange' => 'M 13-18 g/dl; F 12-16 g/dl',
-				'resultMeasurement' => '13.2',
-				'resultUnit' => 'g/dl',
-				'effectiveTime' => '200003231430',
-				'statusCode' => 'completed',
-				'interpretationCode' => 'N'
-			),
-			array(
-				'resultCode' => '30313-1',
-				'resultDisplayName' => 'WBC',
-				'resultIdealRange' => 'M 13-18 g/dl; F 12-16 g/dl',
-				'resultMeasurement' => '13.2',
-				'resultUnit' => 'g/dl',
-				'effectiveTime' => '200003231430',
-				'statusCode' => 'completed',
-				'interpretationCode' => 'N'
-			)
-		)
-	)
-);
+$labsData = array();
+$inputLabs = $in->lab;
+$inputLabsIndex = 0;
+foreach ($inputLabs as $inputLab) {
+	$inputLabData = $inputLab->labResult;
+	$labsData[$inputLabsIndex] = array(
+		'labName' => '',
+		'loincCode' => $inputLabData->loincCode,
+		'labDate' => '',
+		'labProcedures' => array(),
+		'labResults' => array()
+	);
+	foreach ($inputLabData->labTestResult as $inputLabResult) {
+		$nameParts = splitLabDescription($inputLabResult->name);
+		$resultDescription = $nameParts['resultDescription'];
+		$resultIdealRange = $nameParts['resultIdealRange'];
+		$labsData[$inputLabsIndex]['labName'] = $inputLabResult->type;
+		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime($inputLabResult->date));
+		$labsData[$inputLabsIndex]['labProcedures'][] = array(
+			'procedureDescription' => 'Obtain sample for '.$inputLabResult->type,
+			'statusCode' => 'completed',
+		);
+		$labsData[$inputLabsIndex]['labResults'][] = array(
+			'resultCode' => '000',
+			'resultDisplayName' => $resultDescription,
+			'resultIdealRange' => $resultIdealRange,
+			'resultMeasurement' => $inputLabResult->value,
+			'resultUnit' => $inputLabResult->unitOfMeasure,
+			'source' => $inputLabResult->source,
+			'statusCode' => 'completed',
+			'interpretationCode' => 'N'
+		);
+	}
+	$inputLabsIndex++;
+}
 
 $labs = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($labs, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.122', 'assigningAuthorityName' => 'HITSP/C83')));
@@ -642,13 +640,57 @@ XMLaddManyAttributes($labs->addChild('code'), array(
 
 $labs->addChild('title', 'Diagnostic Results');
 
+/*//// LABS TABLE ////////////////////////////////////////////////////////////////////////////////*/
+
+$labResultsDateIndex = array();
+$labResultsTableArray = array();
+
+foreach ($labsData as $labBattery) {
+	foreach ($labBattery['labResults'] as $labResult) {
+		$labResultsDateString = strtotime($labBattery['labDate']);
+		$labResultsDateIndex[] = $labResultsDateString;
+		$labResultDescription = $labResult['resultDisplayName'].' ('.$labResult['resultIdealRange'].')';
+		$labResultsTableArray[$labBattery['labName']][$labResultDescription][$labResultsDateString][] = $labResult['resultMeasurement'].' '.$labResult['resultUnit'];
+	}
+}
+
+$labResultsDateIndex = array_unique($labResultsDateIndex);
+sort($labResultsDateIndex);
+
+$labResultsTableColumns = count($labResultsDateIndex);
+
 $labsTable = $labs->addChild('text')->addChild('table');
 XMLaddManyAttributes($labsTable, array(
 	'border' => '1',
 	'width' => '100%'
 ));
 
-// Need to build out labs table...
+$labsTableHeader = $labsTable->addChild('thead')->addChild('tr');
+$labsTableHeader->addChild('th', '&#160;');
+foreach ($labResultsDateIndex as $labResultsDate) {
+	$labsTableHeader->addChild('th', date('Y-m-d', $labResultsDate));
+}
+
+$labsTableBody = $labsTable->addChild('tbody');
+
+foreach ($labResultsTableArray as $labResultsBattery => $labResultsSet) {
+		$labsTableRowHeader = $labsTableBody->addChild('tr')->addChild('td');
+		$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns+1);
+		$labsTableRowHeader->addChild('content', $labResultsBattery)->addAttribute('styleCode', 'BoldItalics');
+		foreach ($labResultsSet as $labResultsSetResult => $labResultsSetValue) {
+			$labsTableRow = $labsTableBody->addChild('tr');
+			$labsTableRow->addChild('td', $labResultsSetResult);
+			foreach ($labResultsDateIndex as $labResultsDate) {
+				if (key($labResultsSetValue) == $labResultsDate) {
+					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][0]);
+				} else {
+					$labsTableRow->addChild('td');
+				}
+			}
+		}
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 foreach ($labsData as $labData) {
 
@@ -697,7 +739,7 @@ foreach ($labsData as $labData) {
 
 		$procedureComponent->addChild('text', $procedure['procedureDescription'])->addChild('reference')->addAttribute('value', 'PtrToParentInsectionText');
 		$procedureComponent->addChild('statusCode')->addAttribute('code', $procedure['statusCode']);
-		$procedureComponent->addChild('effectiveTime')->addAttribute('value', $procedure['effectiveTime']);
+		$procedureComponent->addChild('effectiveTime')->addAttribute('value', $labData['labDate']);
 
 	}
 
@@ -722,7 +764,7 @@ foreach ($labsData as $labData) {
 
 		XMLaddManyChildren($observationComponent, array(
 			'statusCode' => array('code' => 'completed'),
-			'effectiveTime' => array('value' => $observation['effectiveTime'])
+			'effectiveTime' => array('value' => $labData['labDate'])
 		));
 
 		$observationComponentValue = $observationComponent->addChild('value');
