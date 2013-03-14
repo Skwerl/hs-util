@@ -9,7 +9,13 @@ $postdata = file_get_contents("php://input");
 
 $in = explode("\n",$postdata);
 
-$hl7Header->setField(9,$type_string);
+if ($type_code == 'ORU_R01') {
+	$hl7Globals['HL7_VERSION'] = '2.5.1';
+} else {
+	$hl7Globals['HL7_VERSION'] = '2.3.1';
+}
+
+$hl7Header =& new Net_HL7_Segments_MSH(null,$hl7Globals);
 
 $msg =& new Net_HL7_Message(null,$hl7Globals);
 $msg->addSegment($hl7Header);
@@ -45,11 +51,34 @@ $obj['patient']['externalId'] = $guid;
 $obj['patient']['dob'] = $pid->getField(7);
 $obj['patient']['ssn'] = $pid->getField(19);
 $obj['patient']['gender'] = $pid->getField(8);
-$obj['patient']['race'] = $pid->getField(10);
-$obj['patient']['ethnicity'] = $pid->getField(22);
+
+$codedRace = explode($cs,$pid->getField(10));
+$obj['patient']['race'] = $codedRace[0];
+
+$codedEthnicity = explode($cs,$pid->getField(22));
+$obj['patient']['ethnicity'] = $codedEthnicity[0];
+
+$phone_org = array();
+if ($pid->getField(13)) {
+	$number = explode($cs,$pid->getField(13));
+	$phone_org[] = array(
+		'areaCode' => $number[5],
+		'prefix' => substr($number[6],0,3),
+		'suffix' => substr($number[6],3,4),
+		'type' => 'HOME',	
+	);
+}
+if ($pid->getField(14)) {
+	$number = explode($cs,$pid->getField(14));
+	$phone_org[] = array(
+		'areaCode' => $number[5],
+		'prefix' => substr($number[6],0,3),
+		'suffix' => substr($number[6],3,4),
+		'type' => 'OFFICE'
+	);
+}
 
 $addresses = explode($rs,$pid->getField(11));
-
 $obj['patient']['address'] = array();
 foreach ($addresses as $address) {
 	$address = explode($cs,$address);
@@ -58,30 +87,10 @@ foreach ($addresses as $address) {
 	$address_org['address2'] = $address[1]; 	
 	$address_org['city'] = $address[2]; 	
 	$address_org['state'] = $address[3]; 	
-	$address_org['zip'] = $address[4]; 	
+	$address_org['postalCode'] = $address[4]; 	
+	$address_org['countryCode'] = $address[5]; 	
+	$address_org['phone'] = $phone_org; 	
 	$obj['patient']['address'][] = $address_org;
-}
-
-// We'll need to handle country code...
-$countries = explode($rs,$pid->getField(12));
-
-if ($pid->getField(13)) {
-	$obj['patient']['phone'][] = array(
-		'areaCode' => substr($number,1,3),
-		'prefix' => substr($number,5,3),
-		'suffix' => substr($number,9,4),
-		'type' => 'HOME',	
-	);
-}
-if ($pid->getField(14)) {
-
-	$number = $pid->getField(14);
-	$obj['patient']['phone'][] = array(
-		'areaCode' => substr($number,1,3),
-		'prefix' => substr($number,5,3),
-		'suffix' => substr($number,9,4),
-		'type' => 'OFFICE'
-	);
 }
 
 /*//// PV1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/

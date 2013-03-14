@@ -51,27 +51,12 @@ if (in_array('SFT',$segments)) {
 
 if (in_array('PID',$segments)) {
 
-	$HL7raceCodes = array(
-		'A' => 'Asian or Pacific Islander',
-		'B' => 'Black or African-American',
-		'H' => 'Hispanic',
-		'I' => 'American Indian or Alaska Native',
-		'O' => 'Other',
-		'U' => 'Unknown',
-		'W' => 'White'
-	);
 	if (isset($HL7raceCodes[$in->patient->race])) {
 		$codedRace = $in->patient->race.$cs.$HL7raceCodes[$in->patient->race].$cs.'HL70005';
 	} else {
 		$codedRace = 'U'.$cs.$HL7raceCodes['U'].$cs.'HL70005';
 	}
 
-	$HL7ethnicityCodes = array(
-		'H' => 'Hispanic or Latino',
-		'N' => 'not Hispanic or Latino',
-		'NH' => 'not Hispanic or Latino',
-		'U' => 'Unknown'
-	);
 	if (isset($HL7ethnicityCodes[$in->patient->ethnicity])) {
 		$codedEthnicity = $in->patient->ethnicity.$cs.$HL7ethnicityCodes[$in->patient->ethnicity].$cs.'HL70189';
 	} else {

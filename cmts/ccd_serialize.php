@@ -108,27 +108,9 @@ XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
 $patient->addChild('birthTime')->addAttribute('value', date('Ymd',strtotime($inputPatient->dob)));
 
 if (!empty($inputPatient->maritalStatus)) {
-	$HL7martialStatuses = array(
-		'N' => 'Annulled',
-		'C' => 'Common law',
-		'D' => 'Divorced',
-		'P' => 'Domestic partner',
-		'I' => 'Interlocutory',
-		'E' => 'Legally Separated',
-		'G' => 'Living together',
-		'M' => 'Married',
-		'O' => 'Other',
-		'R' => 'Registered domestic partner',
-		'A' => 'Separated',
-		'S' => 'Single',
-		'U' => 'Unknown',
-		'B' => 'Unmarried',
-		'T' => 'Unreported',
-		'W' => 'Widowed'	
-	);
 	XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
 		'code' => $inputMaritalStatus,
-		'displayName' => $HL7martialStatuses[$inputMaritalStatus],
+		'displayName' => $HL7martialCodes[$inputMaritalStatus],
 		'codeSystem' => '2.16.840.1.113883.5.2',
 		'codeSystemName' => 'HL7 Marital status'
 	));
