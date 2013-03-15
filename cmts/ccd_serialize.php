@@ -187,10 +187,10 @@ foreach ($inputAllergies as $inputAllergy) {
 		'Drug Allergy',
 		$inputAllergy->name,
 		$inputAllergy->allergicReaction,
-		($inputAllergy->active == '1' ? 'active' : 'completed'),
+		(@$inputAllergy->active == '1' ? 'active' : 'completed'),
 		'Meta' => array(
 			'typeCode' => 'SUBJ',
-			'statusCode' => ($inputAllergy->active == '1' ? 'active' : 'completed'),
+			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
 			'allergyCode' => $inputAllergy->snomed,
 			'allergyName' => $inputAllergy->name
@@ -332,14 +332,14 @@ $inputProblems = $in->problem;
 foreach ($inputProblems as $inputProblem) {
 	$problemsData[] = array(
 		$inputProblem->icd9->desc,
-		date('Ymd',strtotime($inputProblem->problemStartedAt)),
-		($inputProblem->active == '1' ? 'active' : 'completed'),
+		date('Ymd',strtotime(@$inputProblem->problemStartedAt)),
+		(@$inputProblem->active == '1' ? 'active' : 'completed'),
 		'Meta' => array(
 			'problemName' => $inputProblem->icd9->desc,
 			'problemCode' => $inputProblem->icd9->code,
-			'lowValue' => date('Ymd',strtotime($inputProblem->problemStartedAt)),
+			'lowValue' => date('Ymd',strtotime(@$inputProblem->problemStartedAt)),
 			'typeCode' => 'SUBJ',
-			'statusCode' => ($inputProblem->active == '1' ? 'active' : 'completed'),
+			'statusCode' => (@$inputProblem->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
 		)
 	);
@@ -459,23 +459,23 @@ foreach ($inputMedications as $inputMedication) {
 	foreach ($inputMedication->patientPrescription as $inputPrescription) {
 		$inputSig = $inputPrescription->prescribe->sig;
 		$medicationsData[] = array(
-			$inputSig->drug->brandName,
-			$inputSig->quantity.' '.$inputSig->quantityUnits,
-			$inputSig->route,
-			$inputSig->route,
-			$inputSig->doseTiming,
-			date('Ymd',strtotime($inputSig->effectiveDate)),
-			($inputMedication->active == '1' ? 'active' : 'completed'),
+			@$inputSig->drug->brandName,
+			@$inputSig->quantity.' '.@$inputSig->quantityUnits,
+			@$inputSig->route,
+			@$inputSig->route,
+			@$inputSig->doseTiming,
+			date('Ymd',strtotime(@$inputSig->effectiveDate)),
+			(@$inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
-				'medicationName' => $inputSig->drug->brandName,
-				'medicationCode' => $inputSig->drug->ndcid,
-				'adminCode' => $inputSig->route,
-				'routeCode' => $inputSig->route,
-				'doseValue' => $inputSig->dose,
-				'doseUnit' => $inputSig->doseUnit,
-				'lowValue' => date('Ymd',strtotime($inputSig->effectiveDate)),
+				'medicationName' => @$inputSig->drug->brandName,
+				'medicationCode' => @$inputSig->drug->ndcid,
+				'adminCode' => @$inputSig->route,
+				'routeCode' => @$inputSig->route,
+				'doseValue' => @$inputSig->dose,
+				'doseUnit' => @$inputSig->doseUnit,
+				'lowValue' => date('Ymd',strtotime(@$inputSig->effectiveDate)),
 				'typeCode' => 'SUBJ',
-				'statusCode' => ($inputPrescription->active == '1' ? 'active' : 'completed'),
+				'statusCode' => (@$inputPrescription->active == '1' ? 'active' : 'completed'),
 				'inversionInd' => 'false'
 			)
 		);
@@ -589,18 +589,18 @@ foreach ($inputLabs as $inputLab) {
 		$nameParts = splitLabDescription($inputLabResult->name);
 		$resultDescription = $nameParts['resultDescription'];
 		$resultIdealRange = $nameParts['resultIdealRange'];
-		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime($inputLabResult->date));
+		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime(@$inputLabResult->date));
 		$labsData[$inputLabsIndex]['labProcedures'][] = array(
 			'procedureDescription' => 'Obtain sample for '.$inputLabResult->type,
 			'statusCode' => 'completed',
 		);
 		$labsData[$inputLabsIndex]['labResults'][] = array(
 			'resultCode' => '000',
-			'resultDisplayName' => $resultDescription,
-			'resultIdealRange' => $resultIdealRange,
-			'resultMeasurement' => $inputLabResult->value,
-			'resultUnit' => $inputLabResult->unitOfMeasure,
-			'source' => $inputLabResult->source,
+			'resultDisplayName' => @$resultDescription,
+			'resultIdealRange' => @$resultIdealRange,
+			'resultMeasurement' => @$inputLabResult->value,
+			'resultUnit' => @$inputLabResult->unitOfMeasure,
+			'source' => @$inputLabResult->source,
 			'statusCode' => 'completed',
 			'interpretationCode' => 'N'
 		);
