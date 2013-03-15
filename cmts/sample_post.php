@@ -6,10 +6,10 @@ stdClass Object
 (
     [patient] => stdClass Object
         (
-            [identity] => 4429d93f-1ddc-4677-8625-f497ea708419
-            [firstName] => export
+            [identity] => 5876360a-9ca7-469c-a586-03f706be038f
+            [firstName] => exporting
             [lastName] => patient
-            [ssn] => 345-34-1122
+            [ssn] => 345-34-1130
             [address] => Array
                 (
                     [0] => stdClass Object
@@ -39,7 +39,7 @@ stdClass Object
 
             [phone] => 
             [email] => 
-            [dob] => 1960-04-24
+            [dob] => 1960-05-24
             [gender] => M
             [language] => English
             [patientConsent] => 
@@ -67,8 +67,8 @@ stdClass Object
 
             [subscriberIsPatient] => 
             [insurance] => 
-            [externalId] => 5371091
-            [middleName] => d
+            [externalId] => 5371483
+            [middleName] => a
             [suffix] => 
             [preferredContact] => 
             [smokingFrequency] => 1 pack/day
@@ -105,8 +105,8 @@ stdClass Object
                                 (
                                     [prescribe] => stdClass Object
                                         (
-                                            [prescribeIdentity] => 70d4c765-1f6d-497c-8417-b58889bf30bf
-                                            [patientIdentity] => 4429d93f-1ddc-4677-8625-f497ea708419
+                                            [prescribeIdentity] => bb8a8331-af3e-4d14-ab0f-8d0e8d24fc97
+                                            [patientIdentity] => 5876360a-9ca7-469c-a586-03f706be038f
                                             [patientExternalIdentity] => 
                                             [pharmacyIdentity] => 
                                             [hasScheduledDrug] => 
@@ -162,13 +162,13 @@ stdClass Object
                                             [drugInteractionCheckPerformed] => 
                                             [icd9] => 
                                             [ePrescribe] => 
-                                            [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                                            [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
                                             [createdByFirstName] => chuck
                                             [createdByLastName] => norris
                                         )
 
-                                    [createdAt] => 1363199053574
-                                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                                    [createdAt] => 1363309359303
+                                    [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
                                     [active] => 1
                                 )
 
@@ -184,49 +184,11 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [problemNoteIdentity] => 5a832c03-5c4e-467d-9fe8-075473e4c0fb
+                    [problemNoteIdentity] => b7c0375e-75e5-4072-9fe7-ad2a2a95b15d
                     [icd9] => stdClass Object
                         (
-                            [code] => 01116
-                            [desc] => bronchitis
-                        )
-
-                    [note] => 
-                    [problemStartedAt] => 
-                    [problemStoppedAt] => 
-                    [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
-                    [significant] => 
-                    [active] => 1
-                    [updatedAt] => 2013-03-13T18:24:12.318Z
-                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
-                )
-
-            [1] => stdClass Object
-                (
-                    [problemNoteIdentity] => 705d624f-c6ea-44e0-bdc3-a427787460c9
-                    [icd9] => stdClass Object
-                        (
-                            [code] => 0022
-                            [desc] => flu
-                        )
-
-                    [note] => 
-                    [problemStartedAt] => 
-                    [problemStoppedAt] => 
-                    [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
-                    [significant] => 
-                    [active] => 1
-                    [updatedAt] => 2013-03-13T18:24:12.318Z
-                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
-                )
-
-            [2] => stdClass Object
-                (
-                    [problemNoteIdentity] => 2f3fbf82-266b-462f-b0eb-0a19a248747f
-                    [icd9] => stdClass Object
-                        (
-                            [code] => 250.02
-                            [desc] => Diabetes Mellitus, Type 2
+                            [code] => 246.9
+                            [desc] => Unspecified disorder of thyroid
                         )
 
                     [note] => Low blood sugar
@@ -235,8 +197,46 @@ stdClass Object
                     [soapNoteIdentity] => 
                     [significant] => 1
                     [active] => 
-                    [updatedAt] => 2013-03-13T18:24:14.596Z
-                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
+                    [updatedAt] => 2013-03-15T01:02:39.459Z
+                    [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
+                )
+
+            [1] => stdClass Object
+                (
+                    [problemNoteIdentity] => 986ebd3d-2209-4cbf-9407-8bdceccbc81a
+                    [icd9] => stdClass Object
+                        (
+                            [code] => 004.3
+                            [desc] => Shigella sonnei
+                        )
+
+                    [note] => 
+                    [problemStartedAt] => 
+                    [problemStoppedAt] => 
+                    [soapNoteIdentity] => d03fc4aa-dbb9-4c76-bcf2-137d50593606
+                    [significant] => 
+                    [active] => 1
+                    [updatedAt] => 2013-03-15T01:02:38.796Z
+                    [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
+                )
+
+            [2] => stdClass Object
+                (
+                    [problemNoteIdentity] => 803232e6-01e1-4293-b644-6cd4c591d82b
+                    [icd9] => stdClass Object
+                        (
+                            [code] => 001.0
+                            [desc] => Cholera due to vibrio cholarae
+                        )
+
+                    [note] => 
+                    [problemStartedAt] => 
+                    [problemStoppedAt] => 
+                    [soapNoteIdentity] => d03fc4aa-dbb9-4c76-bcf2-137d50593606
+                    [significant] => 
+                    [active] => 1
+                    [updatedAt] => 2013-03-15T01:02:38.796Z
+                    [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
                 )
 
         )
@@ -245,7 +245,7 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [identity] => f378bf55-6f3d-45f9-b454-e2a012ebb87e
+                    [identity] => 6f230362-9bac-4bc5-a5c6-426bbd5e1495
                     [name] => Allergy to penicillin
                     [ndcidCode] => 
                     [allergyGroupId] => 
@@ -255,8 +255,8 @@ stdClass Object
                     [snomed] => 91936005
                     [substance] => 
                     [reaction] => 
-                    [createdAt] => 2013-03-13
-                    [updatedAt] => 2013-03-13
+                    [createdAt] => 2013-03-15
+                    [updatedAt] => 2013-03-15
                 )
 
         )
@@ -265,18 +265,18 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [createTime] => 2013-03-13T18:24:15.342Z
-                    [vaccine] => Influenza
+                    [createTime] => 2013-03-15T01:02:39.678Z
+                    [vaccine] => Pneumococcal Polysaccharide Vaccine
                     [notes] => Administered Flu Shot for patient
                     [userAssertion] => CONFIRMED
                     [activityTime] => 2012-11-02
                     [activityBy] => CVS Pharmacy
                     [administeredAmount] => 3
-                    [administeredUnit] => vials
+                    [administeredUnit] => vl
                     [vaccineLotNumber] => 003843
                     [manufacturerName] => Merck
                     [manufacturerCode] => ME-394
-                    [cvxCode] => 15
+                    [cvxCode] => 33
                 )
 
         )
@@ -285,7 +285,7 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [identity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
+                    [identity] => d03fc4aa-dbb9-4c76-bcf2-137d50593606
                     [subjective] => stdClass Object
                         (
                             [chiefComplaint] => Knee pain
@@ -378,14 +378,14 @@ stdClass Object
                                             [problemNoteIdentity] => 
                                             [icd9] => stdClass Object
                                                 (
-                                                    [code] => 0022
-                                                    [desc] => flu
+                                                    [code] => 001.0
+                                                    [desc] => Cholera due to vibrio cholarae
                                                 )
 
                                             [note] => 
                                             [problemStartedAt] => 
                                             [problemStoppedAt] => 
-                                            [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
+                                            [soapNoteIdentity] => d03fc4aa-dbb9-4c76-bcf2-137d50593606
                                             [significant] => 
                                             [active] => 1
                                             [updatedAt] => 
@@ -397,14 +397,14 @@ stdClass Object
                                             [problemNoteIdentity] => 
                                             [icd9] => stdClass Object
                                                 (
-                                                    [code] => 01116
-                                                    [desc] => bronchitis
+                                                    [code] => 004.3
+                                                    [desc] => Shigella sonnei
                                                 )
 
                                             [note] => 
                                             [problemStartedAt] => 
                                             [problemStoppedAt] => 
-                                            [soapNoteIdentity] => fc79570c-dd0d-461e-9f96-17c42fd302ec
+                                            [soapNoteIdentity] => d03fc4aa-dbb9-4c76-bcf2-137d50593606
                                             [significant] => 
                                             [active] => 1
                                             [updatedAt] => 
@@ -422,10 +422,10 @@ stdClass Object
                             [patientRequestedRecords] => 
                         )
 
-                    [updateBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
-                    [updatedAt] => 2013-03-13T18:24:12.828Z
-                    [createdBy] => f587ce0b-150b-4fd8-bcdf-bfb768ce7b71
-                    [createdAt] => 2013-03-13T18:24:08.616Z
+                    [updateBy] => e61b13d5-dac2-4384-b81f-90049813b635
+                    [updatedAt] => 2013-03-15T01:02:38.984-07:00
+                    [createdBy] => e61b13d5-dac2-4384-b81f-90049813b635
+                    [createdAt] => 2013-03-15T01:02:36.877-07:00
                 )
 
         )
@@ -434,12 +434,20 @@ stdClass Object
         (
             [0] => stdClass Object
                 (
-                    [labOrder] => 
+                    [labOrder] => stdClass Object
+                        (
+                            [identity] => 95306e3c-d07e-4289-b277-3da61008978a
+                            [summary] => Hermatology
+                            [labStatus] => Active
+                            [labIdentity] => b4702a1e-8967-45a9-89f8-e67ac2b540c9
+                            [labInstructions] => Run Eosinophil Count and Hemoglobin
+                        )
+
                     [labResult] => stdClass Object
                         (
-                            [identity] => 7f1bc3cc-71ef-4e01-950c-505b1b602f42
+                            [identity] => d08e97a4-d310-407e-9002-1584309fd36f
                             [loincCode] => 718-7
-                            [labIdentity] => 08bcebf1-da49-43b9-ae13-746ccc6ca246
+                            [labIdentity] => b4702a1e-8967-45a9-89f8-e67ac2b540c9
                             [facilityName] => XYZ MRI Lab
                             [facilityStreetAddress] => 101 Main Street
                             [facilityCity] => Los Angeles
@@ -475,23 +483,104 @@ stdClass Object
 
                         )
 
-                    [labIdentity] => 08bcebf1-da49-43b9-ae13-746ccc6ca246
+                    [labIdentity] => b4702a1e-8967-45a9-89f8-e67ac2b540c9
                 )
 
         )
 
     [author] => chuck norris
     [organization] => Health Symmetric
+    [practice] => stdClass Object
+        (
+            [identity] => 15184dc3-d09f-4ac9-9b2f-807d6ea03524
+            [name] => 472900@rspec.com
+            [settings] => 
+            [phone] => 
+            [address] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [name] => Home
+                            [address1] => 101 Main
+                            [address2] => Suite 250
+                            [city] => New York
+                            [state] => NY
+                            [postalCode] => 23455
+                            [countryCode] => US
+                            [phone] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [areaCode] => 234
+                                            [prefix] => 837
+                                            [suffix] => 2345
+                                            [type] => OFFICE
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [rolesAndPermissions] => stdClass Object
+                (
+                    [STAFF] => Array
+                        (
+                            [0] => CREATE_PATIENT
+                            [1] => LOG_PHONE_CALL
+                            [2] => CREATE_CONTACT
+                        )
+
+                    [NURSE] => Array
+                        (
+                            [0] => CREATE_PATIENT
+                            [1] => UPDATE_PATIENT
+                            [2] => PROGRESS_NOTES
+                            [3] => LOG_PHONE_CALL
+                            [4] => UPLOAD_DOCUMENTS
+                            [5] => REQUEST_XRAYS_LABS
+                            [6] => CREATE_CONTACT
+                        )
+
+                    [PHYSICIAN] => Array
+                        (
+                            [0] => CREATE_PATIENT
+                            [1] => UPDATE_PATIENT
+                            [2] => SHARE_PATIENT
+                            [3] => PRESCRIBE_MEDICATION
+                            [4] => PROGRESS_NOTES
+                            [5] => LOG_PHONE_CALL
+                            [6] => UPLOAD_DOCUMENTS
+                            [7] => RUN_REPORTS
+                            [8] => REQUEST_XRAYS_LABS
+                            [9] => CREATE_CONTACT
+                            [10] => DIAGNOSE_PATIENTS
+                            [11] => SIGN_SOAP_NOTE
+                        )
+
+                    [ADMINISTRATOR] => Array
+                        (
+                            [0] => ADMINISTRATOR
+                        )
+
+                )
+
+            [symptoms] => 
+            [practiceType] => 
+            [emergencyPassword] => 
+        )
+
 )
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////
 
 $posted_obj = json_decode('{
     "patient": {
-        "identity": "4429d93f-1ddc-4677-8625-f497ea708419",
-        "firstName": "export",
+        "identity": "5876360a-9ca7-469c-a586-03f706be038f",
+        "firstName": "exporting",
         "lastName": "patient",
-        "ssn": "345-34-1122",
+        "ssn": "345-34-1130",
         "address": [
             {
                 "name": "Home",
@@ -513,7 +602,7 @@ $posted_obj = json_decode('{
         ],
         "phone": null,
         "email": null,
-        "dob": "1960-04-24",
+        "dob": "1960-05-24",
         "gender": "M",
         "language": "English",
         "patientConsent": null,
@@ -535,8 +624,8 @@ $posted_obj = json_decode('{
         ],
         "subscriberIsPatient": null,
         "insurance": null,
-        "externalId": "5371091",
-        "middleName": "d",
+        "externalId": "5371483",
+        "middleName": "a",
         "suffix": null,
         "preferredContact": null,
         "smokingFrequency": "1 pack/day",
@@ -562,8 +651,8 @@ $posted_obj = json_decode('{
             "patientPrescription": [
                 {
                     "prescribe": {
-                        "prescribeIdentity": "70d4c765-1f6d-497c-8417-b58889bf30bf",
-                        "patientIdentity": "4429d93f-1ddc-4677-8625-f497ea708419",
+                        "prescribeIdentity": "bb8a8331-af3e-4d14-ab0f-8d0e8d24fc97",
+                        "patientIdentity": "5876360a-9ca7-469c-a586-03f706be038f",
                         "patientExternalIdentity": "",
                         "pharmacyIdentity": "",
                         "hasScheduledDrug": false,
@@ -615,12 +704,12 @@ $posted_obj = json_decode('{
                         "drugInteractionCheckPerformed": false,
                         "icd9": null,
                         "ePrescribe": false,
-                        "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
+                        "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
                         "createdByFirstName": "chuck",
                         "createdByLastName": "norris"
                     },
-                    "createdAt": 1363199053574,
-                    "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
+                    "createdAt": 1363309359303,
+                    "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
                     "active": true
                 }
             ],
@@ -630,40 +719,10 @@ $posted_obj = json_decode('{
     ],
     "problem": [
         {
-            "problemNoteIdentity": "5a832c03-5c4e-467d-9fe8-075473e4c0fb",
+            "problemNoteIdentity": "b7c0375e-75e5-4072-9fe7-ad2a2a95b15d",
             "icd9": {
-                "code": "01116",
-                "desc": "bronchitis"
-            },
-            "note": null,
-            "problemStartedAt": null,
-            "problemStoppedAt": null,
-            "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
-            "significant": false,
-            "active": true,
-            "updatedAt": "2013-03-13T18:24:12.318Z",
-            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
-        },
-        {
-            "problemNoteIdentity": "705d624f-c6ea-44e0-bdc3-a427787460c9",
-            "icd9": {
-                "code": "0022",
-                "desc": "flu"
-            },
-            "note": null,
-            "problemStartedAt": null,
-            "problemStoppedAt": null,
-            "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
-            "significant": false,
-            "active": true,
-            "updatedAt": "2013-03-13T18:24:12.318Z",
-            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
-        },
-        {
-            "problemNoteIdentity": "2f3fbf82-266b-462f-b0eb-0a19a248747f",
-            "icd9": {
-                "code": "250.02",
-                "desc": "Diabetes Mellitus, Type 2"
+                "code": "246.9",
+                "desc": "Unspecified disorder of thyroid"
             },
             "note": "Low blood sugar",
             "problemStartedAt": "2009-12-24",
@@ -671,13 +730,43 @@ $posted_obj = json_decode('{
             "soapNoteIdentity": null,
             "significant": true,
             "active": false,
-            "updatedAt": "2013-03-13T18:24:14.596Z",
-            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71"
+            "updatedAt": "2013-03-15T01:02:39.459Z",
+            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
+        },
+        {
+            "problemNoteIdentity": "986ebd3d-2209-4cbf-9407-8bdceccbc81a",
+            "icd9": {
+                "code": "004.3",
+                "desc": "Shigella sonnei"
+            },
+            "note": null,
+            "problemStartedAt": null,
+            "problemStoppedAt": null,
+            "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
+            "significant": false,
+            "active": true,
+            "updatedAt": "2013-03-15T01:02:38.796Z",
+            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
+        },
+        {
+            "problemNoteIdentity": "803232e6-01e1-4293-b644-6cd4c591d82b",
+            "icd9": {
+                "code": "001.0",
+                "desc": "Cholera due to vibrio cholarae"
+            },
+            "note": null,
+            "problemStartedAt": null,
+            "problemStoppedAt": null,
+            "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
+            "significant": false,
+            "active": true,
+            "updatedAt": "2013-03-15T01:02:38.796Z",
+            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
         }
     ],
     "allergy": [
         {
-            "identity": "f378bf55-6f3d-45f9-b454-e2a012ebb87e",
+            "identity": "6f230362-9bac-4bc5-a5c6-426bbd5e1495",
             "name": "Allergy to penicillin",
             "ndcidCode": null,
             "allergyGroupId": null,
@@ -687,29 +776,29 @@ $posted_obj = json_decode('{
             "snomed": "91936005",
             "substance": null,
             "reaction": null,
-            "createdAt": "2013-03-13",
-            "updatedAt": "2013-03-13"
+            "createdAt": "2013-03-15",
+            "updatedAt": "2013-03-15"
         }
     ],
     "immunization": [
         {
-            "createTime": "2013-03-13T18:24:15.342Z",
-            "vaccine": "Influenza",
+            "createTime": "2013-03-15T01:02:39.678Z",
+            "vaccine": "Pneumococcal Polysaccharide Vaccine",
             "notes": "Administered Flu Shot for patient",
             "userAssertion": "CONFIRMED",
             "activityTime": "2012-11-02",
             "activityBy": "CVS Pharmacy",
             "administeredAmount": "3",
-            "administeredUnit": "vials",
+            "administeredUnit": "vl",
             "vaccineLotNumber": "003843",
             "manufacturerName": "Merck",
             "manufacturerCode": "ME-394",
-            "cvxCode": "15"
+            "cvxCode": "33"
         }
     ],
     "soapNote": [
         {
-            "identity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
+            "identity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
             "subjective": {
                 "chiefComplaint": "Knee pain",
                 "note": "motorcycle injury",
@@ -774,13 +863,13 @@ $posted_obj = json_decode('{
                     {
                         "problemNoteIdentity": null,
                         "icd9": {
-                            "code": "0022",
-                            "desc": "flu"
+                            "code": "001.0",
+                            "desc": "Cholera due to vibrio cholarae"
                         },
                         "note": null,
                         "problemStartedAt": null,
                         "problemStoppedAt": null,
-                        "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
+                        "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
                         "significant": false,
                         "active": true,
                         "updatedAt": null,
@@ -789,13 +878,13 @@ $posted_obj = json_decode('{
                     {
                         "problemNoteIdentity": null,
                         "icd9": {
-                            "code": "01116",
-                            "desc": "bronchitis"
+                            "code": "004.3",
+                            "desc": "Shigella sonnei"
                         },
                         "note": null,
                         "problemStartedAt": null,
                         "problemStoppedAt": null,
-                        "soapNoteIdentity": "fc79570c-dd0d-461e-9f96-17c42fd302ec",
+                        "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
                         "significant": false,
                         "active": true,
                         "updatedAt": null,
@@ -808,19 +897,25 @@ $posted_obj = json_decode('{
                 "comments": "prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks",
                 "patientRequestedRecords": false
             },
-            "updateBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
-            "updatedAt": "2013-03-13T18:24:12.828Z",
-            "createdBy": "f587ce0b-150b-4fd8-bcdf-bfb768ce7b71",
-            "createdAt": "2013-03-13T18:24:08.616Z"
+            "updateBy": "e61b13d5-dac2-4384-b81f-90049813b635",
+            "updatedAt": "2013-03-15T01:02:38.984-07:00",
+            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
+            "createdAt": "2013-03-15T01:02:36.877-07:00"
         }
     ],
     "lab": [
         {
-            "labOrder": null,
+            "labOrder": {
+                "identity": "95306e3c-d07e-4289-b277-3da61008978a",
+                "summary": "Hermatology",
+                "labStatus": "Active",
+                "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9",
+                "labInstructions": "Run Eosinophil Count and Hemoglobin"
+            },
             "labResult": {
-                "identity": "7f1bc3cc-71ef-4e01-950c-505b1b602f42",
+                "identity": "d08e97a4-d310-407e-9002-1584309fd36f",
                 "loincCode": "718-7",
-                "labIdentity": "08bcebf1-da49-43b9-ae13-746ccc6ca246",
+                "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9",
                 "facilityName": "XYZ MRI Lab",
                 "facilityStreetAddress": "101 Main Street",
                 "facilityCity": "Los Angeles",
@@ -849,13 +944,74 @@ $posted_obj = json_decode('{
                     }
                 ]
             },
-            "labIdentity": "08bcebf1-da49-43b9-ae13-746ccc6ca246"
+            "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9"
         }
     ],
     "author": "chuck norris",
-    "organization": "Health Symmetric"
+    "organization": "Health Symmetric",
+    "practice": {
+        "identity": "15184dc3-d09f-4ac9-9b2f-807d6ea03524",
+        "name": "472900@rspec.com",
+        "settings": null,
+        "phone": null,
+        "address": [
+            {
+                "name": "Home",
+                "address1": "101 Main",
+                "address2": "Suite 250",
+                "city": "New York",
+                "state": "NY",
+                "postalCode": "23455",
+                "countryCode": "US",
+                "phone": [
+                    {
+                        "areaCode": "234",
+                        "prefix": "837",
+                        "suffix": "2345",
+                        "type": "OFFICE"
+                    }
+                ]
+            }
+        ],
+        "rolesAndPermissions": {
+            "STAFF": [
+                "CREATE_PATIENT",
+                "LOG_PHONE_CALL",
+                "CREATE_CONTACT"
+            ],
+            "NURSE": [
+                "CREATE_PATIENT",
+                "UPDATE_PATIENT",
+                "PROGRESS_NOTES",
+                "LOG_PHONE_CALL",
+                "UPLOAD_DOCUMENTS",
+                "REQUEST_XRAYS_LABS",
+                "CREATE_CONTACT"
+            ],
+            "PHYSICIAN": [
+                "CREATE_PATIENT",
+                "UPDATE_PATIENT",
+                "SHARE_PATIENT",
+                "PRESCRIBE_MEDICATION",
+                "PROGRESS_NOTES",
+                "LOG_PHONE_CALL",
+                "UPLOAD_DOCUMENTS",
+                "RUN_REPORTS",
+                "REQUEST_XRAYS_LABS",
+                "CREATE_CONTACT",
+                "DIAGNOSE_PATIENTS",
+                "SIGN_SOAP_NOTE"
+            ],
+            "ADMINISTRATOR": [
+                "ADMINISTRATOR"
+            ]
+        },
+        "symptoms": null,
+        "practiceType": null,
+        "emergencyPassword": null
+    }
 }');
 
-#print_r($posted_obj);
+print_r($posted_obj);
 
 ?>

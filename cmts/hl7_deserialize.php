@@ -1,6 +1,6 @@
 <?php
 
-/*//// PREPARE INPUT /////////////////////////////////////////////////////////////////////////////*/
+/*//// PREPARE INPUT & OUTPUT ////////////////////////////////////////////////////////////////////*/
 
 $postdata = file_get_contents("php://input");
 
@@ -32,8 +32,6 @@ foreach ($in as $segment) {
 	}
 	$msg->addSegment($seg_obj);	
 }
-
-/*//// PHP OBJECT /////////////////////////////////////////////////////////////////////////////////*/
 
 $obj = array();
 
@@ -177,20 +175,53 @@ foreach ($rxa as $immunization) {
 
 /*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
-$obx = $msg->getSegmentsByName('OBX');
+$obr = $msg->getSegmentsByName('OBR');
+$obrs = array();
+foreach ($obr as $ord) {
+	$obrs[$ord->getField(1)] = $ord;
+}
 
+$obx = $msg->getSegmentsByName('OBX');
+$obxs = array();
 foreach ($obx as $lab) {
-	$code = explode($cs,$lab->getField(3));
-	$obj['lab'][] = array('labResult' => array(
-		'loincCode' => $code[0],
-		//'labDescription' => $code[1],
-		'labTestResult' => array(array(
-			'date' => $lab->getField(14),
+	$obxs[$lab->getField(1)][] = $lab;
+}
+
+$labsIndex = 0;
+foreach ($obxs as $index => $labs) {
+	foreach ($labs as $lab) { // Yes, I know this is redundant...
+		$order = $obrs[$index];
+		$summary = explode($cs,$order->getField(4));
+		$code = explode($cs,$lab->getField(3));
+		$labName = explode($cs,$lab->getField(23));
+		$labAddress = explode($cs,$lab->getField(24));
+		$obj['lab'][$labsIndex] = array(
+			'labOrder' => array(
+				'summary' => $summary[1],
+			),
+			'labResult' => array(
+				'loincCode' => $code[0],
+				'facilityName' => $labName[0],
+				'facilityStreetAddress' => $labAddress[0],
+				'facilityCity' => $labAddress[2],
+				'facilityState' => $labAddress[3],
+				'facilityPostalCode' => $labAddress[4],
+				'labTestResult' => array()
+			)
+		);
+	}
+	foreach ($labs as $lab) {
+		$code = explode($cs,$lab->getField(3));
+		$unit = explode($cs,$lab->getField(6));
+		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
+			'date' => date('Y-m-d', strtotime($lab->getField(14))),
+			'type' => $summary[1],
 			'name' => $code[1].' ('.$lab->getField(7).')',
 			'value' => $lab->getField(5),
-			'unitOfMeasure' => $lab->getField(6)
-		))
-	));
+			'unitOfMeasure' => $unit[1]
+		);
+	}
+	$labsIndex++;
 }
 
 /*//// IN1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
