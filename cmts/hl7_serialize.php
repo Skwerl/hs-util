@@ -199,7 +199,7 @@ $setId = 1; foreach ($in->lab as $lab) {
 
 	$orc->setField(21, 'Lab Organization'.$cs.'L'.$cs.$cs.$cs.$cs.$results->facilityName.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1234');
 	$orc->setField(22, $results->facilityStreetAddress.$cs.$cs.$results->facilityCity.$cs.$results->facilityState.$cs.$results->facilityPostalCode.$cs.$cs.'B');
-	$orc->setField(23, $cs.$cs.$cs.$cs.$cs.$facility_phone->areaCode.$cs.$facility_phone->prefix.$facility_phone->suffix);
+	$orc->setField(23, $cs.$cs.$cs.$cs.$cs.$practice_phone->areaCode.$cs.$practice_phone->prefix.$practice_phone->suffix);
 
 /*//// OBR SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 

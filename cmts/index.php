@@ -78,9 +78,13 @@ switch($type) {
 		break;
 }
 
-switch($mode) {
-	case 'serialize': include_once($translate_context.'_serialize.php'); break;
-	case 'deserialize': include_once($translate_context.'_deserialize.php'); break;
+if (!empty($translate_context)) {
+	switch($mode) {
+		case 'serialize': include_once($translate_context.'_serialize.php'); break;
+		case 'deserialize': include_once($translate_context.'_deserialize.php'); break;
+	}
+} else {
+	die('No translation context provided.');
 }
 
 ?>
