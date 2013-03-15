@@ -453,7 +453,6 @@ $medicationsSchema = array('MEDSUMMARY' => array(
 	'Status' => 'MEDSTATUS',
 ));
 
-
 $medicationsData = array();
 $inputMedications = $in->medication;
 foreach ($inputMedications as $inputMedication) {
@@ -464,7 +463,7 @@ foreach ($inputMedications as $inputMedication) {
 			$inputSig->quantity.' '.$inputSig->quantityUnits,
 			$inputSig->route,
 			$inputSig->route,
-			$inputSig->schedule,
+			$inputSig->doseTiming,
 			date('Ymd',strtotime($inputSig->effectiveDate)),
 			($inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
@@ -580,7 +579,7 @@ $inputLabsIndex = 0;
 foreach ($inputLabs as $inputLab) {
 	$inputLabData = $inputLab->labResult;
 	$labsData[$inputLabsIndex] = array(
-		'labName' => '',
+		'labName' => $inputLab->labOrder->summary,
 		'loincCode' => $inputLabData->loincCode,
 		'labDate' => '',
 		'labProcedures' => array(),
@@ -590,7 +589,6 @@ foreach ($inputLabs as $inputLab) {
 		$nameParts = splitLabDescription($inputLabResult->name);
 		$resultDescription = $nameParts['resultDescription'];
 		$resultIdealRange = $nameParts['resultIdealRange'];
-		$labsData[$inputLabsIndex]['labName'] = $inputLabResult->type;
 		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime($inputLabResult->date));
 		$labsData[$inputLabsIndex]['labProcedures'][] = array(
 			'procedureDescription' => 'Obtain sample for '.$inputLabResult->type,
@@ -690,7 +688,7 @@ foreach ($labsData as $labData) {
 		'code' => array(
 			'code' => $labData['loincCode'],
 			'codeSystem' => '2.16.840.1.113883.6.96',
-			'displayName' => 'CBC WO DIFFERENTIAL'
+			'displayName' => $labData['labName']
 		),
 		'statusCode' => array(
 			'code' => 'completed' 

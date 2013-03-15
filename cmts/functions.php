@@ -1,5 +1,9 @@
 <?php
 
+function s($in) {
+	return (string)$in;
+}
+
 function XMLaddManyChildren($obj,$arr) {
 	foreach ($arr as $key => $array) {
 		$child = $obj->addChild($key);
@@ -71,6 +75,17 @@ function XMLaddTableSection($parent,$schema,$data) {
 		$rowID++;
 	}
 	return $obj;
+}
+
+function XMLpathQuery($obj, $nsp, $query) {
+	$path = array();
+	$tree = explode('/',$query);
+	foreach ($tree as $branch) {
+		$path[] = (empty($branch) ? '' : $nsp.':'.$branch);
+	}
+	$path = implode('/',$path);
+	$result = $obj->xpath($path);
+	return $result;
 }
 
 function splitLabDescription($input) {

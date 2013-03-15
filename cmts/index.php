@@ -7,7 +7,9 @@ $params = split("/", $request);
 
 $mode = (!empty($params[0]) ? strtolower($params[0]) : 'serialize');
 $type = (!empty($params[1]) ? strtoupper($params[1]) : 'ADT');
+
 switch($type) {
+	case 'HL7': $default_mvar = '000'; break;
 	case 'ADT': $default_mvar = 'A01'; break;
 	case 'ORU': $default_mvar = 'R01'; break;
 	case 'VXU': $default_mvar = 'V04'; break;
@@ -28,6 +30,7 @@ switch($type_code) {
 	case 'ADT_A13': // Cancel Discharge
 	case 'ORU_R01': // Observation Report Update
 	case 'VXU_V04': // Vaccination Update
+	case 'HL7_000': // Undetermined HL7
 		$translate_context = 'hl7';
 		break;
 	case 'CCD_025': // HITSP/C32 v2.5 CCD
