@@ -193,7 +193,9 @@ $setId = 1; foreach ($in->lab as $lab) {
 		$practice_address->address1,
 		$practice_address->address2,
 		$practice_address->city,
+		$practice_address->state,
 		$practice_address->postalCode,
+		$practice_address->countryCode,
 		'B'
 	)));
 
@@ -226,7 +228,7 @@ $setId = 1; foreach ($in->lab as $lab) {
 		$resultIdealRange = $nameParts['resultIdealRange'];
 		$obx = new Net_HL7_Segment('OBX');
 		$obx->setField(1, $setId);
-		$obx->setField(2, 'ST');
+		$obx->setField(2, (is_numeric($result->value) ? 'NM' : 'ST'));
 		$obx->setField(3, $results->loincCode.$cs.$resultDescription.$cs.'LN');
 		$obx->setField(4, $subId);
 		$obx->setField(7, $resultIdealRange);
