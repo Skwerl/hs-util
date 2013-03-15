@@ -38,6 +38,43 @@ if ($translate_context == 'hl7') {
 	$ss = $hl7Globals['SUBCOMPONENT_SEPARATOR'];
 	$rs = $hl7Globals['REPETITION_SEPARATOR'];
 
+	$type_string = $type.$cs.$mvar.$cs.$type_code;
+	
+	$segments = array('MSH');
+	switch($type) {
+		case 'ADT':
+			array_push($segments,
+				'EVN',
+				'PID',
+				'PV1',
+				'OBX',
+				'AL1',
+				'DG1'
+			);
+			break;
+		case 'ORU':
+			array_push($segments,
+				'SFT',			
+				'PID',
+				'NTE',
+				'PV1',
+				'SPM',
+				'ORC',
+				'OBR',
+				'OBX'
+			);
+			break;
+		case 'VXU':
+			array_push($segments,
+				'PID',
+				'PV1',
+				'ORC',
+				'RXA',
+				'RXR'
+			);
+			break;
+	}
+
 }
 
 require_once './functions.php';

@@ -13,6 +13,7 @@ switch($type) {
 	case 'ADT': $default_mvar = 'A01'; break;
 	case 'ORU': $default_mvar = 'R01'; break;
 	case 'VXU': $default_mvar = 'V04'; break;
+	case 'CCR': $default_mvar = '000'; break;
 	case 'CCD': $default_mvar = '025'; break;
 }
 $mvar = (isset($_GET['var']) ? strtoupper($_GET['var']) : $default_mvar);
@@ -33,50 +34,15 @@ switch($type_code) {
 	case 'HL7_000': // Undetermined HL7
 		$translate_context = 'hl7';
 		break;
+	case 'CCR_000': // Undetermined CCR
+		$translate_context = 'ccr';
+		break;
 	case 'CCD_025': // HITSP/C32 v2.5 CCD
 		$translate_context = 'ccd';
 		break;
 }
 
 require_once('globals.php');
-
-if (!isset($cs)) { $cs = '^'; } 
-$type_string = $type.$cs.$mvar.$cs.$type_code;
-
-$segments = array('MSH');
-switch($type) {
-	case 'ADT':
-		array_push($segments,
-			'EVN',
-			'PID',
-			'PV1',
-			'OBX',
-			'AL1',
-			'DG1'
-		);
-		break;
-	case 'ORU':
-		array_push($segments,
-			'SFT',			
-			'PID',
-			'NTE',
-			'PV1',
-			'SPM',
-			'ORC',
-			'OBR',
-			'OBX'
-		);
-		break;
-	case 'VXU':
-		array_push($segments,
-			'PID',
-			'PV1',
-			'ORC',
-			'RXA',
-			'RXR'
-		);
-		break;
-}
 
 if (!empty($translate_context)) {
 	switch($mode) {
