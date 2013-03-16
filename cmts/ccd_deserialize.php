@@ -8,9 +8,8 @@ require_once('globals.php');
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $postdata = file_get_contents("php://input");
-
-// Simulate input:
 #$postdata = file_get_contents('sample_ccd.xml');
+if (empty($postdata)) { die('No input.'); }
 
 $ns = 'n';
 $xml = new SimpleXMLElement($postdata);
