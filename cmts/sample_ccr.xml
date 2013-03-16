@@ -210,9 +210,9 @@
           <Text>Diagnosis</Text>
         </Type>
         <Description>
-          <Text>Congestive Heart Failure</Text>
+          <Text>Diabetes Mellitus, Type 2</Text>
           <Code>
-            <Value>428.0</Value>
+            <Value>250.02</Value>
             <CodingSystem>ICD9-CM</CodingSystem>
             <Version>2005</Version>
           </Code>
@@ -232,15 +232,15 @@
           <Type>
             <Text>Onset</Text>
           </Type>
-          <ExactDateTime>1984-03-01T05:00:00Z</ExactDateTime>
+          <ExactDateTime>1999-04-01T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Diagnosis</Text>
         </Type>
         <Description>
-          <Text>Diabetes Mellitus</Text>
+          <Text>Hyperlipidemia</Text>
           <Code>
-            <Value>250.02</Value>
+            <Value>272.4</Value>
             <CodingSystem>ICD9-CM</CodingSystem>
             <Version>2005</Version>
           </Code>
@@ -260,15 +260,15 @@
           <Type>
             <Text>Onset</Text>
           </Type>
-          <ExactDateTime>1990-08-08T04:00:00Z</ExactDateTime>
+          <ExactDateTime>1999-04-01T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Diagnosis</Text>
         </Type>
         <Description>
-          <Text>Hypertension</Text>
+          <Text>Coronary Artery Disease (CAD)</Text>
           <Code>
-            <Value>403.10</Value>
+            <Value>414.01</Value>
             <CodingSystem>ICD9-CM</CodingSystem>
             <Version>2005</Version>
           </Code>
@@ -288,15 +288,15 @@
           <Type>
             <Text>Onset</Text>
           </Type>
-          <ExactDateTime>2003-01-25T05:00:00Z</ExactDateTime>
+          <ExactDateTime>1999-04-01T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Diagnosis</Text>
         </Type>
         <Description>
-          <Text>Myocardial Infarction</Text>
+          <Text>Hypertension, Essential</Text>
           <Code>
-            <Value>410.80</Value>
+            <Value>401.9</Value>
             <CodingSystem>ICD9-CM</CodingSystem>
             <Version>2005</Version>
           </Code>
@@ -565,8 +565,8 @@
         <Description>
           <Text>Penicillins</Text>
           <Code>
-            <Value>245</Value>
-            <CodingSystem>FDB Allergy</CodingSystem>
+            <Value>91936005</Value>
+            <CodingSystem>SNOMED</CodingSystem>
             <Version>2005</Version>
           </Code>
         </Description>
@@ -607,124 +607,10 @@
           </Severity>
         </Reaction>
       </Alert>
-      <Alert>
-        <CCRDataObjectID>BB0023</CCRDataObjectID>
-        <DateTime>
-          <Type>
-            <Text>Initial Occurrence</Text>
-          </Type>
-          <ExactDateTime>2005-03-29T05:00:00Z</ExactDateTime>
-        </DateTime>
-        <Type>
-          <Text>Allergy</Text>
-        </Type>
-        <Description>
-          <Text>Sulfa (Sulfonamides)</Text>
-          <Code>
-            <Value>305</Value>
-            <CodingSystem>FDB Allergy</CodingSystem>
-            <Version>2005</Version>
-          </Code>
-        </Description>
-        <Status>
-          <Text>Current</Text>
-        </Status>
-        <Source>
-          <Actor>
-            <ActorID>AA0002</ActorID>
-          </Actor>
-        </Source>
-        <Agent>
-          <Products>
-            <Product>
-              <CCRDataObjectID>BB0024</CCRDataObjectID>
-              <Description>
-                <Text>Sulfa (Sulfonamides)</Text>
-              </Description>
-              <Source>
-                <Actor>
-                  <ActorID>AA0002</ActorID>
-                </Actor>
-              </Source>
-              <Product>
-                <ProductName>
-                  <Text>Sulfa (Sulfonamides)</Text>
-                </ProductName>
-              </Product>
-            </Product>
-          </Products>
-        </Agent>
-        <Reaction>
-          <Description>
-            <Text>Fever</Text>
-          </Description>
-          <Severity>
-            <Text>Moderate</Text>
-          </Severity>
-        </Reaction>
-      </Alert>
-      <Alert>
-        <CCRDataObjectID>BB0025</CCRDataObjectID>
-        <DateTime>
-          <Type>
-            <Text>Initial Occurrence</Text>
-          </Type>
-          <ApproximateDateTime>
-            <Text>2 years ago</Text>
-          </ApproximateDateTime>
-        </DateTime>
-        <Type>
-          <Text>Allergy</Text>
-        </Type>
-        <Description>
-          <Text>Ragweed</Text>
-          <Code>
-            <Value>152</Value>
-            <CodingSystem>e-MDs Allergy</CodingSystem>
-            <Version>2005</Version>
-          </Code>
-        </Description>
-        <Status>
-          <Text>Current</Text>
-        </Status>
-        <Source>
-          <Actor>
-            <ActorID>AA0006</ActorID>
-          </Actor>
-        </Source>
-        <Agent>
-          <Products>
-            <Product>
-              <CCRDataObjectID>BB0026</CCRDataObjectID>
-              <Description>
-                <Text>Ragweed</Text>
-              </Description>
-              <Source>
-                <Actor>
-                  <ActorID>AA0006</ActorID>
-                </Actor>
-              </Source>
-              <Product>
-                <ProductName>
-                  <Text>Ragweed</Text>
-                </ProductName>
-              </Product>
-            </Product>
-          </Products>
-        </Agent>
-        <Reaction>
-          <Description>
-            <Text>Congestion</Text>
-          </Description>
-          <Severity>
-            <Text>Mild</Text>
-          </Severity>
-        </Reaction>
-      </Alert>
     </Alerts>
     <Medications>
       <Medication>
-        <CCRDataObjectID>BB0027</CCRDataObjectID>
+        <CCRDataObjectID>BB0023</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Prescription Date</Text>
@@ -744,20 +630,20 @@
         </Source>
         <Product>
           <ProductName>
-            <Text>metformin</Text>
+            <Text>glyburide</Text>
           </ProductName>
           <BrandName>
-            <Text>Glucophage XR</Text>
+            <Text>Diabeta</Text>
             <Code>
-              <Value>00087606313</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
+              <Value>205875</Value>
+              <CodingSystem>RxNorm</CodingSystem>
+              <Version>2011-5</Version>
             </Code>
           </BrandName>
           <Strength>
-            <Value>500</Value>
+            <Value>2.5</Value>
             <Units>
-              <Unit>mg </Unit>
+              <Unit>mg</Unit>
             </Units>
           </Strength>
           <Form>
@@ -794,7 +680,7 @@
         </Directions>
         <PatientInstructions>
           <Instruction>
-            <Text>Hold dose if patient becomes markedly light headed.</Text>
+            <Text></Text>
           </Instruction>
         </PatientInstructions>
         <Refills>
@@ -804,12 +690,12 @@
         </Refills>
       </Medication>
       <Medication>
-        <CCRDataObjectID>BB0028</CCRDataObjectID>
+        <CCRDataObjectID>BB0024</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Prescription Date</Text>
           </Type>
-          <ExactDateTime>2005-07-22T04:00:00Z</ExactDateTime>
+          <ExactDateTime>2005-03-29T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Medication</Text>
@@ -824,14 +710,14 @@
         </Source>
         <Product>
           <ProductName>
-            <Text>ezetimibe-simvastatin</Text>
+            <Text>atorvastatin calcium</Text>
           </ProductName>
           <BrandName>
-            <Text>Vytorin</Text>
+            <Text>Lipitor</Text>
             <Code>
-              <Value>66582031231</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
+              <Value>617314</Value>
+              <CodingSystem>RxNorm</CodingSystem>
+              <Version>2011-5</Version>
             </Code>
           </BrandName>
           <Strength>
@@ -840,18 +726,12 @@
               <Unit>mg</Unit>
             </Units>
           </Strength>
-          <Strength>
-            <Value>20</Value>
-            <Units>
-              <Unit>mg</Unit>
-            </Units>
-          </Strength>
           <Form>
-            <Text>tablet</Text>
+            <Text>tablet, extended release</Text>
           </Form>
         </Product>
         <Quantity>
-          <Value>50</Value>
+          <Value>100</Value>
           <Units>
             <Unit>tablet</Unit>
           </Units>
@@ -873,11 +753,16 @@
             <Indication>
               <Source />
               <InternalCCRLink>
-                <LinkID>BB0006</LinkID>
+                <LinkID>BB0007</LinkID>
               </InternalCCRLink>
             </Indication>
           </Direction>
         </Directions>
+        <PatientInstructions>
+          <Instruction>
+            <Text></Text>
+          </Instruction>
+        </PatientInstructions>
         <Refills>
           <Refill>
             <Number>0</Number>
@@ -885,12 +770,12 @@
         </Refills>
       </Medication>
       <Medication>
-        <CCRDataObjectID>BB0029</CCRDataObjectID>
+        <CCRDataObjectID>BB0025</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Prescription Date</Text>
           </Type>
-          <ExactDateTime>2005-10-29T04:00:00Z</ExactDateTime>
+          <ExactDateTime>2005-03-29T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Medication</Text>
@@ -905,280 +790,28 @@
         </Source>
         <Product>
           <ProductName>
-            <Text>insulin lispro</Text>
+            <Text>furosemide</Text>
           </ProductName>
           <BrandName>
-            <Text>Humalog</Text>
+            <Text>Lasix</Text>
             <Code>
-              <Value>00002751001</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
+              <Value>200801</Value>
+              <CodingSystem>RxNorm</CodingSystem>
+              <Version>2011-5</Version>
             </Code>
           </BrandName>
           <Strength>
-            <Value>100</Value>
-            <Units>
-              <Unit>units/mL</Unit>
-            </Units>
-          </Strength>
-          <Form>
-            <Text>injection</Text>
-          </Form>
-        </Product>
-        <Quantity>
-          <Value>100</Value>
-          <Units>
-            <Unit>injection</Unit>
-          </Units>
-        </Quantity>
-        <Directions>
-          <Direction>
-            <Dose>
-              <Value>0</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>1</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS&lt;80</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>1</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>2</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS 80-120</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>2</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>3</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS 121-160</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>3</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>4</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS 161-200</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>4</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>5</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS 201-250</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>5</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-            <DirectionSequencePosition>6</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>OR</Text>
-              <ObjectAttribute>
-                <Attribute>SIG Specifier</Attribute>
-                <AttributeValue>
-                  <Value>FBS 251-300</Value>
-                </AttributeValue>
-              </ObjectAttribute>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>6</Value>
-              <Units>
-                <Unit>unit</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>SC</Text>
-            </Route>
-            <Frequency>
-              <Value>ac</Value>
-            </Frequency>
-            <Indication>
-              <Source />
-              <InternalCCRLink>
-                <LinkID>BB0007</LinkID>
-              </InternalCCRLink>
-            </Indication>
-          </Direction>
-        </Directions>
-        <Refills>
-          <Refill>
-            <Number>0</Number>
-          </Refill>
-        </Refills>
-      </Medication>
-      <Medication>
-        <CCRDataObjectID>BB0030</CCRDataObjectID>
-        <DateTime>
-          <Type>
-            <Text>Prescription Date</Text>
-          </Type>
-          <ExactDateTime>2005-10-29T04:00:00Z</ExactDateTime>
-        </DateTime>
-        <Type>
-          <Text>Medication</Text>
-        </Type>
-        <Status>
-          <Text>Active</Text>
-        </Status>
-        <Source>
-          <Actor>
-            <ActorID>AA0002</ActorID>
-          </Actor>
-        </Source>
-        <Product>
-          <ProductName>
-            <Text>predniSONE</Text>
-          </ProductName>
-          <BrandName>
-            <Text>PredniSONE</Text>
-            <Code>
-              <Value>00054474125</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
-            </Code>
-          </BrandName>
-          <Strength>
-            <Value>1</Value>
+            <Value>20</Value>
             <Units>
               <Unit>mg</Unit>
             </Units>
           </Strength>
           <Form>
-            <Text>tablet</Text>
+            <Text>tablet, extended release</Text>
           </Form>
         </Product>
         <Quantity>
-          <Value>15</Value>
+          <Value>100</Value>
           <Units>
             <Unit>tablet</Unit>
           </Units>
@@ -1186,102 +819,6 @@
         <Directions>
           <Direction>
             <Dose>
-              <Value>5</Value>
-              <Units>
-                <Unit>tablet</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>PO</Text>
-            </Route>
-            <Frequency>
-              <Value>qd</Value>
-            </Frequency>
-            <Duration>
-              <Value>1</Value>
-              <Units>
-                <Unit>Days</Unit>
-              </Units>
-            </Duration>
-            <DirectionSequencePosition>1</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>THEN</Text>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>4</Value>
-              <Units>
-                <Unit>tablet</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>PO</Text>
-            </Route>
-            <Frequency>
-              <Value>qd</Value>
-            </Frequency>
-            <Duration>
-              <Value>1</Value>
-              <Units>
-                <Unit>Days</Unit>
-              </Units>
-            </Duration>
-            <DirectionSequencePosition>2</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>THEN</Text>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>3</Value>
-              <Units>
-                <Unit>tablet</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>PO</Text>
-            </Route>
-            <Frequency>
-              <Value>qd</Value>
-            </Frequency>
-            <Duration>
-              <Value>1</Value>
-              <Units>
-                <Unit>Days</Unit>
-              </Units>
-            </Duration>
-            <DirectionSequencePosition>3</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>THEN</Text>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
-              <Value>2</Value>
-              <Units>
-                <Unit>tablet</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>PO</Text>
-            </Route>
-            <Frequency>
-              <Value>qd</Value>
-            </Frequency>
-            <Duration>
-              <Value>1</Value>
-              <Units>
-                <Unit>Days</Unit>
-              </Units>
-            </Duration>
-            <DirectionSequencePosition>4</DirectionSequencePosition>
-            <MultipleDirectionModifier>
-              <Text>THEN</Text>
-            </MultipleDirectionModifier>
-          </Direction>
-          <Direction>
-            <Dose>
               <Value>1</Value>
               <Units>
                 <Unit>tablet</Unit>
@@ -1291,16 +828,21 @@
               <Text>PO</Text>
             </Route>
             <Frequency>
-              <Value>qd</Value>
+              <Value>bid</Value>
             </Frequency>
-            <Duration>
-              <Value>1</Value>
-              <Units>
-                <Unit>Days</Unit>
-              </Units>
-            </Duration>
+            <Indication>
+              <Source />
+              <InternalCCRLink>
+                <LinkID>BB0007</LinkID>
+              </InternalCCRLink>
+            </Indication>
           </Direction>
         </Directions>
+        <PatientInstructions>
+          <Instruction>
+            <Text></Text>
+          </Instruction>
+        </PatientInstructions>
         <Refills>
           <Refill>
             <Number>0</Number>
@@ -1308,12 +850,12 @@
         </Refills>
       </Medication>
       <Medication>
-        <CCRDataObjectID>BB0031</CCRDataObjectID>
+        <CCRDataObjectID>BB0026</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Prescription Date</Text>
           </Type>
-          <ExactDateTime>2005-10-29T04:00:00Z</ExactDateTime>
+          <ExactDateTime>2005-03-29T05:00:00Z</ExactDateTime>
         </DateTime>
         <Type>
           <Text>Medication</Text>
@@ -1328,98 +870,30 @@
         </Source>
         <Product>
           <ProductName>
-            <Text>nafcillin</Text>
+            <Text>potassium chloride</Text>
           </ProductName>
           <BrandName>
-            <Text>Nafcillin Sodium</Text>
+            <Text>Klor-Con</Text>
             <Code>
-              <Value>00338101741</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
+              <Value>628958</Value>
+              <CodingSystem>RxNorm</CodingSystem>
+              <Version>2011-5</Version>
             </Code>
           </BrandName>
           <Strength>
-            <Value>1</Value>
+            <Value>10</Value>
             <Units>
-              <Unit>g/50 mL</Unit>
+              <Unit>mEq</Unit>
             </Units>
           </Strength>
           <Form>
-            <Text>solution</Text>
+            <Text>tablet, extended release</Text>
           </Form>
         </Product>
         <Quantity>
-          <Value>1</Value>
-        </Quantity>
-        <Directions>
-          <Direction>
-            <Dose>
-              <Value>100</Value>
-              <Units>
-                <Unit>ml</Unit>
-              </Units>
-            </Dose>
-            <Route>
-              <Text>IVPB</Text>
-            </Route>
-            <Frequency>
-              <Value>q4h</Value>
-            </Frequency>
-          </Direction>
-        </Directions>
-        <Refills>
-          <Refill>
-            <Number>0</Number>
-          </Refill>
-        </Refills>
-      </Medication>
-      <Medication>
-        <CCRDataObjectID>BB0032</CCRDataObjectID>
-        <DateTime>
-          <Type>
-            <Text>Prescription Date</Text>
-          </Type>
-          <ExactDateTime>2005-10-29T04:00:00Z</ExactDateTime>
-        </DateTime>
-        <Type>
-          <Text>Medication</Text>
-        </Type>
-        <Status>
-          <Text>Active</Text>
-        </Status>
-        <Source>
-          <Actor>
-            <ActorID>AA0002</ActorID>
-          </Actor>
-        </Source>
-        <Product>
-          <ProductName>
-            <Text>influenza virus vaccine, live, trivalent</Text>
-          </ProductName>
-          <BrandName>
-            <Text>FluMist</Text>
-            <Code>
-              <Value>66019010001</Value>
-              <CodingSystem>NDC</CodingSystem>
-              <Version>2005</Version>
-            </Code>
-          </BrandName>
-          <Strength>
-            <Value>
-            </Value>
-          </Strength>
-          <Strength>
-            <Value>
-            </Value>
-          </Strength>
-          <Form>
-            <Text>spray</Text>
-          </Form>
-        </Product>
-        <Quantity>
-          <Value>1</Value>
+          <Value>100</Value>
           <Units>
-            <Unit>spray</Unit>
+            <Unit>tablet</Unit>
           </Units>
         </Quantity>
         <Directions>
@@ -1427,14 +901,28 @@
             <Dose>
               <Value>1</Value>
               <Units>
-                <Unit>spray</Unit>
+                <Unit>tablet</Unit>
               </Units>
             </Dose>
             <Route>
-              <Text>NAS</Text>
+              <Text>PO</Text>
             </Route>
+            <Frequency>
+              <Value>bid</Value>
+            </Frequency>
+            <Indication>
+              <Source />
+              <InternalCCRLink>
+                <LinkID>BB0007</LinkID>
+              </InternalCCRLink>
+            </Indication>
           </Direction>
         </Directions>
+        <PatientInstructions>
+          <Instruction>
+            <Text></Text>
+          </Instruction>
+        </PatientInstructions>
         <Refills>
           <Refill>
             <Number>0</Number>
@@ -1444,7 +932,7 @@
     </Medications>
     <Immunizations>
       <Immunization>
-        <CCRDataObjectID>BB0033</CCRDataObjectID>
+        <CCRDataObjectID>BB0027</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Immunization Date</Text>
@@ -1486,7 +974,7 @@
     </Immunizations>
     <VitalSigns>
       <Result>
-        <CCRDataObjectID>BB0034</CCRDataObjectID>
+        <CCRDataObjectID>BB0028</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Assessment Time</Text>
@@ -1502,7 +990,7 @@
           </Actor>
         </Source>
         <Test>
-          <CCRDataObjectID>BB0035</CCRDataObjectID>
+          <CCRDataObjectID>BB0029</CCRDataObjectID>
           <Type>
             <Text>Observation</Text>
           </Type>
@@ -1527,7 +1015,7 @@
           </TestResult>
         </Test>
         <Test>
-          <CCRDataObjectID>BB0036</CCRDataObjectID>
+          <CCRDataObjectID>BB0030</CCRDataObjectID>
           <Type>
             <Text>Observation</Text>
           </Type>
@@ -1553,7 +1041,7 @@
         </Test>
       </Result>
       <Result>
-        <CCRDataObjectID>BB0037</CCRDataObjectID>
+        <CCRDataObjectID>BB0031</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Assessment Time</Text>
@@ -1569,7 +1057,7 @@
           </Actor>
         </Source>
         <Test>
-          <CCRDataObjectID>BB0038</CCRDataObjectID>
+          <CCRDataObjectID>BB0032</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
@@ -1595,7 +1083,7 @@
         </Test>
       </Result>
       <Result>
-        <CCRDataObjectID>BB0039</CCRDataObjectID>
+        <CCRDataObjectID>BB0033</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Assessment Time</Text>
@@ -1611,7 +1099,7 @@
           </Actor>
         </Source>
         <Test>
-          <CCRDataObjectID>BB0040</CCRDataObjectID>
+          <CCRDataObjectID>BB0034</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
@@ -1636,7 +1124,7 @@
           </TestResult>
         </Test>
         <Test>
-          <CCRDataObjectID>BB0041</CCRDataObjectID>
+          <CCRDataObjectID>BB0035</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
@@ -1662,7 +1150,7 @@
         </Test>
       </Result>
       <Result>
-        <CCRDataObjectID>BB0042</CCRDataObjectID>
+        <CCRDataObjectID>BB0036</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Assessment Time</Text>
@@ -1678,7 +1166,7 @@
           </Actor>
         </Source>
         <Test>
-          <CCRDataObjectID>BB0043</CCRDataObjectID>
+          <CCRDataObjectID>BB0037</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
@@ -1706,7 +1194,7 @@
     </VitalSigns>
     <Results>
       <Result>
-        <CCRDataObjectID>BB0047</CCRDataObjectID>
+        <CCRDataObjectID>BB0038</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Assessment Time</Text>
@@ -1714,7 +1202,7 @@
           <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
         </DateTime>
         <Description>
-          <Text>Complete cbc w/auto diff wbc</Text>
+          <Text>Fasting Blood Glucose</Text>
         </Description>
         <Source>
           <Actor>
@@ -1722,16 +1210,16 @@
           </Actor>
         </Source>
         <Test>
-          <CCRDataObjectID>BB0048</CCRDataObjectID>
+          <CCRDataObjectID>BB0039</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
           <Description>
-            <Text>Spun microhematocrit</Text>
+            <Text>Fasting Blood Glucose</Text>
             <Code>
               <Value>85013</Value>
-              <CodingSystem>CPT-4</CodingSystem>
-              <Version>2005</Version>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
             </Code>
           </Description>
           <Source>
@@ -1740,26 +1228,223 @@
             </Actor>
           </Source>
           <TestResult>
-            <Value>32.6</Value>
+            <Value>178</Value>
             <Units>
-              <Unit>L/L</Unit>
+              <Unit>mg/dl</Unit>
             </Units>
           </TestResult>
           <Flag>
-            <Text>Abnormal Low</Text>
+            <Text>above high normal</Text>
           </Flag>
         </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0040</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>Creatinine</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0041</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>Creatinine</Text>
+            <Code>
+              <Value>14682-9</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>1.0</Value>
+            <Units>
+              <Unit>mg/dl</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0042</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>BUN</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0043</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>BUN</Text>
+            <Code>
+              <Value>14937-7</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>18</Value>
+            <Units>
+              <Unit>mg/dl</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0044</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>Sodium</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0045</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>Sodium</Text>
+            <Code>
+              <Value>2951-2</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>141</Value>
+            <Units>
+              <Unit>mEq/L</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0046</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>Potassium</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0047</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>Potassium</Text>
+            <Code>
+              <Value>2823-3</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>4.3</Value>
+            <Units>
+              <Unit>mEq/L</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0048</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>Total cholesterol</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
         <Test>
           <CCRDataObjectID>BB0049</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
           <Description>
-            <Text>plasma hemoglobin</Text>
+            <Text>Total cholesterol</Text>
             <Code>
-              <Value>83051</Value>
-              <CodingSystem>CPT-4</CodingSystem>
-              <Version>2005</Version>
+              <Value>14647-2</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
             </Code>
           </Description>
           <Source>
@@ -1768,26 +1453,43 @@
             </Actor>
           </Source>
           <TestResult>
-            <Value>9.6</Value>
+            <Value>162</Value>
             <Units>
-              <Unit>G/L</Unit>
+              <Unit>mg/dl</Unit>
             </Units>
           </TestResult>
           <Flag>
-            <Text>Abnormal Low</Text>
+            <Text>normal</Text>
           </Flag>
         </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0050</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>HDL cholesterol</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
         <Test>
-          <CCRDataObjectID>BB0050</CCRDataObjectID>
+          <CCRDataObjectID>BB0051</CCRDataObjectID>
           <Type>
             <Text>Result</Text>
           </Type>
           <Description>
-            <Text>Automated leukocyte count</Text>
+            <Text>HDL cholesterol</Text>
             <Code>
-              <Value>85048</Value>
-              <CodingSystem>CPT-4</CodingSystem>
-              <Version>2005</Version>
+              <Value>14646-4</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
             </Code>
           </Description>
           <Source>
@@ -1796,20 +1498,110 @@
             </Actor>
           </Source>
           <TestResult>
-            <Value>18.5</Value>
+            <Value>43</Value>
             <Units>
-              <Unit>10^3/uL</Unit>
+              <Unit>mg/dl</Unit>
             </Units>
           </TestResult>
           <Flag>
-            <Text>Abnormal High</Text>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0052</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>LDL cholesterol</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0053</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>LDL cholesterol</Text>
+            <Code>
+              <Value>2089-1</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>84</Value>
+            <Units>
+              <Unit>mg/dl</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>normal</Text>
+          </Flag>
+        </Test>
+      </Result>
+      <Result>
+        <CCRDataObjectID>BB0054</CCRDataObjectID>
+        <DateTime>
+          <Type>
+            <Text>Assessment Time</Text>
+          </Type>
+          <ExactDateTime>2003-12-08T05:00:00Z</ExactDateTime>
+        </DateTime>
+        <Description>
+          <Text>Triglycerides</Text>
+        </Description>
+        <Source>
+          <Actor>
+            <ActorID>AA0008</ActorID>
+          </Actor>
+        </Source>
+        <Test>
+          <CCRDataObjectID>BB0055</CCRDataObjectID>
+          <Type>
+            <Text>Result</Text>
+          </Type>
+          <Description>
+            <Text>Triglycerides</Text>
+            <Code>
+              <Value>14927-8</Value>
+              <CodingSystem>LOINC</CodingSystem>
+              <Version>2.42</Version>
+            </Code>
+          </Description>
+          <Source>
+            <Actor>
+              <ActorID>AA0002</ActorID>
+            </Actor>
+          </Source>
+          <TestResult>
+            <Value>177</Value>
+            <Units>
+              <Unit>mg/dl</Unit>
+            </Units>
+          </TestResult>
+          <Flag>
+            <Text>above high normal</Text>
           </Flag>
         </Test>
       </Result>
     </Results>
     <Procedures>
       <Procedure>
-        <CCRDataObjectID>BB0064</CCRDataObjectID>
+        <CCRDataObjectID>BB0056</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Procedure Date</Text>
@@ -1844,7 +1636,7 @@
     </Procedures>
     <Encounters>
       <Encounter>
-        <CCRDataObjectID>BB0065</CCRDataObjectID>
+        <CCRDataObjectID>BB0057</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Encounter Date</Text>
@@ -1887,7 +1679,7 @@
         </Indications>
       </Encounter>
       <Encounter>
-        <CCRDataObjectID>BB0066</CCRDataObjectID>
+        <CCRDataObjectID>BB0058</CCRDataObjectID>
         <DateTime>
           <Type>
             <Text>Encounter Date</Text>
@@ -1932,7 +1724,7 @@
     </Encounters>
     <PlanOfCare>
       <Plan>
-        <CCRDataObjectID>BB0067</CCRDataObjectID>
+        <CCRDataObjectID>BB0059</CCRDataObjectID>
         <Type>
           <Text>Treatment Recommendation</Text>
         </Type>
@@ -1948,7 +1740,7 @@
           </Actor>
         </Source>
         <OrderRequest>
-          <CCRDataObjectID>BB0068</CCRDataObjectID>
+          <CCRDataObjectID>BB0060</CCRDataObjectID>
           <Description>
             <Text>Patients &amp;gt;10 years of age with type 1 diabetes should have an initial dilated and comprehensive eye examination by an ophthalmologist or optometrist within 3&amp;#8211;5 years after the onset of diabetes. In general, screening for diabetic eye disease is not necessary before 10 years of age. </Text>
           </Description>
@@ -1960,7 +1752,7 @@
         </OrderRequest>
       </Plan>
       <Plan>
-        <CCRDataObjectID>BB0069</CCRDataObjectID>
+        <CCRDataObjectID>BB0061</CCRDataObjectID>
         <Type>
           <Text>Order</Text>
         </Type>
@@ -1976,7 +1768,7 @@
           </Actor>
         </Source>
         <OrderRequest>
-          <CCRDataObjectID>BB0070</CCRDataObjectID>
+          <CCRDataObjectID>BB0062</CCRDataObjectID>
           <Source>
             <Actor>
               <ActorID>AA0002</ActorID>
@@ -1984,7 +1776,7 @@
           </Source>
           <Procedures>
             <Procedure>
-              <CCRDataObjectID>BB0071</CCRDataObjectID>
+              <CCRDataObjectID>BB0063</CCRDataObjectID>
               <Type>
                 <Text>Lab</Text>
               </Type>

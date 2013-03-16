@@ -85,11 +85,11 @@ foreach ($medications as $medication) {
 	$directions = $medication->Directions->Direction;
 	$obj['medication'][]['patientPrescription'][]['prescribe']['sig'] = array(
 		'drug' => array(
-			'ndcid' => s($medication->Product->BrandName->Code->Value),
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
-			'strength' => trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit))
+			'strength' => trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit)),
+			'rxNormId' => s($medication->Product->BrandName->Code->Value)
 		),
 		'dose' => s($directions->Dose->Value),
 		'doseUnit' => s($directions->Dose->Units->Unit),
