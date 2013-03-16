@@ -247,7 +247,7 @@ $setId = 1; foreach ($in->lab as $lab) {
 			'B'
 		)));
 		
-		$obx_segment[] = $obx;
+		$obx_segments[] = $obx;
 		
 		$subId++;
 	}
@@ -259,7 +259,7 @@ $setId = 1; foreach ($in->lab as $lab) {
 		$msg->addSegment($obr);
 	}
 	if (in_array('OBX',$segments)) {
-		foreach ($obx_segment as $obx) {
+		foreach ($obx_segments as $obx) {
 			$msg->addSegment($obx);
 		}
 	}
