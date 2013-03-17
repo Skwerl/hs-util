@@ -65,17 +65,19 @@ $groupStat->addChild('group-eligible-instances');
 $groupStat->addChild('group-reporting-rate');
 
 foreach ($in->categories as $measureData) {
+#	$patientTotal = 999;
+	$patientReporting = $measureData->qualfiedPatients;
+	$patientQualified = $measureData->patientsMeetingRequirement;
+#	$reportingPercent = ($patientReporting/$patientTotal)*100;
+	$qualifiedPercent = ($patientQualified/$patientReporting)*100;
 	$measure = $provider->addChild('pqri-measure');
 	$measure->addChild('pqri-measure-number');
-	$measure->addChild('eligible-instances',$measureData->qualfiedPatients);
-	$measure->addChild('meets-performance-instances',$measureData->patientsMeetingRequirement);
+	$measure->addChild('eligible-instances',$patientReporting);
+	$measure->addChild('meets-performance-instances',$patientQualified);
 	$measure->addChild('performance-exclusion-instances',0);
-	$measure->addChild('performance-not-met-instances',0);
+	$measure->addChild('performance-not-met-instances',($patientReporting-$patientQualified));
 	$measure->addChild('reporting-rate',0);
-	
-	// I need to calculate this manually:
-	$measure->addChild('performance-rate',$measureData->percentPass);
-
+	$measure->addChild('performance-rate',round($qualifiedPercent,2));
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
