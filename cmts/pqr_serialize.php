@@ -1,0 +1,88 @@
+<?php
+
+$translate_context = 'pqr';
+require_once('globals.php');
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// PREPARE INPUT /////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$postdata = file_get_contents("php://input");
+$cleaned = preg_replace("!\s+!m",' ',urldecode($postdata));
+$posted_obj = json_decode($cleaned); 
+
+// Simulate a post
+//require_once('sample_post.php');
+
+$in = $posted_obj;
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// CREATE XML DOC ////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$pqriXML = new SimpleXMLElement('<submission xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="PQRI-REGISTRY" option="TEST" version="2.0" xsi:noNamespaceSchemaLocation="Registry_Payment.xsd"/>');
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// SET UP AUDIT HEADER ///////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$audit = $pqriXML->addChild('file-audit-data');
+$creator = trim($in->cqmUser->title.' '.$in->cqmUser->firstName.' '.$in->cqmUser->lastName); 
+
+$audit->addChild('create-date',date('m-d-Y'));
+$audit->addChild('create-time',date('G:i'));
+$audit->addChild('create-by',$creator);
+$audit->addChild('version',1);
+$audit->addChild('file-number',1);
+$audit->addChild('number-of-files',1);
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// SET UP REGISTRY HEADER ////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$registry = $pqriXML->addChild('registry');
+$registry->addChild('registry-name','Registry');
+$registry->addChild('registry-id',0);
+$registry->addChild('submission-method','A');
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+$measures = $pqriXML->addChild('measure-group');
+$measures->addAttribute('ID','X');
+$provider = $measures->addChild('provider');
+$provider->addChild('npi',$in->cqmUser->groupNpi);
+$provider->addChild('tin');
+$provider->addChild('waiver-signed');
+$provider->addChild('encounter-from-date');
+$provider->addChild('encounter-to-date');
+
+$groupStat = $provider->addChild('measure-group-stat');
+$groupStat->addChild('ffs-patient-count');
+$groupStat->addChild('group-reporting-rate-numerator');
+$groupStat->addChild('group-eligible-instances');
+$groupStat->addChild('group-reporting-rate');
+
+foreach ($in->categories as $measureData) {
+	$measure = $provider->addChild('pqri-measure');
+	$measure->addChild('pqri-measure-number');
+	$measure->addChild('eligible-instances',$measureData->qualfiedPatients);
+	$measure->addChild('meets-performance-instances',$measureData->patientsMeetingRequirement);
+	$measure->addChild('performance-exclusion-instances',0);
+	$measure->addChild('performance-not-met-instances',0);
+	$measure->addChild('reporting-rate',0);
+	
+	// I need to calculate this manually:
+	$measure->addChild('performance-rate',$measureData->percentPass);
+
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//// OUTPUT ////////////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+header('Content-type: text/xml');
+echo $pqriXML->asXML();
+
+?>

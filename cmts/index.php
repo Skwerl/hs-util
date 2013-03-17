@@ -15,6 +15,7 @@ switch($type) {
 	case 'VXU': $default_mvar = 'V04'; break;
 	case 'CCR': $default_mvar = '000'; break;
 	case 'CCD': $default_mvar = '025'; break;
+	case 'PQR': $default_mvar = '009'; break;
 }
 $mvar = (isset($_GET['var']) ? strtoupper($_GET['var']) : $default_mvar);
 $type_code = $type.'_'.$mvar;
@@ -39,6 +40,9 @@ switch($type_code) {
 		break;
 	case 'CCD_025': // HITSP/C32 v2.5 CCD
 		$translate_context = 'ccd';
+		break;
+	case 'PQR_009': // PQRI 2009
+		$translate_context = 'pqr';
 		break;
 }
 
