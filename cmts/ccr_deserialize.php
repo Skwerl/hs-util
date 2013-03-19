@@ -30,6 +30,7 @@ foreach ($xml->Actors->Actor as $actor) {
 
 $patient = $patientActorData->Person;
 $patientAddress = $patientActorData->Address;
+$patientPhone = $patientActorData->Telephone;
 $socialHistory = $xml->Body->SocialHistory->SocialHistoryElement;
 
 $obj['patient']['lastName'] = s($patient->Name->CurrentName->Given);
@@ -37,10 +38,21 @@ $obj['patient']['firstName'] = s($patient->Name->CurrentName->Family);
 $obj['patient']['middleName'] = s($patient->Name->CurrentName->Middle);
 $obj['patient']['ssn'] = s($patientActorData->IDs->ID);
 
+$obj['patient']['address'][0]['name'] = s($patientAddress->Type->Text);
 $obj['patient']['address'][0]['address1'] = s($patientAddress->Line1);
+$obj['patient']['address'][0]['address2'] = s($patientAddress->Line2);
 $obj['patient']['address'][0]['city'] = s($patientAddress->City);
 $obj['patient']['address'][0]['state'] = s($patientAddress->State);
 $obj['patient']['address'][0]['postalCode'] = s($patientAddress->PostalCode);
+$obj['patient']['address'][0]['countryCode'] = s($patientAddress->Country);
+
+$phoneParts = explode('-',s($patientPhone->Value));
+$obj['patient']['address'][0]['phone'] = array(
+	'areaCode' => $phoneParts[0],
+	'prefix' => $phoneParts[1],
+	'suffix' => $phoneParts[2],
+	'type' => s($patientPhone->Type->Text)
+);
 
 $obj['patient']['dob'] = date('Y-m-d',strtotime(s($patient->DateOfBirth->ExactDateTime)));
 
@@ -80,16 +92,28 @@ foreach ($socialHistory as $socialHistoryElement) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $medications = $xml->Body->Medications->Medication;
+$medicationsIndex = 0;
 
 foreach ($medications as $medication) {
+
 	$directions = $medication->Directions->Direction;
-	$obj['medication'][]['patientPrescription'][]['prescribe']['sig'] = array(
+	$strength = trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit));
+	
+	$obj['medication'][$medicationsIndex]['drug'] = array(
+		'ndcid' => s($medication->Product->BrandName->Code->Value),
+		'brandName' => s($medication->Product->BrandName->Text),
+		'genericName' => s($medication->Product->ProductName->Text),
+		'form' => s($medication->Product->Form->Text),
+		'strength' => $strength
+	);
+
+	$obj['medication'][$medicationsIndex]['patientPrescription'][]['prescribe']['sig'] = array(
 		'drug' => array(
+			'ndcid' => s($medication->Product->BrandName->Code->Value),
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
-			'strength' => trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit)),
-			'rxNormId' => s($medication->Product->BrandName->Code->Value)
+			'strength' => $strength
 		),
 		'dose' => s($directions->Dose->Value),
 		'doseUnit' => s($directions->Dose->Units->Unit),
@@ -99,6 +123,9 @@ foreach ($medications as $medication) {
 		'patientNotes' => s(@$medication->PatientInstructions->Instruction->Text),
 		'writtenDate' => s($medication->DateTime->ExactDateTime)
 	);
+	
+	$medicationsIndex++;
+
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -114,7 +141,7 @@ foreach ($problems as $problem) {
 			'desc' => s($problem->Description->Text)
 		),
 		'problemStartedAt' => s($problem->DateTime->ExactDateTime),
-		'active' => s($problem->Status->Text)
+		'active' => (strtolower(s($problem->Status->Text)) == 'active' ? true : false)
 	);
 }
 
@@ -161,11 +188,11 @@ foreach ($labs as $lab) {
 		'labResult' => array()
 	);
 	foreach ($lab->Test as $result) {
-		$obj['lab'][$labsIndex]['labResult'][] = array(
+		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 			'name' => s($result->Description->Text),
 			'value' => s($result->TestResult->Value),
 			'unitOfMeasure' => s($result->TestResult->Units->Unit),
-			'abnormal' => (strpos(strtolower(s($result->Flag->Text)), 'abnormal') !== false ? '1' : '0')
+			'abnormal' => (strpos(strtolower(s($result->Flag->Text)), 'abnormal') !== false ? true : false)
 		);
 	}
 	$labsIndex++;
