@@ -26,6 +26,7 @@ $patient = $xml->recordTarget->patientRole->patient;
 
 $obj['patient']['lastName'] = s($patient->name->family);
 $obj['patient']['firstName'] = s($patient->name->given);
+$obj['patient']['ssn'] = s($xml->recordTarget->patientRole->id['extension']);
 
 $obj['patient']['address'][0]['address1'] = s($address->streetAddressLine[0]);
 $obj['patient']['address'][0]['address2'] = s($address->streetAddressLine[1]);

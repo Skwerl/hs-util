@@ -73,9 +73,8 @@ XMLaddManyChildren($ccdXML, array(
 $patientRole = $ccdXML->addChild('recordTarget')->addChild('patientRole');
 
 XMLaddManyAttributes($patientRole->addChild('id'), array(
-	'root' => 'ProviderID',
-	'extension' => 'PatientID',
-	'assigningAuthorityName' => 'Provider Name'
+	'root' => '2.16.840.1.113883.4.1',
+	'extension' => $in->patient->ssn	
 ));
 
 $inputPatient = $in->patient;

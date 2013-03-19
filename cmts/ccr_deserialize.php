@@ -47,11 +47,11 @@ $obj['patient']['address'][0]['postalCode'] = s($patientAddress->PostalCode);
 $obj['patient']['address'][0]['countryCode'] = s($patientAddress->Country);
 
 $phoneParts = explode('-',s($patientPhone->Value));
-$obj['patient']['address'][0]['phone'] = array(
+$obj['patient']['address'][0]['phone'][] = array(
 	'areaCode' => $phoneParts[0],
 	'prefix' => $phoneParts[1],
 	'suffix' => $phoneParts[2],
-	'type' => s($patientPhone->Type->Text)
+	'type' => strtoupper(s($patientPhone->Type->Text))
 );
 
 $obj['patient']['dob'] = date('Y-m-d',strtotime(s($patient->DateOfBirth->ExactDateTime)));
@@ -140,7 +140,7 @@ foreach ($problems as $problem) {
 			'code' => s($problem->Description->Code->Value),
 			'desc' => s($problem->Description->Text)
 		),
-		'problemStartedAt' => s($problem->DateTime->ExactDateTime),
+		'problemStartedAt' => date('Y-m-d', strtotime(s($problem->DateTime->ExactDateTime))),
 		'active' => (strtolower(s($problem->Status->Text)) == 'active' ? true : false)
 	);
 }
@@ -155,7 +155,8 @@ foreach ($allergies as $allergy) {
 	$obj['allergy'][] = array(
 		'name' => s($allergy->Description->Text),
 		'allergicReaction' => s($allergy->Reaction->Description->Text),
-		'snomed' => s($allergy->Description->Code->Value)
+		'snomed' => s($allergy->Description->Code->Value),
+		'active' => (strtolower(s($allergy->Status->Text)) == 'active' ? true : false)
 	);
 }
 
@@ -184,11 +185,13 @@ foreach ($labs as $lab) {
 	$obj['lab'][$labsIndex] = array(
 		'labOrder' => array(
 			'summary' => s($lab->Description->Text)
-		),
-		'labResult' => array()
+		)
 	);
 	foreach ($lab->Test as $result) {
+		$obj['lab'][$labsIndex]['labResult']['loincCode'] = s($result->Description->Code->Value);
 		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
+			'date' => date('Y-m-d',strtotime(s($lab->DateTime->ExactDateTime))),
+			'type' => s($lab->Description->Text),
 			'name' => s($result->Description->Text),
 			'value' => s($result->TestResult->Value),
 			'unitOfMeasure' => s($result->TestResult->Units->Unit),

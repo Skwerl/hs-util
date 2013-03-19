@@ -57,7 +57,6 @@ if ($translate_context == 'hl7') {
 				'SFT',			
 				'PID',
 				'NTE',
-				'PV1',
 				'SPM',
 				'ORC',
 				'OBR',
@@ -67,8 +66,6 @@ if ($translate_context == 'hl7') {
 		case 'VXU':
 			array_push($segments,
 				'PID',
-				'PV1',
-				'ORC',
 				'RXA',
 				'RXR'
 			);
