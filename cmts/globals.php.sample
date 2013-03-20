@@ -20,7 +20,7 @@ if ($translate_context == 'ccd') {
 if ($translate_context == 'hl7') {
 
 	//$lib_path = 'Net/'; // Load via PEAR
-	$lib_path = '/var/www/vhosts/reyinteractive.com/dev1/hsutil/lib/';
+	$lib_path = '/var/www/vhosts/reyinteractive.com/hsutil/lib/';
 	
 	require_once $lib_path.'HL7.php';
 	require_once $lib_path.'HL7/Message.php';
