@@ -188,6 +188,23 @@ foreach ($obx as $lab) {
 	$obxs[$lab->getField(1)][] = $lab;
 }
 
+$segmentCount = 1;
+$obxIndexes = array();
+$spmIndexes = array();
+
+foreach ($in as $segment) {
+	if (strtoupper(substr($segment,0,3)) == 'OBX') {
+		$obxIndexes[] = $segmentCount;
+	}
+	if (strtoupper(substr($segment,0,3)) == 'SPM') {
+		$spmIndexes[] = $segmentCount;
+	}
+	$segmentCount++;
+}
+
+$obxIndex = array_shift($obxIndexes);
+$spmIndex = array_shift($spmIndexes);
+
 if (!empty($obr) && !empty($obx)) {
 	$labsIndex = 0;
 	foreach ($obxs as $index => $labs) {
@@ -208,20 +225,31 @@ if (!empty($obr) && !empty($obx)) {
 					'facilityCity' => $labAddress[2],
 					'facilityState' => $labAddress[3],
 					'facilityPostalCode' => $labAddress[4],
-					'labTestResult' => array()
 				)
 			);
 		}
 		foreach ($labs as $lab) {
+			if ($obxIndex > $spmIndex) {
+				$spmIndex = array_shift($spmIndexes);
+			}
+			$spm = $msg->getSegmentByIndex($spmIndex);
+			$specimen = explode($cs,$spm->getField(4));
+		
 			$code = explode($cs,$lab->getField(3));
+			$source = explode($cs,$lab->getField(4));
 			$unit = explode($cs,$lab->getField(6));
+			$abnormal = $lab->getField(8);
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d', strtotime($lab->getField(14))),
 				'type' => $summary[1],
 				'name' => $code[1].' ('.$lab->getField(7).')',
 				'value' => $lab->getField(5),
-				'unitOfMeasure' => $unit[1]
+				'unitOfMeasure' => $unit[1],
+				'source' => $specimen[1],
+				'condition' => $spm->getField(24),
+				'abnormal' => (empty($abnormal) ? false : true)
 			);
+			$obxIndex = array_shift($obxIndexes);
 		}
 		$labsIndex++;
 	}

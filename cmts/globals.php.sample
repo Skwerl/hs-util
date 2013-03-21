@@ -2,6 +2,8 @@
 
 date_default_timezone_set('America/Los_Angeles');
 
+$allGlobals['API_ROOT'] = '/cmts/';
+
 $allGlobals['VENDOR'] = 'HealthSymmetric, Inc.';
 $allGlobals['APPLICATION'] = 'SocialCare Connect';
 $allGlobals['INSTALL_DATE'] = date('Ymd', strtotime('2013-01-01'));

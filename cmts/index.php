@@ -2,11 +2,18 @@
 
 /*//// GET MESSAGE TYPE //////////////////////////////////////////////////////////////////////////*/
 
-$request = str_replace("/cmts/", "", $_SERVER['REQUEST_URI']); 
-$params = split("/", $request);
+$params = explode('/', $_SERVER['REQUEST_URI']);
+for ($i=0; $i<count($params); ++$i) {
+	if ($params[$i] == 'cmts') {
+		break;
+	}
+	unset($params[$i]);
+}
 
-$mode = (!empty($params[0]) ? strtolower($params[0]) : 'serialize');
-$type = (!empty($params[1]) ? strtoupper($params[1]) : 'ADT');
+$params = array_values($params);
+
+$mode = (!empty($params[1]) ? strtolower($params[1]) : 'serialize');
+$type = (!empty($params[2]) ? strtoupper($params[2]) : 'ADT');
 
 switch($type) {
 	case 'HL7': $default_mvar = '000'; break;

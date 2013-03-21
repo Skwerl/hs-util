@@ -203,6 +203,10 @@ $setId = 1; foreach ($in->lab as $lab) {
 	$orc->setField(22, $results->facilityStreetAddress.$cs.$cs.$results->facilityCity.$cs.$results->facilityState.$cs.$results->facilityPostalCode.$cs.$cs.'B');
 	$orc->setField(23, $cs.$cs.$cs.$cs.$cs.$practice_phone->areaCode.$cs.$practice_phone->prefix.$practice_phone->suffix);
 
+	if (in_array('ORC',$segments)) {
+		$msg->addSegment($orc);
+	}
+
 /*//// OBR SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 	$obr = new Net_HL7_Segment('OBR');
@@ -216,12 +220,15 @@ $setId = 1; foreach ($in->lab as $lab) {
 	$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
 	$obr->setField(25, 'F');
 
-/*//// OBX SEGMENTS //////////////////////////////////////////////////////////////////////////////*/
+	if (in_array('OBR',$segments)) {
+		$msg->addSegment($obr);
+	}
+
+/*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 	$obx_segments = array();
 
 	$subId = 1; foreach ($results->labTestResult as $result) {
-		$specimens[] = $result->source;
 		if (!empty($result->abnormal)) { $abnormal = 1; } else { $abnormal = 0; }
 		$nameParts = splitLabDescription($result->name);
 		$resultDescription = $nameParts['resultDescription'];
@@ -247,44 +254,30 @@ $setId = 1; foreach ($in->lab as $lab) {
 			'B'
 		)));
 		
-		$obx_segments[] = $obx;
-		
-		$subId++;
-	}
-
-	if (in_array('ORC',$segments)) {
-		$msg->addSegment($orc);
-	}
-	if (in_array('OBR',$segments)) {
-		$msg->addSegment($obr);
-	}
-	if (in_array('OBX',$segments)) {
-		foreach ($obx_segments as $obx) {
+		if (in_array('OBX',$segments)) {
 			$msg->addSegment($obx);
 		}
-	}
 
-/*//// SPM SEGMENTS //////////////////////////////////////////////////////////////////////////////*/
+/*//// SPM SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
-	if (in_array('SPM',$segments)) {
-		$specimens = array_unique($specimens);
-		foreach ($specimens as $specimen) {
-			if (!empty($specimen)) {
-				$spm = new Net_HL7_Segment('SPM');
-				$spm->setField(1, $setId);
-				$spm->setField(4, implode($cs, array(
-					'000',
-					$specimen,
-					'SCT',
-					'Alt ID',
-					'Alt Text',
-					'HL70487',
-					'20080131',
-					'2.5.1'
-				)));
-				$msg->addSegment($spm);
-			}
+		if (in_array('SPM',$segments)) {
+			$spm = new Net_HL7_Segment('SPM');
+			$spm->setField(1, $setId);
+			$spm->setField(4, implode($cs, array(
+				'000',
+				$result->source,
+				'SCT',
+				'Alt ID',
+				'Alt Text',
+				'HL70487',
+				'20080131',
+				'2.5.1'
+			)));
+			$spm->setField(24, $result->condition);
+			$msg->addSegment($spm);
 		}
+		
+		$subId++;
 	}
 
 	$setId++;

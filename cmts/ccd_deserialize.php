@@ -35,6 +35,14 @@ $obj['patient']['address'][0]['state'] = s($address->state);
 $obj['patient']['address'][0]['postalCode'] = s($address->postalCode);
 $obj['patient']['address'][0]['countryCode'] = s($address->country);
 
+$telecom = $xml->recordTarget->patientRole->telecom;
+$obj['patient']['address'][0]['phone'][] = array(
+	'areaCode' => substr(s($telecom),5,3),
+	'prefix' => substr(s($telecom),9,3),
+	'suffix' => substr(s($telecom),13,4),
+	'type' => (strtoupper(s($telecom['use'])) == 'WP' ? 'OFFICE' : 'HOME')
+);
+
 $obj['patient']['dob'] = date('Y-m-d',strtotime(s($patient->birthTime['value'])));
 $obj['patient']['gender'] = s($patient->administrativeGenderCode['code']);
 

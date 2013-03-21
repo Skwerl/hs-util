@@ -78,8 +78,11 @@ XMLaddManyAttributes($patientRole->addChild('id'), array(
 ));
 
 $inputPatient = $in->patient;
+$phoneString = '';
+$phoneType = 'HP';
 
 foreach($inputPatient->address as $addressData) {
+
 	$address = $patientRole->addChild('addr');
 	$address->addAttribute('use', 'HP');
 	$address->addChild('streetAddressLine', $addressData->address1);
@@ -88,9 +91,24 @@ foreach($inputPatient->address as $addressData) {
 	$address->addChild('state', $addressData->state);
 	$address->addChild('postalCode', $addressData->postalCode);
 	$address->addChild('country', $addressData->countryCode);
+
+	if (empty($phoneString)) {	
+		foreach($addressData->phone as $phoneData) {
+			$phoneString = 'tel:('.$phoneData->areaCode.')'.$phoneData->prefix.'-'.$phoneData->suffix;
+			if (strtolower($phoneData->type) == 'office') {
+				$phoneType = 'WP';
+				$phoneString = 'tel:('.$phoneData->areaCode.')'.$phoneData->prefix.'-'.$phoneData->suffix;
+			}
+		}
+	}
+	
 }
 
-$patientRole->addChild('telecom');
+if (!empty($phoneString)) {
+	$patientRole->addChild('telecom', $phoneString)->addAttribute('use', $phoneType);
+} else {
+	$patientRole->addChild('telecom');
+}
 
 $patient = $patientRole->addChild('patient');
 $patientName = $patient->addChild('name');

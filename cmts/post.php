@@ -1,3 +1,5 @@
+<?php require_once('globals.php'); ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,7 +21,7 @@
 
 <body>
 <div id="everything">
-	<form id="form1" name="form1" method="post" action="/cmts/">
+	<form id="form1" name="form1" method="post">
 		<textarea name="data1" id="data1" cols="100" rows="10">{
     "patient": {
         "identity": "5876360a-9ca7-469c-a586-03f706be038f",
@@ -466,7 +468,7 @@
 		<input type="submit" name="button" id="button1" value="JSON to Clinical" />
 	</form>
 	<br/>
-	<form id="form2" name="form2" method="post" action="/cmts/">
+	<form id="form2" name="form2" method="post">
 		<textarea name="data2" id="data2" cols="100" rows="10"></textarea><br/>
 		<select name="format2" id="format2">
 			<option value="ccd" selected>CCD</option>
@@ -483,7 +485,7 @@
 
 $(document).ready(function() {
 	$("#form1").submit(function() {
-		var endpoint = "/cmts/serialize/"+$("#format1").val();
+		var endpoint = "<?php echo $allGlobals['API_ROOT']; ?>serialize/"+$("#format1").val();
 		$.post(endpoint, $("#data1").val(), function(data) {
 			$("#output").html(safe_tags(data));
 			$("#endpoint").html(endpoint);			
@@ -491,7 +493,7 @@ $(document).ready(function() {
 		return false;
 	});
 	$("#form2").submit(function() {
-		var endpoint = "/cmts/deserialize/"+$("#format2").val();
+		var endpoint = "<?php echo $allGlobals['API_ROOT']; ?>deserialize/"+$("#format2").val();
 		$.post(endpoint, $("#data2").val(), function(data) {
 			$("#output").html(safe_tags(data));
 			$("#endpoint").html(endpoint);			
