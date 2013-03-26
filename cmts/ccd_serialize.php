@@ -104,10 +104,10 @@ foreach($inputPatient->address as $addressData) {
 	
 }
 
+$telecom = $patientRole->addChild('telecom');
 if (!empty($phoneString)) {
-	$patientRole->addChild('telecom', $phoneString)->addAttribute('use', $phoneType);
-} else {
-	$patientRole->addChild('telecom');
+	$telecom->addAttribute('use', $phoneType);
+	$telecom->addAttribute('value', $phoneString);
 }
 
 $patient = $patientRole->addChild('patient');
