@@ -90,9 +90,6 @@ if (in_array('PID',$segments)) {
 			'M'
 		));
 		foreach ($address->phone as $ph) {
-			// First populate field 13 with whatever there is:
-			$pid->setField(13, $cs.'PRN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix);
-			// Then categorize corectly by type if possible:
 			if ($ph->type == 'HOME') { $pid->setField(13, $cs.'PRN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix); }
 			if ($ph->type == 'OFFICE') { $pid->setField(14, $cs.'WPN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix); }
 		}
@@ -229,7 +226,11 @@ $setId = 1; foreach ($in->lab as $lab) {
 	$obx_segments = array();
 
 	$subId = 1; foreach ($results->labTestResult as $result) {
-		if (!empty($result->abnormal)) { $abnormal = 1; } else { $abnormal = 0; }
+		$abnormal = (string)$result->abnormal;
+		$abnormal_flags = array_flip($HL7abnormalFlags);
+		if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
+			$abnormal = 'NULL';
+		}
 		$nameParts = splitLabDescription($result->name);
 		$resultDescription = $nameParts['resultDescription'];
 		$resultIdealRange = $nameParts['resultIdealRange'];

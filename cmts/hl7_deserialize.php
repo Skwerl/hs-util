@@ -238,7 +238,11 @@ if (!empty($obr) && !empty($obx)) {
 			$code = explode($cs,$lab->getField(3));
 			$source = explode($cs,$lab->getField(4));
 			$unit = explode($cs,$lab->getField(6));
-			$abnormal = $lab->getField(8);
+			$abnormal = (string)$lab->getField(8);
+			$abnormal_flags = array_flip($HL7abnormalFlags);
+			if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
+				$abnormal = 'NULL';
+			}
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d', strtotime($lab->getField(14))),
 				'type' => $summary[1],
@@ -247,7 +251,7 @@ if (!empty($obr) && !empty($obx)) {
 				'unitOfMeasure' => $unit[1],
 				'source' => $specimen[1],
 				'condition' => $spm->getField(24),
-				'abnormal' => (empty($abnormal) ? false : true)
+				'abnormal' => $abnormal
 			);
 			$obxIndex = array_shift($obxIndexes);
 		}
