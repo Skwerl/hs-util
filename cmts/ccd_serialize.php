@@ -22,8 +22,9 @@ $in = $posted_obj;
 
 $xsi = $XMLGlobals['XSI'];
 $xsd = $XMLGlobals['XSD'];
+$xsl = $allGlobals['WEB_ROOT'].$allGlobals['API_ROOT'].'cda.xsl';
 $xschema = $XMLGlobals['XSCHEMA'];
-$ccdXML = new SimpleXMLElement('<ClinicalDocument xmlns="'.$xschema.'" xmlns:xsi="'.$xsi.'" xsi:schemaLocation="'.$xschema.' '.$xsd.'"></ClinicalDocument>');
+$ccdXML = new SimpleXMLElement('<?xml-stylesheet type="text/xsl" href="'.$xsl.'" ?><ClinicalDocument xmlns="'.$xschema.'" xmlns:xsi="'.$xsi.'" xsi:schemaLocation="'.$xschema.' '.$xsd.'"></ClinicalDocument>');
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//// SET UP CCD HEADER /////////////////////////////////////////////////////////////////////////*/
@@ -214,9 +215,6 @@ foreach ($inputAllergies as $inputAllergy) {
 		)
 	);
 }
-
-#print_r($allergiesSchema);
-#print_r($allergiesData);
 
 $allergies = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($allergies, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.102', 'assigningAuthorityName' => 'HITSP/C83')));
