@@ -210,7 +210,7 @@ foreach ($inputAllergies as $inputAllergy) {
 			'typeCode' => 'SUBJ',
 			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
-			'allergyCode' => $inputAllergy->snomed,
+			'allergyCode' => $inputAllergy->rxNormId,
 			'allergyName' => $inputAllergy->name
 		)
 	);
@@ -483,7 +483,7 @@ foreach ($inputMedications as $inputMedication) {
 			(@$inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
 				'medicationName' => @$inputSig->drug->brandName,
-				'medicationCode' => @$inputSig->drug->ndcid,
+				'medicationCode' => @$inputSig->drug->rxNormId,
 				'adminCode' => @$inputSig->route,
 				'routeCode' => @$inputSig->route,
 				'doseValue' => @$inputSig->dose,
