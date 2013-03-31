@@ -49,34 +49,36 @@ $registry->addChild('submission-method','A');
 /*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+$patientTotal = $in->cqmUser->groupSize;
+$eligibleTotal = 0; foreach ($in->categories as $measureData) { $eligibleTotal += $measureData->qualfiedPatients; }
+
 $measures = $pqriXML->addChild('measure-group');
 $measures->addAttribute('ID','X');
 $provider = $measures->addChild('provider');
 $provider->addChild('npi',$in->cqmUser->groupNpi);
-$provider->addChild('tin');
-$provider->addChild('waiver-signed');
-$provider->addChild('encounter-from-date');
-$provider->addChild('encounter-to-date');
+$provider->addChild('tin',$in->cqmUser->groupTin);
+$provider->addChild('waiver-signed','Y');
+$provider->addChild('encounter-from-date','01-01-2013');
+$provider->addChild('encounter-to-date',date('m-d-Y'));
 
 $groupStat = $provider->addChild('measure-group-stat');
-$groupStat->addChild('ffs-patient-count');
-$groupStat->addChild('group-reporting-rate-numerator');
-$groupStat->addChild('group-eligible-instances');
-$groupStat->addChild('group-reporting-rate');
+$groupStat->addChild('ffs-patient-count',0);
+$groupStat->addChild('group-reporting-rate-numerator',0);
+$groupStat->addChild('group-eligible-instances',$eligibleTotal);
+$groupStat->addChild('group-reporting-rate',100);
 
 foreach ($in->categories as $measureData) {
-#	$patientTotal = 999;
 	$patientReporting = $measureData->qualfiedPatients;
 	$patientQualified = $measureData->patientsMeetingRequirement;
-#	$reportingPercent = ($patientReporting/$patientTotal)*100;
+	$reportingPercent = ($patientReporting/$patientTotal)*100;
 	$qualifiedPercent = ($patientQualified/$patientReporting)*100;
 	$measure = $provider->addChild('pqri-measure');
-	$measure->addChild('pqri-measure-number');
+	$measure->addChild('pqri-measure-number',$measureData->pqri);
 	$measure->addChild('eligible-instances',$patientReporting);
 	$measure->addChild('meets-performance-instances',$patientQualified);
 	$measure->addChild('performance-exclusion-instances',0);
 	$measure->addChild('performance-not-met-instances',($patientReporting-$patientQualified));
-	$measure->addChild('reporting-rate',0);
+	$measure->addChild('reporting-rate',100);
 	$measure->addChild('performance-rate',round($qualifiedPercent,2));
 }
 
