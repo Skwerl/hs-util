@@ -70,7 +70,11 @@ if (in_array('PID',$segments)) {
 
 	$pid = new Net_HL7_Segment('PID');
 	$pid->setField(3, $pid3);
-	$pid->setField(5, implode($cs, array($in->patient->lastName,$in->patient->firstName)));
+	$pid->setField(5, implode($cs, array(
+		$in->patient->lastName,
+		$in->patient->firstName,
+		'','','','','L'
+	)));
 	$pid->setField(7, date('Ymd',strtotime($in->patient->dob)));
 	$pid->setField(8, $in->patient->gender);
 	$pid->setField(19, $in->patient->ssn);
