@@ -89,9 +89,18 @@ if (in_array('PID',$segments)) {
 			$address->countryCode,
 			'M'
 		));
+		$officeFound = false;
 		foreach ($address->phone as $ph) {
-			if ($ph->type == 'HOME') { $pid->setField(13, $cs.'PRN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix); }
-			if ($ph->type == 'OFFICE') { $pid->setField(14, $cs.'WPN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix); }
+			if ($ph->type == 'MOBILE') {
+				$pid->setField(13, $cs.'ORN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix);
+			}
+			if ($ph->type == 'OFFICE') {
+				$officeFound = true;
+				$pid->setField(14, $cs.'WPN'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix);
+			}
+			if (($ph->type == 'FAX') && ($officeFound == false)) {
+				$pid->setField(14, $cs.'NET'.$cs.$cs.$cs.$cs.$ph->areaCode.$cs.$ph->prefix.$ph->suffix);
+			}
 		}
 		$countries[] = $address->countryCode;
 	}
