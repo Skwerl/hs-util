@@ -22,7 +22,7 @@ $in = $posted_obj;
 
 $xsi = $XMLGlobals['XSI'];
 $xsd = $XMLGlobals['XSD'];
-$xsl = $allGlobals['WEB_ROOT'].$allGlobals['API_ROOT'].'cda.xsl';
+$xsl = 'cda.xsl';
 $xschema = $XMLGlobals['XSCHEMA'];
 $ccdXML = new SimpleXMLElement('<?xml-stylesheet type="text/xsl" href="'.$xsl.'" ?><ClinicalDocument xmlns="'.$xschema.'" xmlns:xsi="'.$xsi.'" xsi:schemaLocation="'.$xschema.' '.$xsd.'"></ClinicalDocument>');
 
