@@ -27,7 +27,7 @@ $pqriXML = new SimpleXMLElement('<submission xmlns:xsi="http://www.w3.org/2001/X
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $audit = $pqriXML->addChild('file-audit-data');
-$creator = trim($in->cqmUser->title.' '.$in->cqmUser->firstName.' '.$in->cqmUser->lastName); 
+$creator = trim($in->muUser->title.' '.$in->muUser->firstName.' '.$in->muUser->lastName); 
 
 $audit->addChild('create-date',date('m-d-Y'));
 $audit->addChild('create-time',date('G:i'));
@@ -49,14 +49,14 @@ $registry->addChild('submission-method','A');
 /*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$patientTotal = $in->cqmUser->groupSize;
-$eligibleTotal = 0; foreach ($in->categories as $measureData) { $eligibleTotal += $measureData->qualfiedPatients; }
+$patientTotal = $in->muUser->groupSize;
+$eligibleTotal = 0; foreach ($in->categories as $d) { $eligibleTotal += $d->qualfiedPatients; }
 
 $measures = $pqriXML->addChild('measure-group');
 $measures->addAttribute('ID','X');
 $provider = $measures->addChild('provider');
-$provider->addChild('npi',$in->cqmUser->groupNpi);
-$provider->addChild('tin',$in->cqmUser->groupTin);
+$provider->addChild('npi',$in->muUser->groupNpi);
+$provider->addChild('tin',$in->muUser->tin);
 $provider->addChild('waiver-signed','Y');
 $provider->addChild('encounter-from-date','01-01-2013');
 $provider->addChild('encounter-to-date',date('m-d-Y'));
@@ -68,12 +68,12 @@ $groupStat->addChild('group-eligible-instances',$eligibleTotal);
 $groupStat->addChild('group-reporting-rate',100);
 
 foreach ($in->categories as $measureData) {
-	$patientReporting = $measureData->qualfiedPatients;
+	$patientReporting = $measureData->qualifiedPatients;
 	$patientQualified = $measureData->patientsMeetingRequirement;
 	$reportingPercent = ($patientReporting/$patientTotal)*100;
 	$qualifiedPercent = ($patientQualified/$patientReporting)*100;
 	$measure = $provider->addChild('pqri-measure');
-	$measure->addChild('pqri-measure-number',$measureData->pqri);
+	$measure->addChild('pqri-measure-number',$measureData->pqrs);
 	$measure->addChild('eligible-instances',$patientReporting);
 	$measure->addChild('meets-performance-instances',$patientQualified);
 	$measure->addChild('performance-exclusion-instances',0);
