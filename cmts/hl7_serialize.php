@@ -23,7 +23,7 @@ if ($type_code == 'ORU_R01') {
 	$pid3 = $in->patient->ssn.$cs.$cs.$cs.'MPI'.$ss.'2.16.840.1.113883.19.3.2.1'.$ss.'ISO'.$cs.'MR';
 } else {
 	$hl7Globals['HL7_VERSION'] = '2.3.1';
-	$pid3 = $in->patient->ssn.$cs.$cs.$cs.$cs.'MPI';
+	$pid3 = $in->patient->ssn.$cs.$cs.$cs.$cs.'SS';
 }
 
 $hl7Header =& new Net_HL7_Segments_MSH(null,$hl7Globals);
