@@ -210,7 +210,7 @@ foreach ($inputAllergies as $inputAllergy) {
 			'typeCode' => 'SUBJ',
 			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
-			'allergyCode' => $inputAllergy->rxNormId,
+			'allergyCode' => $inputAllergy->rxnormId,
 			'allergyName' => $inputAllergy->name
 		)
 	);
