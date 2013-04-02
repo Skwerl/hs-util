@@ -189,6 +189,14 @@ foreach ($labs as $lab) {
 			'summary' => s($lab->Description->Text)
 		)
 	);
+	$abnormal = strtolower(s($result->Flag->Text));
+	$abnormalFlags = array_flip($HL7abnormalFlags);
+	$abnormalFlags = array_change_key_case($abnormalFlags, CASE_LOWER);
+	if (empty($abnormal) || !isset($abnormalFlags[$abnormal])) {
+		$abnormalCode = 'NULL';
+	} else {
+		$abnormalCode = $abnormalFlags[$abnormal];
+	}
 	foreach ($lab->Test as $result) {
 		$obj['lab'][$labsIndex]['labResult']['loincCode'] = s($result->Description->Code->Value);
 		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
@@ -197,7 +205,7 @@ foreach ($labs as $lab) {
 			'name' => s($result->Description->Text),
 			'value' => s($result->TestResult->Value),
 			'unitOfMeasure' => s($result->TestResult->Units->Unit),
-			'abnormal' => (strpos(strtolower(s($result->Flag->Text)), 'abnormal') !== false ? true : false)
+			'abnormal' => $abnormalCode
 		);
 	}
 	$labsIndex++;
