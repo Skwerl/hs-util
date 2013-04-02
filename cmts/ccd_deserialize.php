@@ -37,9 +37,9 @@ $obj['patient']['address'][0]['countryCode'] = s($address->country);
 
 $telecom = $xml->recordTarget->patientRole->telecom;
 $obj['patient']['address'][0]['phone'][] = array(
-	'areaCode' => substr(s($telecom),5,3),
-	'prefix' => substr(s($telecom),9,3),
-	'suffix' => substr(s($telecom),13,4),
+	'areaCode' => substr(s($telecom['value']),5,3),
+	'prefix' => substr(s($telecom['value']),9,3),
+	'suffix' => substr(s($telecom['value']),13,4),
 	'type' => (strtoupper(s($telecom['use'])) == 'WP' ? 'OFFICE' : 'HOME')
 );
 
