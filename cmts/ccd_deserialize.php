@@ -128,6 +128,7 @@ foreach ($labs as $battery) {
 	foreach($organizer->component as $component) {
 		if ($component->observation) {
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
+				'date' => date('Y-m-d',strtotime(s($component->observation->effectiveTime['value']))),
 				'type' => s($organizer->code['displayName']),
 				'name' => s($component->observation->code['displayName']),
 				'value' => s($component->observation->value['value']),
