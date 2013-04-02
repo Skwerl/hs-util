@@ -305,9 +305,9 @@ foreach ($allergiesData as $allergyData) {
 	$observationValue = $observation->addChild('value');
 	XMLaddManyAttributes($observationValue, array(
 		'code' => $allergyMeta['allergyCode'],
-		'codeSystem' => '2.16.840.1.113883.6.88',
+		'codeSystem' => '2.16.840.1.113883.6.96',
 		'displayName' => $allergyMeta['allergyName'],
-		'codeSystemName' => 'RxNorm'
+		'codeSystemName' => 'SNOMED CT'
 	));
 	$observationValue->addAttribute('xsi:type', 'CD', $xsi);
 	$observationValue->addChild('originalText')->addChild('reference')->addAttribute('value', '#'.$allergyDataSchema['Substance'].'_'.$allergyIndex);
@@ -324,9 +324,9 @@ foreach ($allergiesData as $allergyData) {
 	$observationParticipantRolePlayingEntityCode->addChild('originalText')->addChild('reference')->addAttribute('value', '#'.$allergyDataSchema['Substance'].'_'.$allergyIndex);
 	XMLaddManyAttributes($observationParticipantRolePlayingEntityCode, array(
 		'code' => $allergyMeta['allergyCode'],
-		'codeSystem' => '2.16.840.1.113883.6.88',
+		'codeSystem' => '2.16.840.1.113883.6.96',
 		'displayName' => $allergyMeta['allergyName'],
-		'codeSystemName' => 'RxNorm'
+		'codeSystemName' => 'SNOMED CT'
 	));
 	$observationParticipantRolePlayingEntity->addChild('name', $allergyMeta['allergyName']);
 	
