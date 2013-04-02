@@ -239,14 +239,19 @@ if (!empty($obr) && !empty($obx)) {
 			$source = explode($cs,$lab->getField(4));
 			$unit = explode($cs,$lab->getField(6));
 			$abnormal = (string)$lab->getField(8);
-			$abnormal_flags = array_flip($HL7abnormalFlags);
-			if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
+			$abnormalFlags = array_flip($HL7abnormalFlags);
+			if (empty($abnormal) || !in_array($abnormal, $abnormalFlags)) {
 				$abnormal = 'NULL';
+			}
+			$labName = $code[1];
+			$labIdealResult = $lab->getField(7);
+			if (!empty($labIdealResult)) {
+				$labName .= ' ('.$labIdealResult.')';
 			}
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d', strtotime($lab->getField(14))),
 				'type' => $summary[1],
-				'name' => $code[1].' ('.$lab->getField(7).')',
+				'name' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unit[1],
 				'source' => $specimen[1],
