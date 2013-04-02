@@ -55,7 +55,7 @@ $medicationsTable = $xml->component->structuredBody->component[2]->section->text
 $medicationsIndex = 0;
 
 foreach ($medications as $medication) {
-	$obj['medication'][]['patientPrescription'][]['prescribe']['sig'] = array(
+	$obj['medication'][]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
 			'ndcid' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code']),
 			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
@@ -67,6 +67,8 @@ foreach ($medications as $medication) {
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
 		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[4])
+	)),
+	'createdAt' => date('c',strtotime(s($medicationsTable[$medicationsIndex]->td[5])))
 	);
 	$medicationsIndex++;
 }

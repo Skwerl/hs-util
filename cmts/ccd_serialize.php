@@ -481,7 +481,7 @@ foreach ($inputMedications as $inputMedication) {
 			@$inputSig->drug->form,
 			@$inputSig->route,
 			@$inputSig->doseTiming,
-			date('Ymd',strtotime(@$inputSig->effectiveDate)),
+			date('Ymd',strtotime(@$inputPrescription->createdAt)),
 			(@$inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
 				'medicationBrand' => @$inputSig->drug->brandName,
