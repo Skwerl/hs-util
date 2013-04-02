@@ -106,6 +106,7 @@ foreach ($problems as $problem) {
 			'code' => s($problem->act->entryRelationship->observation->value['code']),		
 			'desc' => s($problem->act->entryRelationship->observation->value['displayName'])
 		),
+		'problemStartedAt' => date('Y-m-d', strtotime(s($problemsTable[$problemsIndex]->td[1]))),
 		'active' => (strtolower(s($problemsTable[$problemsIndex]->td[2])) == 'active' ? true : false)
 	);
 	$problemsIndex++;
