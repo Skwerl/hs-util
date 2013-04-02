@@ -84,6 +84,7 @@ $allergiesIndex = 0;
 foreach ($allergies as $allergy) {
 	$obj['allergy'][] = array(
 		'name' => s($allergiesTable[$allergiesIndex]->td[1]),
+		'active' => (strtolower(s($allergiesTable[$allergiesIndex]->td[3])) == 'active' ? true : false),
 		'allergicReaction' => s($allergiesTable[$allergiesIndex]->td[2]),
 		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergy->act->entryRelationship->observation->effectiveTime->low['value']))),
 		'snomed' => s($allergy->act->entryRelationship->observation->value['code'])
