@@ -484,7 +484,8 @@ foreach ($inputMedications as $inputMedication) {
 			date('Ymd',strtotime(@$inputSig->effectiveDate)),
 			(@$inputMedication->active == '1' ? 'active' : 'completed'),
 			'Meta' => array(
-				'medicationName' => @$inputSig->drug->brandName,
+				'medicationBrand' => @$inputSig->drug->brandName,
+				'medicationName' => @$inputSig->drug->genericName,
 				'medicationCode' => @$inputSig->drug->rxNormId,
 				'adminCode' => @$inputSig->route,
 				'routeCode' => @$inputSig->route,
@@ -574,7 +575,7 @@ foreach ($medicationsData as $medicationData) {
 	XMLaddManyChildren($manufacturedProduct, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.4.7.2', 'assigningAuthorityName' => 'IHE PCC')));
 
 	$manufacturedMaterialCode = $manufacturedProduct->addChild('manufacturedMaterial')->addChild('code');
-	$manufacturedMaterialCode->addChild('originalText', $medicationMeta['medicationName'])->addChild('reference');
+	$manufacturedMaterialCode->addChild('originalText', $medicationMeta['medicationBrand'])->addChild('reference');
 	XMLaddManyAttributes($manufacturedMaterialCode, array(
 		'code' => $medicationMeta['medicationCode'],
 		'codeSystem' => '2.16.840.1.113883.6.88',
