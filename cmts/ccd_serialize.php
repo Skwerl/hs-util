@@ -447,9 +447,9 @@ foreach ($problemsData as $problemData) {
 	$observationValue->addAttribute('xsi:type', 'CD', $xsi);
 	XMLaddManyAttributes($observationValue, array(
 		'code' => $problemMeta['problemCode'],
-		'codeSystem' => '2.16.840.1.113883.6.96',
+		'codeSystem' => '2.16.840.1.113883.6.103',
 		'displayName' => $problemMeta['problemName'],
-		'codeSystemName' => 'SNOMED CT'
+		'codeSystemName' => 'ICD-9'
 	));
 	
 	$problemIndex++;
