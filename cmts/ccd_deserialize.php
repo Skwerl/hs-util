@@ -97,14 +97,18 @@ foreach ($allergies as $allergy) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $problems = $xml->component->structuredBody->component[1]->section->entry;
+$problemsTable = $xml->component->structuredBody->component[1]->section->text->table->tbody->tr;
+$problemsIndex = 0;
 
 foreach ($problems as $problem) {
 	$obj['problem'][] = array(
 		'icd9' => array(
 			'code' => s($problem->act->entryRelationship->observation->value['code']),		
 			'desc' => s($problem->act->entryRelationship->observation->value['displayName'])
-		)
+		),
+		'active' => (strtolower(s($problemsTable[$problemsIndex]->td[2])) == 'active' ? true : false)
 	);
+	$problemsIndex++;
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
