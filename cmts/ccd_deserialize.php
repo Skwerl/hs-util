@@ -110,36 +110,32 @@ foreach ($problems as $problem) {
 /*//// LABS //////////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-
 $labs = $xml->component->structuredBody->component[3]->section->entry;
 $labsTable = $xml->component->structuredBody->component[3]->section->text->table->tbody->tr;
 $labsIndex = 0;
 
-foreach ($labs->organizer as $battery) {
-
+foreach ($labs as $battery) {
+	$organizer = $battery->organizer;
 	$obj['lab'][$labsIndex] = array(
 		'labOrder' => array(
-			'summary' => s($battery->code['displayName'])
+			'summary' => s($organizer->code['displayName'])
 		),
 		'labResult' =>array(
-			'loincCode' => s($battery->code['code']),
+			'loincCode' => s($organizer->code['code']),
 			'labTestResult' => array()
 		)
 	);
-
-	foreach($battery->component as $component) {
+	foreach($organizer->component as $component) {
 		if ($component->observation) {
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
-				'type' => s($battery->code['displayName']),
+				'type' => s($organizer->code['displayName']),
 				'name' => s($component->observation->code['displayName']),
 				'value' => s($component->observation->value['value']),
 				'unitOfMeasure' => s($component->observation->value['unit'])
 			);
 		}
 	}
-
 	$labsIndex++;
-
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
