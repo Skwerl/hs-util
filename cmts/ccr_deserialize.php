@@ -108,7 +108,7 @@ foreach ($medications as $medication) {
 		'routeCode' => s($directions->Route->Text)		
 	);
 
-	$obj['medication'][$medicationsIndex]['patientPrescription'][]['prescribe']['sig'] = array(
+	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
 			'ndcid' => s($medication->Product->BrandName->Code->Value),
 			'brandName' => s($medication->Product->BrandName->Text),
@@ -124,6 +124,8 @@ foreach ($medications as $medication) {
 		'quantityUnits' => s($medication->Quantity->Units->Unit),
 		'patientNotes' => s(@$medication->PatientInstructions->Instruction->Text),
 		'writtenDate' => s($medication->DateTime->ExactDateTime)
+	)),
+	'createdAt' => date('c',strtotime(s($medication->DateTime->ExactDateTime)))
 	);
 	
 	$medicationsIndex++;
@@ -189,9 +191,9 @@ foreach ($labs as $lab) {
 			'summary' => s($lab->Description->Text)
 		)
 	);
-	$abnormal = strtolower(s($result->Flag->Text));
+	$abnormal = strtoupper(s($result->Flag->Text));
 	$abnormalFlags = array_flip($HL7abnormalFlags);
-	$abnormalFlags = array_change_key_case($abnormalFlags, CASE_LOWER);
+	$abnormalFlags = array_change_key_case($abnormalFlags, CASE_UPPER);
 	if (empty($abnormal) || !isset($abnormalFlags[$abnormal])) {
 		$abnormalCode = 'NULL';
 	} else {
