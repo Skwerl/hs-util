@@ -198,8 +198,6 @@ $allergiesSchema = array('ALGSUMMARY' => array(
 $allergiesData = array();
 $inputAllergies = $in->allergy;
 
-#print_r($in);
-
 foreach ($inputAllergies as $inputAllergy) {
 	$allergiesData[] = array(
 		'Drug Allergy',
@@ -210,6 +208,7 @@ foreach ($inputAllergies as $inputAllergy) {
 			'typeCode' => 'SUBJ',
 			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
+			'allergyDate' => $inputAllergy->allergicReactionDate,
 			'allergyCode' => $inputAllergy->rxnormId,
 			'allergyName' => $inputAllergy->name
 		)
@@ -298,7 +297,10 @@ foreach ($allergiesData as $allergyData) {
 
 	$observation->addChild('text')->addChild('reference')->addAttribute('value', $allergyDataReference);
 	$observation->addChild('statusCode')->addAttribute('code', 'completed');
-	$observation->addChild('effectiveTime')->addChild('low')->addAttribute('nullFlavor', 'UNK');
+
+	$effectiveTime = $observation->addChild('effectiveTime');
+	$allergicReactionDate = $effectiveTime->addChild('low');
+	$allergicReactionDate->addAttribute('value', date('Ymd',strtotime($allergyMeta['allergyDate'])));
 
 	$observationValue = $observation->addChild('value');
 	XMLaddManyAttributes($observationValue, array(
