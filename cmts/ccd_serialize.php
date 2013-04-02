@@ -478,7 +478,7 @@ foreach ($inputMedications as $inputMedication) {
 		$medicationsData[] = array(
 			@$inputSig->drug->brandName,
 			@$inputSig->quantity.' '.@$inputSig->quantityUnits,
-			@$inputSig->route,
+			@$inputSig->drug->form,
 			@$inputSig->route,
 			@$inputSig->doseTiming,
 			date('Ymd',strtotime(@$inputSig->effectiveDate)),

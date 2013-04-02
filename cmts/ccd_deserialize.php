@@ -58,12 +58,15 @@ foreach ($medications as $medication) {
 	$obj['medication'][]['patientPrescription'][]['prescribe']['sig'] = array(
 		'drug' => array(
 			'ndcid' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code']),
-			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName'])
+			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
+			'genericName' => s(),
+			'form' => s($medicationsTable[$medicationsIndex]->td[2]),
+			'strength' => s(),
+			'routeCode' => s($medicationsTable[$medicationsIndex]->td[3])
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
 		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[4])
-		
 	);
 	$medicationsIndex++;
 }
