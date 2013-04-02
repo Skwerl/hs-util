@@ -123,8 +123,8 @@ if (in_array('PV1',$segments)) {
 		$pv1 = new Net_HL7_Segment('PV1');
 		$pv1->setField(2, 'O');
 		$pv1->setField(19, $visitNumber);
-		$pv1->setField(20, $soap->identity);
 		$pv1->setField(26, date('YmdHis',strtotime($soap->subjective->appointmentDate)));
+		$pv1->setField(50, implode($cs,array($soap->identity,'','','','MR')));
 		$msg->addSegment($pv1);
 		$visitNumber++;
 	}
