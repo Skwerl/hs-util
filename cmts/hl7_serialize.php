@@ -200,7 +200,9 @@ if (in_array('RXA',$segments)) {
 
 /*//// SET UP ORC, OBR, OBX, SPM SEGMENTS ////////////////////////////////////////////////////////*/
 
-$setId = 1; foreach ($in->lab as $lab) {
+$setId = 1;
+
+foreach ($in->lab as $lab) {
 
 	$order = $lab->labOrder;
 	$results = $lab->labResult;
@@ -247,9 +249,32 @@ $setId = 1; foreach ($in->lab as $lab) {
 		$msg->addSegment($obr);
 	}
 
-/*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
-	$obx_segments = array();
+/*//// OBX SEGMENT FOR PATIENT AGE ///////////////////////////////////////////////////////////////*/
+
+/* On hold, pending clarification on issue #45
+
+if (in_array('OBX',$segments)) {
+	$obx = new Net_HL7_Segment('OBX');
+	$obx->setField(1, $setId);
+	$obx->setField(2, 'NM');
+	$obx->setField(3, implode($cs,array(
+		'21612-7',
+		'Reported Patient Age',
+		'LN'
+	)));
+	$obx->setField(5, '05');
+	$obx->setField(6, implode($cs,array(
+		'mo',
+		'month',
+		'ANS+'
+	)));
+	$msg->addSegment($obx);
+}
+
+*/
+
+/*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 	$subId = 1; foreach ($results->labTestResult as $result) {
 		$abnormal = (string)$result->abnormal;
