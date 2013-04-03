@@ -27,7 +27,7 @@ $pqriXML = new SimpleXMLElement('<submission xmlns:xsi="http://www.w3.org/2001/X
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $audit = $pqriXML->addChild('file-audit-data');
-$creator = trim($in->muUser->title.' '.$in->muUser->firstName.' '.$in->muUser->lastName); 
+$creator = trim($in->cqmUser->title.' '.$in->cqmUser->firstName.' '.$in->cqmUser->lastName); 
 
 $audit->addChild('create-date',date('m-d-Y'));
 $audit->addChild('create-time',date('G:i'));
@@ -49,14 +49,14 @@ $registry->addChild('submission-method','A');
 /*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$patientTotal = $in->muUser->groupSize;
+$patientTotal = $in->cqmUser->groupSize;
 $eligibleTotal = 0; foreach ($in->categories as $d) { $eligibleTotal += $d->qualfiedPatients; }
 
 $measures = $pqriXML->addChild('measure-group');
 $measures->addAttribute('ID','X');
 $provider = $measures->addChild('provider');
-$provider->addChild('npi',$in->muUser->groupNpi);
-$provider->addChild('tin',$in->muUser->tin);
+$provider->addChild('npi',$in->cqmUser->groupNpi);
+$provider->addChild('tin',$in->cqmUser->tin);
 $provider->addChild('waiver-signed','Y');
 $provider->addChild('encounter-from-date','01-01-2013');
 $provider->addChild('encounter-to-date',date('m-d-Y'));
