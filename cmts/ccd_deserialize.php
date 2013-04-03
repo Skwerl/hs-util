@@ -55,13 +55,15 @@ $medicationsTable = $xml->component->structuredBody->component[2]->section->text
 $medicationsIndex = 0;
 
 foreach ($medications as $medication) {
+	$strengthString = s($medication->substanceAdministration->rateQuantity['value']);
+	$strengthString .= ' '.s($medication->substanceAdministration->rateQuantity['unit']);
 	$obj['medication'][]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
 			'ndcid' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code']),
 			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
 			'genericName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
 			'form' => s($medicationsTable[$medicationsIndex]->td[2]),
-			'strength' => s(),
+			'strength' => $strengthString,
 			'routeCode' => s($medicationsTable[$medicationsIndex]->td[3])
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),

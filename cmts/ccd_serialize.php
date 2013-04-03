@@ -491,6 +491,7 @@ foreach ($inputMedications as $inputMedication) {
 				'routeCode' => @$inputSig->route,
 				'doseValue' => @$inputSig->dose,
 				'doseUnit' => @$inputSig->doseUnit,
+				'strength' => @$inputSig->drug->strength,
 				'lowValue' => date('Ymd',strtotime(@$inputSig->effectiveDate)),
 				'typeCode' => 'SUBJ',
 				'statusCode' => (@$inputPrescription->active == '1' ? 'active' : 'completed'),
@@ -566,6 +567,14 @@ foreach ($medicationsData as $medicationData) {
 		'value' => $medicationMeta['doseValue'],
 		'unit' => $medicationMeta['doseUnit']
 	));
+
+	$strengthParts = explode(' ',$medicationMeta['strength']);
+	if (sizeof($strengthParts) == 2) {
+		XMLaddManyAttributes($substanceAdministration->addChild('rateQuantity'), array(
+			'value' => $strengthParts[0],
+			'unit' => $strengthParts[1]
+		));
+	}
 
 	$substanceAdministration->addChild('administrationUnitCode')->addChild('originalText', $medicationMeta['adminCode']);
 
