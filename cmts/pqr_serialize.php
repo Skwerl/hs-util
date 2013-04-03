@@ -49,8 +49,7 @@ $registry->addChild('submission-method','A');
 /*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-#$patientTotal = $in->cqmUser->groupSize;
-$patientTotal = 300;
+$patientTotal = $in->patientCount;
 $eligibleTotal = 0; foreach ($in->categories as $d) { $eligibleTotal += $d->qualfiedPatients; }
 
 $measures = $pqriXML->addChild('measure-group');
