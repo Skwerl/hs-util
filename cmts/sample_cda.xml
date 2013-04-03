@@ -172,6 +172,7 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
+                  <th>ICD9</th>
                   <th>Problem</th>
                   <th>Effective Dates</th>
                   <th>Problem Status</th>
@@ -179,6 +180,7 @@
               </thead>
               <tbody>
                 <tr ID="PROBSUMMARY_1">
+                  <td ID="PROBICD9_1">ICD9 Code 1</td>
                   <td ID="PROBKIND_1">Diabetes mellitus without mention of complication, type II or unspecified type,
                     uncontrolled
                   </td>
@@ -186,6 +188,7 @@
                   <td ID="PROBSTATUS_1">active</td>
                 </tr>
                 <tr ID="PROBSUMMARY_2">
+                  <td ID="PROBICD9_2">ICD9 Code 2</td>
                   <td ID="PROBKIND_2">Unspecified essential hypertension</td>
                   <td ID="PROBDATE_2">20080605</td>
                   <td ID="PROBSTATUS_2">active</td>
