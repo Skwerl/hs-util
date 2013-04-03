@@ -82,24 +82,18 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
-                  <th>SNOMED</th>
-                  <th>RxNorm</th>
                   <th>Type</th>
                   <th>Substance</th>
                   <th>Reaction</th>
                   <th>Status</th>
-                  <th>Adverse Event Date</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ID="ALGSUMMARY_1">
-                  <td ID="SNOMED_1">SNOMED 1</td>
-                  <td ID="RXNORM_1">RxNorm 1</td>
                   <td ID="ALGTYPE_1">Drug Allergy</td>
                   <td ID="ALGSUB_1">Codeine allergy</td>
                   <td ID="ALGREACT_1">Diarrhea</td>
                   <td ID="ALGSTATUS_1">active</td>
-                  <td ID="ALGDATE_1">Date 1</td>
                 </tr>
               </tbody>
             </table>
@@ -172,7 +166,6 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
-                  <th>ICD9</th>
                   <th>Problem</th>
                   <th>Effective Dates</th>
                   <th>Problem Status</th>
@@ -180,7 +173,6 @@
               </thead>
               <tbody>
                 <tr ID="PROBSUMMARY_1">
-                  <td ID="PROBICD9_1">ICD9 Code 1</td>
                   <td ID="PROBKIND_1">Diabetes mellitus without mention of complication, type II or unspecified type,
                     uncontrolled
                   </td>
@@ -188,7 +180,6 @@
                   <td ID="PROBSTATUS_1">active</td>
                 </tr>
                 <tr ID="PROBSUMMARY_2">
-                  <td ID="PROBICD9_2">ICD9 Code 2</td>
                   <td ID="PROBKIND_2">Unspecified essential hypertension</td>
                   <td ID="PROBDATE_2">20080605</td>
                   <td ID="PROBSTATUS_2">active</td>
@@ -277,10 +268,7 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
-                  <th>RxNorm</th>
-                  <th>Generic Name</th>
-                  <th>Brand Name</th>
-                  <th>Strength</th>
+                  <th>Medication</th>
                   <th>Dose</th>
                   <th>Form</th>
                   <th>Route</th>
@@ -291,10 +279,7 @@
               </thead>
               <tbody>
                 <tr ID="MEDSUMMARY_1">
-                  <td ID="RXNORM_1">RX code 1</td>
-                  <td ID="GENNAME_1">Generic name 1</td>
                   <td ID="MEDNAME_1">Diabeta</td>
-                  <td ID="MEDSTRENGTH_1">Strength 1</td>
                   <td ID="MEDDOSE_1">3 tablets</td>
                   <td ID="MEDFORM_1">tablet</td>
                   <td ID="MEDROUTE_1">by mouth</td>
@@ -303,10 +288,7 @@
                   <td ID="MEDSTATUS_1">active</td>
                 </tr>
                 <tr ID="MEDSUMMARY_2">
-                  <td ID="RXNORM_2">RX code 2</td>
-                  <td ID="GENNAME_2">Generic name 2</td>
                   <td ID="MEDNAME_2">Lasix</td>
-                  <td ID="MEDSTRENGTH_2">Strength 2</td>
                   <td ID="MEDDOSE_2">6 tablets</td>
                   <td ID="MEDFORM_2">tablet</td>
                   <td ID="MEDROUTE_2">by mouth</td>
@@ -315,10 +297,7 @@
                   <td ID="MEDSTATUS_2">active</td>
                 </tr>
                 <tr ID="MEDSUMMARY_3">
-                  <td ID="RXNORM_3">RX code 3</td>
-                  <td ID="GENNAME_3">Generic name 3</td>
                   <td ID="MEDNAME_3">Klor-Con 10</td>
-                  <td ID="MEDSTRENGTH_3">Strength 3</td>
                   <td ID="MEDDOSE_3">4 tablets</td>
                   <td ID="MEDFORM_3">tablet extended release</td>
                   <td ID="MEDROUTE_3">by mouth</td>
@@ -470,32 +449,27 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
-                  <th colspan="4">2011-10-17</th>
+                  <th>&#xA0;</th>
+                  <th>2011-10-17</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="4">
+                  <td colspan="2">
                     <content styleCode="BoldItalics"></content>
                   </td>
                 </tr>
                 <tr>
-                  <td>LOINC Code 1</td>
                   <td>Triglycerides (&lt;150 mg/dl)</td>
                   <td>187 mg/dl</td>
-                  <td>Abnormal Value 1</td>
                 </tr>
                 <tr>
-                  <td>LOINC Code 2</td>
                   <td>Fasting Blood Glucose (70-100 mg/dl)</td>
                   <td>145 mg/dl</td>
-                  <td>Abnormal Value 2</td>
                 </tr>
                 <tr>
-                  <td>LOINC Code 3</td>
                   <td>Potassium (3.3-5.3 mEq/L)</td>
                   <td>4.5 mEq/L</td>
-                  <td>Abnormal Value 3</td>
                 </tr>
               </tbody>
             </table>
