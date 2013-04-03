@@ -136,25 +136,34 @@ foreach ($dg1 as $problem) {
 /*//// RXD SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 $rxd = $msg->getSegmentsByName('RXD');
+$medicationsIndex = 0;
 
 foreach ($rxd as $prescription) {
 
 	$drug = explode($cs,$prescription->getField(2));
+	$drugDate = $prescription->getField(3);
 
-	$obj['medication']['patientPrescription'][] = array(
-		'prescribe' => array(
-			'sig' => array(
-				'drug' => array(
-					'ndcid' => $drug[0],
-					'brandName' => $drug[1],
-					'form' => $prescription->getField(6),
-				),
-				'quantity' => $prescription->getField(4),
-				'quantityUnits' => $prescription->getField(5),
-				'writtenDate' => $problem->getField(3)
-			)
-		)
+	$obj['medication'][$medicationsIndex]['drug'] = array(
+		'brandName' => $drug[1],
+		'form' => $prescription->getField(6),
+		'rxNormId' => $drug[0]
 	);
+
+	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
+		'drug' => array(
+			'brandName' => $drug[1],
+			'form' => $prescription->getField(6),
+			'rxNormId' => $drug[0]
+		),
+		'quantity' => $prescription->getField(4),
+		'quantityUnits' => $prescription->getField(5),
+		'writtenDate' => date('c',strtotime($drugDate))
+	)),
+	'createdAt' => date('c',strtotime($drugDate))
+	);
+	
+	$medicationsIndex++;
+	
 }
 
 /*//// RXA SEGMENT ///////////////////////////////////////////////////////////////////////////////*/

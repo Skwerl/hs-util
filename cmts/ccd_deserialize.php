@@ -55,24 +55,38 @@ $medicationsTable = $xml->component->structuredBody->component[2]->section->text
 $medicationsIndex = 0;
 
 foreach ($medications as $medication) {
+
 	$strengthString = s($medication->substanceAdministration->rateQuantity['value']);
 	$strengthString .= ' '.s($medication->substanceAdministration->rateQuantity['unit']);
-	$obj['medication'][]['patientPrescription'][] = array('prescribe' => array('sig' => array(
+
+	$obj['medication'][$medicationsIndex]['drug'] = array(
+		'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
+		'genericName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
+		'form' => s($medicationsTable[$medicationsIndex]->td[2]),
+		'strength' => $strengthString,
+		'routeCode' => s($medicationsTable[$medicationsIndex]->td[3]),
+		'rxNormId' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code'])
+	);
+
+	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
-			'ndcid' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code']),
 			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
 			'genericName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
 			'form' => s($medicationsTable[$medicationsIndex]->td[2]),
 			'strength' => $strengthString,
-			'routeCode' => s($medicationsTable[$medicationsIndex]->td[3])
+			'routeCode' => s($medicationsTable[$medicationsIndex]->td[3]),
+			'rxNormId' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code'])
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
+		'route' => s($medicationsTable[$medicationsIndex]->td[3]),
 		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[4])
 	)),
 	'createdAt' => date('c',strtotime(s($medicationsTable[$medicationsIndex]->td[5])))
 	);
+
 	$medicationsIndex++;
+
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
