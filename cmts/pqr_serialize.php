@@ -49,7 +49,8 @@ $registry->addChild('submission-method','A');
 /*//// MEASURES //////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-$patientTotal = $in->cqmUser->groupSize;
+#$patientTotal = $in->cqmUser->groupSize;
+$patientTotal = 300;
 $eligibleTotal = 0; foreach ($in->categories as $d) { $eligibleTotal += $d->qualfiedPatients; }
 
 $measures = $pqriXML->addChild('measure-group');
@@ -76,7 +77,7 @@ foreach ($in->categories as $measureData) {
 	$measure->addChild('pqri-measure-number',$measureData->pqrs);
 	$measure->addChild('eligible-instances',$patientReporting);
 	$measure->addChild('meets-performance-instances',$patientQualified);
-	$measure->addChild('performance-exclusion-instances',0);
+	$measure->addChild('performance-exclusion-instances',($patientTotal-$patientReporting));
 	$measure->addChild('performance-not-met-instances',($patientReporting-$patientQualified));
 	$measure->addChild('reporting-rate',100);
 	$measure->addChild('performance-rate',round($qualifiedPercent,2));
