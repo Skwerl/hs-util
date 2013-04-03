@@ -189,10 +189,13 @@ $ccdBody = $ccdXML->addChild('component')->addChild('structuredBody');
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $allergiesSchema = array('ALGSUMMARY' => array(
+	'SNOMED' => 'SNOMED',
+	'RxNorm' => 'RXNORM',
 	'Type' => 'ALGTYPE',
 	'Substance' => 'ALGSUB',
 	'Reaction' => 'ALGREACT',
-	'Status' => 'ALGSTATUS'
+	'Status' => 'ALGSTATUS',
+	'Adverse Event Date' => 'ALGDATE'
 ));
 
 $allergiesData = array();
@@ -200,10 +203,13 @@ $inputAllergies = $in->allergy;
 
 foreach ($inputAllergies as $inputAllergy) {
 	$allergiesData[] = array(
+		$inputAllergy->snomed,
+		$inputAllergy->rxnormId,
 		'Drug Allergy',
 		$inputAllergy->name,
 		$inputAllergy->allergicReaction,
 		(@$inputAllergy->active == '1' ? 'active' : 'completed'),
+		$inputAllergy->allergicReactionDate,
 		'Meta' => array(
 			'typeCode' => 'SUBJ',
 			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
@@ -339,6 +345,7 @@ foreach ($allergiesData as $allergyData) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $problemsSchema = array('PROBSUMMARY' => array(
+	'ICD9' => 'PROBICD9',
 	'Problem' => 'PROBKIND',
 	'Effective Dates' => 'PROBDATE',
 	'Problem Status' => 'PROBSTATUS',
@@ -348,6 +355,7 @@ $problemsData = array();
 $inputProblems = $in->problem;
 foreach ($inputProblems as $inputProblem) {
 	$problemsData[] = array(
+		$inputProblem->icd9->code,
 		$inputProblem->icd9->desc,
 		date('Ymd',strtotime(@$inputProblem->problemStartedAt)),
 		(@$inputProblem->active == '1' ? 'active' : 'completed'),
@@ -461,7 +469,10 @@ foreach ($problemsData as $problemData) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $medicationsSchema = array('MEDSUMMARY' => array(
-	'Medication' => 'MEDNAME',
+	'RxNorm' => 'RXNORM',
+	'Generic Name' => 'GENNAME',
+	'Brand Name' => 'MEDNAME',
+	'Strength' => 'MEDSTRENGTH',
 	'Dose' => 'MEDDOSE',
 	'Form' => 'MEDFORM',
 	'Route' => 'MEDROUTE',
@@ -476,7 +487,10 @@ foreach ($inputMedications as $inputMedication) {
 	foreach ($inputMedication->patientPrescription as $inputPrescription) {
 		$inputSig = $inputPrescription->prescribe->sig;
 		$medicationsData[] = array(
+			@$inputSig->drug->rxNormId,
+			@$inputSig->drug->genericName,
 			@$inputSig->drug->brandName,
+			@$inputSig->drug->strength,
 			@$inputSig->quantity.' '.@$inputSig->quantityUnits,
 			@$inputSig->drug->form,
 			@$inputSig->route,
@@ -622,10 +636,11 @@ foreach ($inputLabs as $inputLab) {
 			'statusCode' => 'completed',
 		);
 		$labsData[$inputLabsIndex]['labResults'][] = array(
-			'resultCode' => '000',
+			'resultCode' => $inputLabData->loincCode,
 			'resultDisplayName' => @$resultDescription,
 			'resultIdealRange' => @$resultIdealRange,
 			'resultMeasurement' => @$inputLabResult->value,
+			'resultAbnormal' => @$inputLabResult->abnormal,
 			'resultUnit' => @$inputLabResult->unitOfMeasure,
 			'source' => @$inputLabResult->source,
 			'statusCode' => 'completed',
@@ -657,7 +672,11 @@ foreach ($labsData as $labBattery) {
 		$labResultsDateString = strtotime($labBattery['labDate']);
 		$labResultsDateIndex[] = $labResultsDateString;
 		$labResultDescription = $labResult['resultDisplayName'].' ('.$labResult['resultIdealRange'].')';
-		$labResultsTableArray[$labBattery['labName']][$labResultDescription][$labResultsDateString][] = $labResult['resultMeasurement'].' '.$labResult['resultUnit'];
+		$labResultsTableArray[$labBattery['labName']][$labResultDescription][$labResultsDateString] = array(
+			$labResult['resultCode'],
+			$labResult['resultMeasurement'].' '.$labResult['resultUnit'],
+			$labResult['resultAbnormal']
+		);
 	}
 }
 
@@ -673,25 +692,27 @@ XMLaddManyAttributes($labsTable, array(
 ));
 
 $labsTableHeader = $labsTable->addChild('thead')->addChild('tr');
-$labsTableHeader->addChild('th', '&#160;');
+$labsTableHeader->addChild('th', '&#160;')->addAttribute('colspan', 2);
 foreach ($labResultsDateIndex as $labResultsDate) {
-	$labsTableHeader->addChild('th', date('Y-m-d', $labResultsDate));
+	$labsTableHeader->addChild('th', date('Y-m-d', $labResultsDate))->addAttribute('colspan', 2);
 }
 
 $labsTableBody = $labsTable->addChild('tbody');
 
 foreach ($labResultsTableArray as $labResultsBattery => $labResultsSet) {
 		$labsTableRowHeader = $labsTableBody->addChild('tr')->addChild('td');
-		$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns+1);
+		$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns*4);
 		$labsTableRowHeader->addChild('content', $labResultsBattery)->addAttribute('styleCode', 'BoldItalics');
 		foreach ($labResultsSet as $labResultsSetResult => $labResultsSetValue) {
 			$labsTableRow = $labsTableBody->addChild('tr');
+			$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][0]);
 			$labsTableRow->addChild('td', $labResultsSetResult);
 			foreach ($labResultsDateIndex as $labResultsDate) {
 				if (key($labResultsSetValue) == $labResultsDate) {
-					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][0]);
+					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][1]);
+					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][2]);
 				} else {
-					$labsTableRow->addChild('td');
+					$labsTableRow->addChild('td')->addAttribute('colspan', 2);
 				}
 			}
 		}

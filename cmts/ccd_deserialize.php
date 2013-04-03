@@ -56,33 +56,30 @@ $medicationsIndex = 0;
 
 foreach ($medications as $medication) {
 
-	$strengthString = s($medication->substanceAdministration->rateQuantity['value']);
-	$strengthString .= ' '.s($medication->substanceAdministration->rateQuantity['unit']);
-
 	$obj['medication'][$medicationsIndex]['drug'] = array(
-		'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
-		'genericName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
-		'form' => s($medicationsTable[$medicationsIndex]->td[2]),
-		'strength' => $strengthString,
-		'routeCode' => s($medicationsTable[$medicationsIndex]->td[3]),
-		'rxNormId' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code'])
+		'brandName' => s($medicationsTable[$medicationsIndex]->td[2]),
+		'genericName' => s($medicationsTable[$medicationsIndex]->td[1]),
+		'form' => s($medicationsTable[$medicationsIndex]->td[5]),
+		'strength' => s($medicationsTable[$medicationsIndex]->td[3]),
+		'routeCode' => s($medicationsTable[$medicationsIndex]->td[6]),
+		'rxNormId' => s($medicationsTable[$medicationsIndex]->td[0])
 	);
 
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
-			'brandName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code->originalText),
-			'genericName' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['displayName']),
-			'form' => s($medicationsTable[$medicationsIndex]->td[2]),
-			'strength' => $strengthString,
-			'routeCode' => s($medicationsTable[$medicationsIndex]->td[3]),
-			'rxNormId' => s($medication->substanceAdministration->consumable->manufacturedProduct->manufacturedMaterial->code['code'])
+			'brandName' => s($medicationsTable[$medicationsIndex]->td[2]),
+			'genericName' => s($medicationsTable[$medicationsIndex]->td[1]),
+			'form' => s($medicationsTable[$medicationsIndex]->td[5]),
+			'strength' => s($medicationsTable[$medicationsIndex]->td[3]),
+			'routeCode' => s($medicationsTable[$medicationsIndex]->td[6]),
+			'rxNormId' => s($medicationsTable[$medicationsIndex]->td[0])
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
-		'route' => s($medicationsTable[$medicationsIndex]->td[3]),
-		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[4])
+		'route' => s($medicationsTable[$medicationsIndex]->td[6]),
+		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[7])
 	)),
-	'createdAt' => date('c',strtotime(s($medicationsTable[$medicationsIndex]->td[5])))
+	'createdAt' => date('c',strtotime(s($medicationsTable[$medicationsIndex]->td[8])))
 	);
 
 	$medicationsIndex++;
@@ -99,11 +96,11 @@ $allergiesIndex = 0;
 
 foreach ($allergies as $allergy) {
 	$obj['allergy'][] = array(
-		'name' => s($allergiesTable[$allergiesIndex]->td[1]),
-		'active' => (strtolower(s($allergiesTable[$allergiesIndex]->td[3])) == 'active' ? true : false),
-		'allergicReaction' => s($allergiesTable[$allergiesIndex]->td[2]),
-		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergy->act->entryRelationship->observation->effectiveTime->low['value']))),
-		'snomed' => s($allergy->act->entryRelationship->observation->value['code'])
+		'name' => s($allergiesTable[$allergiesIndex]->td[3]),
+		'active' => (strtolower(s($allergiesTable[$allergiesIndex]->td[5])) == 'active' ? true : false),
+		'allergicReaction' => s($allergiesTable[$allergiesIndex]->td[4]),
+		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergiesTable[$allergiesIndex]->td[6]))),
+		'snomed' => s($allergiesTable[$allergiesIndex]->td[0])
 	);
 	$allergiesIndex++;
 }
@@ -122,8 +119,8 @@ foreach ($problems as $problem) {
 			'code' => s($problem->act->entryRelationship->observation->value['code']),		
 			'desc' => s($problem->act->entryRelationship->observation->value['displayName'])
 		),
-		'problemStartedAt' => date('Y-m-d', strtotime(s($problemsTable[$problemsIndex]->td[1]))),
-		'active' => (strtolower(s($problemsTable[$problemsIndex]->td[2])) == 'active' ? true : false)
+		'problemStartedAt' => date('Y-m-d', strtotime(s($problemsTable[$problemsIndex]->td[2]))),
+		'active' => (strtolower(s($problemsTable[$problemsIndex]->td[3])) == 'active' ? true : false)
 	);
 	$problemsIndex++;
 }
