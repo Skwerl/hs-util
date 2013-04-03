@@ -82,18 +82,24 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
+                  <th>SNOMED</th>
+                  <th>RxNorm</th>
                   <th>Type</th>
                   <th>Substance</th>
                   <th>Reaction</th>
                   <th>Status</th>
+                  <th>Adverse Event Date</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ID="ALGSUMMARY_1">
+                  <td ID="SNOMED_1">SNOMED 1</td>
+                  <td ID="RXNORM_1">RxNorm 1</td>
                   <td ID="ALGTYPE_1">Drug Allergy</td>
                   <td ID="ALGSUB_1">Codeine allergy</td>
                   <td ID="ALGREACT_1">Diarrhea</td>
                   <td ID="ALGSTATUS_1">active</td>
+                  <td ID="ALGDATE_1">Date 1</td>
                 </tr>
               </tbody>
             </table>
