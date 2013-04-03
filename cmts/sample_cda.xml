@@ -470,27 +470,32 @@
             <table border="1" width="100%">
               <thead>
                 <tr>
-                  <th>&#xA0;</th>
-                  <th>2011-10-17</th>
+                  <th colspan="4">2011-10-17</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="2">
+                  <td colspan="4">
                     <content styleCode="BoldItalics"></content>
                   </td>
                 </tr>
                 <tr>
+                  <td>LOINC Code 1</td>
                   <td>Triglycerides (&lt;150 mg/dl)</td>
                   <td>187 mg/dl</td>
+                  <td>Abnormal Value 1</td>
                 </tr>
                 <tr>
+                  <td>LOINC Code 2</td>
                   <td>Fasting Blood Glucose (70-100 mg/dl)</td>
                   <td>145 mg/dl</td>
+                  <td>Abnormal Value 2</td>
                 </tr>
                 <tr>
+                  <td>LOINC Code 3</td>
                   <td>Potassium (3.3-5.3 mEq/L)</td>
                   <td>4.5 mEq/L</td>
+                  <td>Abnormal Value 3</td>
                 </tr>
               </tbody>
             </table>
