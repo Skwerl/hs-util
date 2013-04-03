@@ -52,6 +52,15 @@ if (in_array('SFT',$segments)) {
 	$msg->addSegment($sft);
 }
 
+/*//// EVN SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+
+if (in_array('EVN',$segments)) {
+	$evn = new Net_HL7_Segment('EVN');
+	$evn->setField(1, $mvar);
+	$evn->setField(2, date('YmdHis'));
+	$msg->addSegment($evn);
+}
+
 /*//// PID SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('PID',$segments)) {
