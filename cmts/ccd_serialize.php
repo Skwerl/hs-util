@@ -41,6 +41,9 @@ XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '2.16.840.1.11
 XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '1.3.6.1.4.1.19376.1.5.3.1.1.1', 'assigningAuthorityName' => 'IHE/PCC')));
 XMLaddManyChildren($ccdXML, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.32.1', 'assigningAuthorityName' => 'HITSP/C32')));
 
+$generatedTime = date('YmdHis');
+$generatedTime = substr($generatedTime,0,8).'000000';
+
 XMLaddManyChildren($ccdXML, array(
 	'id' => array(
 		'root' => '2.16.840.1.113883.3.72',
@@ -57,7 +60,7 @@ XMLaddManyChildren($ccdXML, array(
 		// null
 	),
 	'effectiveTime' => array(
-		'value' => date('YmdHis')
+		'value' => $generatedTime
 	),
 	'confidentialityCode' => array(
 		// null
@@ -151,7 +154,7 @@ $languageCommunication->addChild('languageCode')->addAttribute('code', $XMLGloba
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $author = $ccdXML->addChild('author');
-$author->addChild('time')->addAttribute('value', date('YmdHis'));
+$author->addChild('time')->addAttribute('value', $generatedTime);
 $assignedAuthor = $author->addChild('assignedAuthor');
 $assignedAuthor->addChild('id');
 $assignedAuthor->addChild('addr');
