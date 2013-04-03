@@ -24,12 +24,11 @@
 	<form id="form1" name="form1" method="post">
 		<textarea name="data1" id="data1" cols="100" rows="10">{
     "patient": {
-        "identity": "5876360a-9ca7-469c-a586-03f706be038f",
-        "firstName": "exporting",
-        "lastName": "patient",
-        "ssn": "345-34-1130",
-        "address": [
-            {
+        "identity": "7b641cd3-129b-4714-807e-a6f09bcb8ea5",
+        "firstName": "data set 4",
+        "lastName": "304f",
+        "ssn": "347-34-1132",
+        "address": [{
                 "name": "Home",
                 "address1": "2645 Mulberry Lane",
                 "address2": "",
@@ -37,8 +36,7 @@
                 "state": "OH",
                 "postalCode": "43605",
                 "countryCode": "US",
-                "phone": [
-                    {
+                "phone": [{
                         "areaCode": "234",
                         "prefix": "837",
                         "suffix": "2345",
@@ -49,7 +47,7 @@
         ],
         "phone": null,
         "email": null,
-        "dob": "1960-05-24",
+        "dob": "1965-05-26",
         "gender": "M",
         "language": "English",
         "patientConsent": null,
@@ -58,8 +56,7 @@
         "ethnicity": "H",
         "smoking": 2,
         "paymentProfile": null,
-        "emergency": [
-            {
+        "emergency": [{
                 "name": "emergency",
                 "phone": {
                     "areaCode": "234",
@@ -71,59 +68,57 @@
         ],
         "subscriberIsPatient": null,
         "insurance": null,
-        "externalId": "5371483",
+        "externalId": "5377643",
         "middleName": "a",
         "suffix": null,
         "preferredContact": null,
         "smokingFrequency": "1 pack/day",
-        "ageInYears": 52
+        "ageInYears": 47
     },
-    "medication": [
-        {
+    "medication": [{
             "drug": {
                 "rcopiaId": null,
-                "ndcid": "00071015640",
+                "ndcid": "00071015540",
                 "brandName": "Lipitor",
-                "genericName": null,
+                "genericName": "atorvastatin calcium",
                 "fullDescription": null,
                 "brandType": null,
                 "form": "Tablet",
-                "strength": "75 mg",
-                "routeCode": null,
+                "strength": "10 mg",
+                "routeCode": "PO",
                 "rxNormType": null,
-                "rxNormId": null,
+                "rxNormId": "617314",
                 "drugGroup": null
             },
             "note": [],
-            "patientPrescription": [
-                {
+            "patientPrescription": [{
                     "prescribe": {
-                        "prescribeIdentity": "bb8a8331-af3e-4d14-ab0f-8d0e8d24fc97",
-                        "patientIdentity": "5876360a-9ca7-469c-a586-03f706be038f",
-                        "patientExternalIdentity": "",
+                        "prescribeIdentity": "df9b6412-806e-403c-9e3b-f7ea6edbe348",
+                        "patientIdentity": "7b641cd3-129b-4714-807e-a6f09bcb8ea5",
+                        "patientExternalIdentity": "replace me",
                         "pharmacyIdentity": "",
                         "hasScheduledDrug": false,
                         "stopDate": null,
                         "addToMedicationList": true,
                         "sig": {
-                            "drug": {
+                            "drug": { 
                                 "rcopiaId": null,
-                                "ndcid": "00071015640",
-                                "brandName": "Lipitor",
-                                "genericName": null,
-                                "fullDescription": null,
-                                "brandType": null,
-                                "form": "Tablet",
-                                "strength": "75 mg",
-                                "routeCode": null,
-                                "rxNormType": null,
-                                "rxNormId": null,
-                                "drugGroup": null
+                                 "ndcid": "00071015540",
+                                 "brandName": "Lipitor",
+                                 "genericName": "atorvastatin calcium",
+                                 "fullDescription": null,
+                                 "brandType": null,
+                                 "form": "Tablet",
+                                 "strength": "10 mg",
+                                 "routeCode": "PO",
+                                 "rxNormType": null,
+                                 "rxNormId": "617314",
+                                 "drugGroup": null
                             },
                             "action": "Apply",
                             "dose": "1",
                             "doseUnit": "tablet",
-                            "route": "as directed",
+                            "route": "PO",
                             "doseTiming": "once a day",
                             "doseOther": null,
                             "duration": "7 days",
@@ -151,109 +146,242 @@
                         "drugInteractionCheckPerformed": false,
                         "icd9": null,
                         "ePrescribe": false,
-                        "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
+                        "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
                         "createdByFirstName": "chuck",
                         "createdByLastName": "norris"
                     },
-                    "createdAt": 1363309359303,
-                    "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
-                    "active": true
+                    "createdAt": "2013-04-03T11:28:33.834-07:00",
+                    "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+                    "active": true,
+                    "source": "SOCIAL_CARE"
                 }
             ],
             "active": true,
-            "source": "SOCIAL_CARE"
+            "source": "SOCIAL_CARE",
+            "education": ["http://www.rxlist.com/lipitor-drug.htm"]
+        }, {
+            "drug": {
+                "rcopiaId": null,
+                "ndcid": "00039006710",
+                "brandName": "Lasix",
+                "genericName": "furosemide",
+                "fullDescription": null,
+                "brandType": null,
+                "form": "Tablet",
+                "strength": "20 mg",
+                "routeCode": "PO",
+                "rxNormType": null,
+                "rxNormId": "200801",
+                "drugGroup": null
+            },
+            "note": [],
+            "patientPrescription": [{
+                    "prescribe": {
+                        "prescribeIdentity": "94dea51e-d1cc-4bbf-86c5-d76bbdfdf7c8",
+                        "patientIdentity": "7b641cd3-129b-4714-807e-a6f09bcb8ea5",
+                        "patientExternalIdentity": "replace me",
+                        "pharmacyIdentity": "",
+                        "hasScheduledDrug": false,
+                        "stopDate": null,
+                        "addToMedicationList": true,
+                        "sig": {
+                            "drug": { 
+                                "rcopiaId": null,
+                                 "ndcid": "00039006710",
+                                 "brandName": "Lasix",
+                                 "genericName": "furosemide",
+                                 "fullDescription": null,
+                                 "brandType": null,
+                                 "form": "Tablet",
+                                 "strength": "20 mg",
+                                 "routeCode": "PO",
+                                 "rxNormType": null,
+                                 "rxNormId": "200801",
+                                 "drugGroup": null
+                            },
+                            "action": "Apply",
+                            "dose": "1",
+                            "doseUnit": "tablet",
+                            "route": "PO",
+                            "doseTiming": "once a day",
+                            "doseOther": null,
+                            "duration": "7 days",
+                            "quantity": "14",
+                            "quantityUnits": "tablets",
+                            "refills": "2",
+                            "substitutionPermitted": true,
+                            "otherNotes": "Other Notes",
+                            "patientNotes": "Patient Notes",
+                            "comments": "Comments",
+                            "schedule": null,
+                            "writtenDate": null,
+                            "effectiveDate": null,
+                            "lastFillDate": null,
+                            "soldDate": null
+                        },
+                        "checkId": null,
+                        "signaturePassword": "1234",
+                        "prescriberOrderNumber": null,
+                        "rxReferenceNumber": null,
+                        "formularyNote": null,
+                        "interactionNote": null,
+                        "allergyReaction": null,
+                        "interactionReaction": null,
+                        "drugInteractionCheckPerformed": false,
+                        "icd9": null,
+                        "ePrescribe": false,
+                        "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+                        "createdByFirstName": "chuck",
+                        "createdByLastName": "norris"
+                    },
+                    "createdAt": "2013-04-03T11:28:33.891-07:00",
+                    "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+                    "active": true,
+                    "source": "SOCIAL_CARE"
+                }
+            ],
+            "active": true,
+            "source": "SOCIAL_CARE",
+            "education": ["http://www.rxlist.com/lasix-drug.htm"]
+        }, {
+            "drug": {
+                "rcopiaId": null,
+                "ndcid": "00245004115",
+                "brandName": "Klor-Con 10",
+                "genericName": "potassium chloride",
+                "fullDescription": null,
+                "brandType": null,
+                "form": "tablet extended release",
+                "strength": "10 mEq",
+                "routeCode": "PO",
+                "rxNormType": null,
+                "rxNormId": "628958",
+                "drugGroup": null
+            },
+            "note": [],
+            "patientPrescription": [{
+                    "prescribe": {
+                        "prescribeIdentity": "aecec1ae-de1b-4522-9d3f-077d3fbe6811",
+                        "patientIdentity": "7b641cd3-129b-4714-807e-a6f09bcb8ea5",
+                        "patientExternalIdentity": "replace me",
+                        "pharmacyIdentity": "",
+                        "hasScheduledDrug": false,
+                        "stopDate": null,
+                        "addToMedicationList": true,
+                        "sig": {
+                            "drug": { 
+                                "rcopiaId": null,
+                                 "ndcid": "00245004115",
+                                 "brandName": "Klor-Con 10",
+                                 "genericName": "potassium chloride",
+                                 "fullDescription": null,
+                                 "brandType": null,
+                                 "form": "tablet extended release",
+                                 "strength": "10 mEq",
+                                 "routeCode": "PO",
+                                 "rxNormType": null,
+                                 "rxNormId": "628958",
+                                 "drugGroup": null
+                            },
+                            "action": "Apply",
+                            "dose": "1",
+                            "doseUnit": "tablet",
+                            "route": "PO",
+                            "doseTiming": "once a day",
+                            "doseOther": null,
+                            "duration": "7 days",
+                            "quantity": "14",
+                            "quantityUnits": "tablets",
+                            "refills": "2",
+                            "substitutionPermitted": true,
+                            "otherNotes": "Other Notes",
+                            "patientNotes": "Patient Notes",
+                            "comments": "Comments",
+                            "schedule": null,
+                            "writtenDate": null,
+                            "effectiveDate": null,
+                            "lastFillDate": null,
+                            "soldDate": null
+                        },
+                        "checkId": null,
+                        "signaturePassword": "1234",
+                        "prescriberOrderNumber": null,
+                        "rxReferenceNumber": null,
+                        "formularyNote": null,
+                        "interactionNote": null,
+                        "allergyReaction": null,
+                        "interactionReaction": null,
+                        "drugInteractionCheckPerformed": false,
+                        "icd9": null,
+                        "ePrescribe": false,
+                        "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+                        "createdByFirstName": "chuck",
+                        "createdByLastName": "norris"
+                    },
+                    "createdAt": "2013-04-03T11:28:33.939-07:00",
+                    "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+                    "active": true,
+                    "source": "SOCIAL_CARE"
+                }
+            ],
+            "active": true,
+            "source": "SOCIAL_CARE",
+            "education": ["http://www.rxlist.com/klor-con-drug/patient-images-side-effects.htm"]
         }
     ],
-    "problem": [
-        {
-            "problemNoteIdentity": "b7c0375e-75e5-4072-9fe7-ad2a2a95b15d",
+    "problem": [{
+            "problemNoteIdentity": "b9a940a2-b19f-4279-8be1-c67df316bf23",
             "icd9": {
-                "code": "246.9",
-                "desc": "Unspecified disorder of thyroid"
+                "code": "401.9",
+                "desc": "Hypertension, Essential"
             },
-            "note": "Low blood sugar",
+            "note": "Stress",
             "problemStartedAt": "2009-12-24",
             "problemStoppedAt": null,
             "soapNoteIdentity": null,
             "significant": true,
             "active": false,
-            "updatedAt": "2013-03-15T01:02:39.459Z",
-            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
-        },
-        {
-            "problemNoteIdentity": "986ebd3d-2209-4cbf-9407-8bdceccbc81a",
+            "updatedAt": "2013-04-03T18:28:34.054Z",
+            "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482"
+        }, {
+            "problemNoteIdentity": "5264c359-f81c-40e9-8df9-116b6323533a",
             "icd9": {
-                "code": "004.3",
-                "desc": "Shigella sonnei"
+                "code": "272.4",
+                "desc": "Hyperlipidemia"
             },
-            "note": null,
-            "problemStartedAt": null,
+            "note": "reported",
+            "problemStartedAt": "2009-12-24",
             "problemStoppedAt": null,
-            "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
-            "significant": false,
+            "soapNoteIdentity": null,
+            "significant": true,
             "active": true,
-            "updatedAt": "2013-03-15T01:02:38.796Z",
-            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
-        },
-        {
-            "problemNoteIdentity": "803232e6-01e1-4293-b644-6cd4c591d82b",
-            "icd9": {
-                "code": "001.0",
-                "desc": "Cholera due to vibrio cholarae"
-            },
-            "note": null,
-            "problemStartedAt": null,
-            "problemStoppedAt": null,
-            "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
-            "significant": false,
-            "active": true,
-            "updatedAt": "2013-03-15T01:02:38.796Z",
-            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635"
+            "updatedAt": "2013-04-03T18:28:34.013Z",
+            "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482"
         }
     ],
-    "allergy": [
-        {
-            "identity": "6f230362-9bac-4bc5-a5c6-426bbd5e1495",
-            "name": "Allergy to penicillin",
+    "allergy": [{
+            "identity": "b92b772c-1a33-4b18-95fb-a083cb82214b",
+            "name": "Drug Allergy",
             "ndcidCode": null,
             "allergyGroupId": null,
             "active": true,
             "allergicReaction": "Rash",
             "allergicReactionDate": "2001-01-01",
-            "snomed": "91936005",
+            "snomed": "4160980002",
             "substance": null,
             "reaction": null,
-            "createdAt": "2013-03-15",
-            "updatedAt": "2013-03-15"
+            "createdAt": "2013-04-03T18:28:33.974Z",
+            "updatedAt": "2013-04-03T18:28:33.974Z",
+            "rxnormId": "2870"
         }
     ],
-    "immunization": [
-        {
-            "createTime": "2013-03-15T01:02:39.678Z",
-            "vaccine": "Pneumococcal Polysaccharide Vaccine",
-            "notes": "Administered Flu Shot for patient",
-            "userAssertion": "CONFIRMED",
-            "activityTime": "2012-11-02",
-            "activityBy": "CVS Pharmacy",
-            "administeredAmount": "3",
-            "administeredUnit": "vl",
-            "vaccineLotNumber": "003843",
-            "manufacturerName": "Merck",
-            "manufacturerCode": "ME-394",
-            "cvxCode": "33"
-        }
-    ],
-    "soapNote": [
-        {
-            "identity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
+    "immunization": [],
+    "soapNote": [{
+            "identity": "1d8f610d-12c6-4dc5-b271-a31e21214bda",
             "subjective": {
                 "chiefComplaint": "Knee pain",
                 "note": "motorcycle injury",
-                "symptoms": [
-                    "grinding",
-                    "headache",
-                    "ear pain"
-                ],
+                "symptoms": ["grinding", "headache", "ear pain"],
                 "historyOfCurrentIllness": "previous surgery",
                 "appointmentDate": "2012-01-19"
             },
@@ -270,8 +398,7 @@
                 "headCircumference": 20.7,
                 "oxygenSaturation": 82,
                 "smoking": 2,
-                "painPoints": [
-                    {
+                "painPoints": [{
                         "painLocation": "UPPER SHOULDER",
                         "painLevel": 3
                     }
@@ -281,16 +408,14 @@
             },
             "objectivePhysical": {
                 "physicalNotes": "patient is complaining of back pain and is unable to sleep",
-                "problemAreas": [
-                    {
+                "problemAreas": [{
                         "bodyPart": {
                             "name": "CHEST",
                             "category": "Inspection"
                         },
                         "notes": "Heartbeat regular",
                         "imageUrl": ""
-                    },
-                    {
+                    }, {
                         "bodyPart": {
                             "name": "NEURO II-XII",
                             "category": "Sensory"
@@ -299,110 +424,188 @@
                         "imageUrl": ""
                     }
                 ],
-                "patientEducationTopicsDiscussed": [
-                    "Asthma",
-                    "Injury Prevention"
-                ]
+                "patientEducationTopicsDiscussed": ["Asthma", "Injury Prevention"]
             },
             "assessment": {
                 "notes": "minor back strain",
-                "problems": [
-                    {
-                        "problemNoteIdentity": null,
-                        "icd9": {
-                            "code": "001.0",
-                            "desc": "Cholera due to vibrio cholarae"
-                        },
-                        "note": null,
-                        "problemStartedAt": null,
-                        "problemStoppedAt": null,
-                        "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
-                        "significant": false,
-                        "active": true,
-                        "updatedAt": null,
-                        "createdBy": null
-                    },
-                    {
-                        "problemNoteIdentity": null,
-                        "icd9": {
-                            "code": "004.3",
-                            "desc": "Shigella sonnei"
-                        },
-                        "note": null,
-                        "problemStartedAt": null,
-                        "problemStoppedAt": null,
-                        "soapNoteIdentity": "d03fc4aa-dbb9-4c76-bcf2-137d50593606",
-                        "significant": false,
-                        "active": true,
-                        "updatedAt": null,
-                        "createdBy": null
-                    }
-                ]
+                "problems": null
             },
             "plan": {
                 "notes": "prescribing some painkillers, follow up in 2 weeks",
                 "comments": "prescribing celebrex 300mg, minor sprain that should clear up in 2 weeks",
                 "patientRequestedRecords": false
             },
-            "updateBy": "e61b13d5-dac2-4384-b81f-90049813b635",
-            "updatedAt": "2013-03-15T01:02:38.984-07:00",
-            "createdBy": "e61b13d5-dac2-4384-b81f-90049813b635",
-            "createdAt": "2013-03-15T01:02:36.877-07:00"
+            "updateBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+            "updatedAt": "2013-04-03T18:28:33.800Z",
+            "createdBy": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+            "createdAt": "2013-04-03T18:28:31.829Z"
         }
     ],
-    "lab": [
-        {
+    "lab": [{
             "labOrder": {
-                "identity": "95306e3c-d07e-4289-b277-3da61008978a",
-                "summary": "Hermatology",
+                "identity": "8f09abc8-2534-484c-88ea-42ba9a8a7f79",
+                "summary": "LDL Cholesterol",
                 "labStatus": "Active",
-                "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9",
-                "labInstructions": "Run Eosinophil Count and Hemoglobin"
+                "labIdentity": "0bbbf007-a6d7-4bc5-88a3-f20449c902cd",
+                "labInstructions": "LDL Cholesterol"
             },
             "labResult": {
-                "identity": "d08e97a4-d310-407e-9002-1584309fd36f",
-                "loincCode": "718-7",
-                "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9",
-                "facilityName": "XYZ MRI Lab",
-                "facilityStreetAddress": "101 Main Street",
-                "facilityCity": "Los Angeles",
-                "facilityState": "CA",
-                "facilityPostalCode": "92617",
-                "labTestResult": [
-                    {
-                        "date": "2013-01-01",
-                        "type": "Hermatology",
-                        "name": "Eosinophil Count (1-3%)",
-                        "value": "2",
-                        "unitOfMeasure": "%",
+                "identity": "7d2f4ec6-4581-4b4d-a212-d015a01f97ea",
+                "loincCode": "2089-1",
+                "labIdentity": "0bbbf007-a6d7-4bc5-88a3-f20449c902cd",
+                "facilityName": "Milton Street Laboratory",
+                "facilityStreetAddress": "40025 Milton Street",
+                "facilityCity": "Aurora",
+                "facilityState": "CO",
+                "facilityPostalCode": "80011",
+                "labTestResult": [{
+                        "date": "2013-03-15",
+                        "type": "Chemistry",
+                        "name": "LDL Cholesterol (<100 mg/dl)",
+                        "value": "120",
+                        "unitOfMeasure": "mg/dl",
                         "source": "Not Applicable",
                         "condition": "Not Applicable",
-                        "abnormal": false
-                    },
-                    {
-                        "date": "2013-01-01",
-                        "type": "Hermatology",
-                        "name": "Hemoglobin (male: 14-18 g/dl female: 12-16 g/dl)",
-                        "value": "16",
-                        "unitOfMeasure": "g/dl",
-                        "source": "Not Applicable",
-                        "condition": "Not Applicable",
-                        "abnormal": true
+                        "abnormal": "true"
                     }
-                ]
+                ],
+                "education": ["http://labtestsonline.org/understanding/analytes/cholesterol/tab/glance"]
             },
-            "labIdentity": "b4702a1e-8967-45a9-89f8-e67ac2b540c9"
+            "labIdentity": "0bbbf007-a6d7-4bc5-88a3-f20449c902cd"
+        }, {
+            "labOrder": {
+                "identity": "fc3287ca-c96c-4de2-8ac3-30c47b892b60",
+                "summary": "HDL Cholesterol",
+                "labStatus": "Active",
+                "labIdentity": "8ebcac5e-c74a-40e3-9372-d435938b1c21",
+                "labInstructions": "HDL Cholesterol"
+            },
+            "labResult": {
+                "identity": "cbcde341-6e39-45c5-bfd8-fb682f9f9ffc",
+                "loincCode": "14646-4",
+                "labIdentity": "8ebcac5e-c74a-40e3-9372-d435938b1c21",
+                "facilityName": "Milton Street Laboratory",
+                "facilityStreetAddress": "40025 Milton Street",
+                "facilityCity": "Aurora",
+                "facilityState": "CO",
+                "facilityPostalCode": "80011",
+                "labTestResult": [{
+                        "date": "2013-03-15",
+                        "type": "HDL Cholesterol",
+                        "name": "HDL Cholesterol (>= 40 mg/dl)",
+                        "value": "41",
+                        "unitOfMeasure": "mg/dl",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": "false"
+                    }
+                ],
+                "education": ["http://labtestsonline.org/understanding/analytes/cholesterol/tab/glance"]
+            },
+            "labIdentity": "8ebcac5e-c74a-40e3-9372-d435938b1c21"
+        }, {
+            "labOrder": {
+                "identity": "b8736fba-5c2a-401b-8399-53333fec709a",
+                "summary": "Total Cholesterol",
+                "labStatus": "Active",
+                "labIdentity": "53e43a14-21c4-4576-9122-28fdccd84ec4",
+                "labInstructions": "Total Cholesterol"
+            },
+            "labResult": {
+                "identity": "5ddb8778-b0ab-4ce7-af80-83f68010d514",
+                "loincCode": "14647-2",
+                "labIdentity": "53e43a14-21c4-4576-9122-28fdccd84ec4",
+                "facilityName": "Milton Street Laboratory",
+                "facilityStreetAddress": "40025 Milton Street",
+                "facilityCity": "Aurora",
+                "facilityState": "CO",
+                "facilityPostalCode": "80011",
+                "labTestResult": [{
+                        "date": "2013-03-15",
+                        "type": "Total Cholesterol",
+                        "name": "Total Cholesterol",
+                        "value": "180",
+                        "unitOfMeasure": "mg/dl",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": "false"
+                    }
+                ],
+                "education": ["http://labtestsonline.org/understanding/analytes/cholesterol/tab/glance"]
+            },
+            "labIdentity": "53e43a14-21c4-4576-9122-28fdccd84ec4"
+        }, {
+            "labOrder": {
+                "identity": "ef188abe-87e5-4851-939c-5accf0da522c",
+                "summary": "Potassium",
+                "labStatus": "Active",
+                "labIdentity": "840f7b2d-6a1f-4a98-a7f3-3fd63e59ceb8",
+                "labInstructions": "Potassium"
+            },
+            "labResult": {
+                "identity": "068d9dea-e766-431a-8f10-2b5d3c7d3a8d",
+                "loincCode": "2823-3",
+                "labIdentity": "840f7b2d-6a1f-4a98-a7f3-3fd63e59ceb8",
+                "facilityName": "Milton Street Laboratory",
+                "facilityStreetAddress": "40025 Milton Street",
+                "facilityCity": "Aurora",
+                "facilityState": "CO",
+                "facilityPostalCode": "80011",
+                "labTestResult": [{
+                        "date": "2013-03-15",
+                        "type": "Potassium",
+                        "name": "Potassium",
+                        "value": "4.5",
+                        "unitOfMeasure": "mEq/L",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": "false"
+                    }
+                ],
+                "education": ["http://labtestsonline.org/understanding/analytes/potassium/tab/glance"]
+            },
+            "labIdentity": "840f7b2d-6a1f-4a98-a7f3-3fd63e59ceb8"
+        }, {
+            "labOrder": {
+                "identity": "407f3e30-74c7-4c33-a6e7-0f2e6f73da77",
+                "summary": "Triglycerides",
+                "labStatus": "Active",
+                "labIdentity": "51408f2c-bd69-4743-bcf1-e084a943e094",
+                "labInstructions": "Triglycerides"
+            },
+            "labResult": {
+                "identity": "59b66c45-787f-46ad-9c11-6ca3f165e598",
+                "loincCode": "14927-8",
+                "labIdentity": "51408f2c-bd69-4743-bcf1-e084a943e094",
+                "facilityName": "Milton Street Laboratory",
+                "facilityStreetAddress": "40025 Milton Street",
+                "facilityCity": "Aurora",
+                "facilityState": "CO",
+                "facilityPostalCode": "80011",
+                "labTestResult": [{
+                        "date": "2013-03-15",
+                        "type": "Triglycerides",
+                        "name": "Triglycerides (<150 mg/dl)",
+                        "value": "187",
+                        "unitOfMeasure": "mg/dl",
+                        "source": "Not Applicable",
+                        "condition": "Not Applicable",
+                        "abnormal": "true"
+                    }
+                ],
+                "education": ["http://labtestsonline.org/understanding/analytes/cholesterol/tab/glance"]
+            },
+            "labIdentity": "51408f2c-bd69-4743-bcf1-e084a943e094"
         }
     ],
     "author": "chuck norris",
     "organization": "Health Symmetric",
     "practice": {
-        "identity": "15184dc3-d09f-4ac9-9b2f-807d6ea03524",
-        "name": "472900@rspec.com",
+        "identity": "c81a23b3-5609-40dd-96e9-06a28ed3e2d9",
+        "name": "173303@rspec.com",
         "settings": null,
         "phone": null,
-        "address": [
-            {
+        "address": [{
                 "name": "Home",
                 "address1": "101 Main",
                 "address2": "Suite 250",
@@ -410,8 +613,7 @@
                 "state": "NY",
                 "postalCode": "23455",
                 "countryCode": "US",
-                "phone": [
-                    {
+                "phone": [{
                         "areaCode": "234",
                         "prefix": "837",
                         "suffix": "2345",
@@ -421,42 +623,46 @@
             }
         ],
         "rolesAndPermissions": {
-            "STAFF": [
-                "CREATE_PATIENT",
-                "LOG_PHONE_CALL",
-                "CREATE_CONTACT"
-            ],
-            "NURSE": [
-                "CREATE_PATIENT",
-                "UPDATE_PATIENT",
-                "PROGRESS_NOTES",
-                "LOG_PHONE_CALL",
-                "UPLOAD_DOCUMENTS",
-                "REQUEST_XRAYS_LABS",
-                "CREATE_CONTACT"
-            ],
-            "PHYSICIAN": [
-                "CREATE_PATIENT",
-                "UPDATE_PATIENT",
-                "SHARE_PATIENT",
-                "PRESCRIBE_MEDICATION",
-                "PROGRESS_NOTES",
-                "LOG_PHONE_CALL",
-                "UPLOAD_DOCUMENTS",
-                "RUN_REPORTS",
-                "REQUEST_XRAYS_LABS",
-                "CREATE_CONTACT",
-                "DIAGNOSE_PATIENTS",
-                "SIGN_SOAP_NOTE"
-            ],
-            "ADMINISTRATOR": [
-                "ADMINISTRATOR"
-            ]
+            "STAFF": ["CREATE_PATIENT", "LOG_PHONE_CALL", "CREATE_CONTACT"],
+            "NURSE": ["CREATE_PATIENT", "UPDATE_PATIENT", "PROGRESS_NOTES", "LOG_PHONE_CALL", "UPLOAD_DOCUMENTS", "REQUEST_XRAYS_LABS", "CREATE_CONTACT"],
+            "PHYSICIAN": ["CREATE_PATIENT", "UPDATE_PATIENT", "SHARE_PATIENT", "PRESCRIBE_MEDICATION", "PROGRESS_NOTES", "LOG_PHONE_CALL", "UPLOAD_DOCUMENTS", "RUN_REPORTS", "REQUEST_XRAYS_LABS", "CREATE_CONTACT", "DIAGNOSE_PATIENTS", "SIGN_SOAP_NOTE"],
+            "ADMINISTRATOR": ["ADMINISTRATOR"]
         },
         "symptoms": null,
         "practiceType": null,
         "emergencyPassword": null
-    }
+    },
+    "user": {
+        "identity": "8bcd70a1-b388-4c15-b4bb-62eb11c27482",
+        "firstName": "chuck",
+        "lastName": "norris",
+        "phone": [{
+                "areaCode": "234",
+                "prefix": "837",
+                "suffix": "2345",
+                "type": "OFFICE"
+            }
+        ],
+        "defaultRole": "Physician",
+        "specialty": "Student",
+        "settings": null,
+        "renderingNpi": "999",
+        "groupNpi": "444",
+        "dea": "222",
+        "licenseNumber": "0990",
+        "username": "987492@rspec.com",
+        "password": null,
+        "pin": null,
+        "title": "Mr.",
+        "email": [{
+                "emailAddress": "user@rspec.com",
+                "primary": true
+            }
+        ],
+        "prescriptionProfile": null,
+        "tin": "234"
+    },
+    "patientCount": 2
 }</textarea><br/>
 		<select name="format1" id="format1">
 			<option value="ccd" selected>CCD</option>
