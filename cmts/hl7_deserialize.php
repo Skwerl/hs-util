@@ -219,14 +219,10 @@ if (!empty($obr) && !empty($obx)) {
 	foreach ($obxs as $index => $labs) {
 		foreach ($labs as $lab) { // Yes, I know this is redundant...
 			$order = $obrs[$index];
-			$summary = explode($cs,$order->getField(4));
 			$code = explode($cs,$lab->getField(3));
 			$labName = explode($cs,$lab->getField(23));
 			$labAddress = explode($cs,$lab->getField(24));
 			$obj['lab'][$labsIndex] = array(
-				'labOrder' => array(
-					'summary' => $summary[1],
-				),
 				'labResult' => array(
 					'loincCode' => $code[0],
 					'facilityName' => $labName[0],
@@ -259,7 +255,7 @@ if (!empty($obr) && !empty($obx)) {
 			}
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d', strtotime($lab->getField(14))),
-				'type' => $summary[1],
+				'type' => $order->getField(13),
 				'name' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unit[1],

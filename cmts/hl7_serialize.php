@@ -233,25 +233,7 @@ foreach ($in->lab as $lab) {
 		$msg->addSegment($orc);
 	}
 
-/*//// OBR SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
-
-	$obr = new Net_HL7_Segment('OBR');
-	$obr->setField(1, $setId);
-	$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
-	$obr->setField(4, $results->loincCode.$cs.$order->summary.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
-	$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
-	$obr->setField(7, date('YmdHis'));
-	$obr->setField(22, date('YmdHis'));
-	$obr->setField(13, 'Reasons for Labs');
-	$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
-	$obr->setField(25, 'F');
-
-	if (in_array('OBR',$segments)) {
-		$msg->addSegment($obr);
-	}
-
-
-/*//// OBX SEGMENT FOR PATIENT AGE ///////////////////////////////////////////////////////////////*/
+/*//// OBX SEGMENT FOR PATIENT AGE? //////////////////////////////////////////////////////////////*/
 
 /* On hold, pending clarification on issue #45
 
@@ -275,9 +257,10 @@ if (in_array('OBX',$segments)) {
 
 */
 
-/*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+/*//// OBR & OBX SEGMENTS ////////////////////////////////////////////////////////////////////////*/
 
 	$subId = 1; foreach ($results->labTestResult as $result) {
+
 		$abnormal = (string)$result->abnormal;
 		$abnormal_flags = array_flip($HL7abnormalFlags);
 		if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
@@ -286,6 +269,22 @@ if (in_array('OBX',$segments)) {
 		$nameParts = splitLabDescription($result->name);
 		$resultDescription = $nameParts['resultDescription'];
 		$resultIdealRange = $nameParts['resultIdealRange'];
+
+		$obr = new Net_HL7_Segment('OBR');
+		$obr->setField(1, $setId);
+		$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
+		$obr->setField(4, $results->loincCode.$cs.$resultDescription.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
+		$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
+		$obr->setField(7, date('YmdHis'));
+		$obr->setField(22, date('YmdHis'));
+		$obr->setField(13, $result->type);
+		$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
+		$obr->setField(25, 'F');
+	
+		if (in_array('OBR',$segments)) {
+			$msg->addSegment($obr);
+		}
+
 		$obx = new Net_HL7_Segment('OBX');
 		$obx->setField(1, $setId);
 		$obx->setField(2, (is_numeric($result->value) ? 'NM' : 'ST'));
