@@ -100,22 +100,22 @@ foreach ($medications as $medication) {
 	$strength = trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit));
 	
 	$obj['medication'][$medicationsIndex]['drug'] = array(
+		'ndcid' => s($medication->Product->BrandName->Code->Value),
 		'brandName' => s($medication->Product->BrandName->Text),
 		'genericName' => s($medication->Product->ProductName->Text),
 		'form' => s($medication->Product->Form->Text),
 		'strength' => $strength,
-		'routeCode' => s($directions->Route->Text),	
-		'rxNormId' => s($medication->Product->BrandName->Code->Value)
+		'routeCode' => s($directions->Route->Text)
 	);
 
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
+			'ndcid' => s($medication->Product->BrandName->Code->Value),
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
 			'strength' => $strength,
-			'routeCode' => s($directions->Route->Text),
-			'rxNormId' => s($medication->Product->BrandName->Code->Value)
+			'routeCode' => s($directions->Route->Text)
 		),
 		'dose' => s($directions->Dose->Value),
 		'doseUnit' => s($directions->Dose->Units->Unit),
