@@ -140,8 +140,8 @@ $labType = '';
 $labsTypes = array();
 
 foreach ($labsTable as $tr) {
-	if (count($tr->td) == 1) {
-		$labType = s($tr->td->content);
+	if (count($tr->td) == 2) {
+		$labType = s($tr->td[0]->content);
 	} else {
 		$labsTypes[s($tr->td[1])] = $labType;
 	}
