@@ -361,13 +361,13 @@ foreach ($inputProblems as $inputProblem) {
 		$inputProblem->icd9->code,
 		$inputProblem->icd9->desc,
 		date('Ymd',strtotime(@$inputProblem->problemStartedAt)),
-		(@$inputProblem->active == '1' ? 'active' : 'completed'),
+		($inputProblem->active ? 'active' : 'inactive'),
 		'Meta' => array(
 			'problemName' => $inputProblem->icd9->desc,
 			'problemCode' => $inputProblem->icd9->code,
 			'lowValue' => date('Ymd',strtotime(@$inputProblem->problemStartedAt)),
 			'typeCode' => 'SUBJ',
-			'statusCode' => (@$inputProblem->active == '1' ? 'active' : 'completed'),
+			'statusCode' => ($inputProblem->active ? 'active' : 'inactive'),
 			'inversionInd' => 'false',
 		)
 	);
