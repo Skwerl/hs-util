@@ -117,8 +117,8 @@ $problemsIndex = 0;
 foreach ($problems as $problem) {
 	$obj['problem'][] = array(
 		'icd9' => array(
-			'code' => s($problem->act->entryRelationship->observation->value['code']),		
-			'desc' => s($problem->act->entryRelationship->observation->value['displayName'])
+			'code' => s($problemsTable[$problemsIndex]->td[0]),		
+			'desc' => s($problemsTable[$problemsIndex]->td[1])
 		),
 		'problemStartedAt' => date('Y-m-d', strtotime(s($problemsTable[$problemsIndex]->td[2]))),
 		'active' => (strtolower(s($problemsTable[$problemsIndex]->td[3])) == 'active' ? true : false)
