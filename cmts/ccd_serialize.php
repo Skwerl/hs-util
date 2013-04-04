@@ -648,8 +648,7 @@ foreach ($inputLabs as $inputLab) {
 			'resultAbnormal' => @$inputLabResult->abnormal,
 			'resultUnit' => @$inputLabResult->unitOfMeasure,
 			'source' => @$inputLabResult->source,
-			'statusCode' => 'completed',
-			'interpretationCode' => @$inputLabResult->abnormal
+			'statusCode' => 'completed'
 		);
 	}
 	$inputLabsIndex++;
@@ -679,7 +678,7 @@ foreach ($labsData as $labBattery) {
 		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['code'] = $labResult['resultCode'];
 		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['results'][$labResultsDateString] = array(
 			$labResult['resultMeasurement'].' '.$labResult['resultUnit'],
-			$labResult['resultAbnormal']
+			$HL7abnormalFlags[strtoupper($labResult['resultAbnormal'])]
 		);
 	}
 }
@@ -804,7 +803,7 @@ foreach ($labsData as $labData) {
 		$observationComponentValue->addAttribute('unit', $observation['resultUnit']);
 
 		XMLaddManyAttributes($observationComponent->addChild('interpretationCode'), array(
-			'code' => $observation['interpretationCode'],
+			'code' => $observation['resultAbnormal'],
 			'codeSystem' => '2.16.840.1.113883.5.83'
 		));
 
