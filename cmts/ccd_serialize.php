@@ -469,7 +469,7 @@ foreach ($problemsData as $problemData) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $medicationsSchema = array('MEDSUMMARY' => array(
-	'NDC ID' => 'NDCID',
+	'NDCID' => 'NDCID',
 	'RxNorm' => 'RXNORM',
 	'Generic Name' => 'GENNAME',
 	'Brand Name' => 'MEDNAME',
@@ -493,7 +493,7 @@ foreach ($inputMedications as $inputMedication) {
 			@$inputSig->drug->genericName,
 			@$inputSig->drug->brandName,
 			@$inputSig->drug->strength,
-			@$inputSig->quantity.' '.@$inputSig->quantityUnits,
+			@$inputSig->dose.' '.@$inputSig->doseUnit,
 			@$inputSig->drug->form,
 			@$inputSig->route,
 			@$inputSig->doseTiming,
@@ -697,16 +697,24 @@ XMLaddManyAttributes($labsTable, array(
 ));
 
 $labsTableHeader = $labsTable->addChild('thead')->addChild('tr');
-$labsTableHeader->addChild('th', '&#160;')->addAttribute('colspan', 2);
+$labsTableHeader->addChild('th', 'LOINC');
+$labsTableHeader->addChild('th', 'Description');
 foreach ($labResultsDateIndex as $labResultsDate) {
-	$labsTableHeader->addChild('th', date('Y-m-d', $labResultsDate))->addAttribute('colspan', 2);
+	$labsTableHeader->addChild('th', 'Measure');
+	$labsTableHeader->addChild('th', 'Abnormal');
 }
 
 $labsTableBody = $labsTable->addChild('tbody');
 foreach ($labResultsTableArray as $labResultsType => $labResultsSet) {
-	$labsTableRowHeader = $labsTableBody->addChild('tr')->addChild('td');
-	$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns*4);
-	$labsTableRowHeader->addChild('content', $labResultsType)->addAttribute('styleCode', 'BoldItalics');
+	$labsTableRowHeader = $labsTableBody->addChild('tr');
+	$labsTableRowHeaderType = $labsTableRowHeader->addChild('td');
+	$labsTableRowHeaderType->addAttribute('colspan', 2);
+	$labsTableRowHeaderType->addChild('content', $labResultsType)->addAttribute('styleCode', 'BoldItalics');
+	foreach ($labResultsDateIndex as $labResultsDate) {
+		$labsTableRowHeaderDate = $labsTableRowHeader->addChild('td');
+		$labsTableRowHeaderDate->addAttribute('colspan', 2);
+		$labsTableRowHeaderDate->addChild('content', date('Y-m-d', $labResultsDate))->addAttribute('styleCode', 'BoldItalics');
+	}
 	foreach ($labResultsSet as $labResultsSetName => $labResultsSetResults) {
 		$labsTableRow = $labsTableBody->addChild('tr');
 		$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['code']);
