@@ -469,6 +469,7 @@ foreach ($problemsData as $problemData) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $medicationsSchema = array('MEDSUMMARY' => array(
+	'NDC ID' => 'NDCID',
 	'RxNorm' => 'RXNORM',
 	'Generic Name' => 'GENNAME',
 	'Brand Name' => 'MEDNAME',
@@ -487,6 +488,7 @@ foreach ($inputMedications as $inputMedication) {
 	foreach ($inputMedication->patientPrescription as $inputPrescription) {
 		$inputSig = $inputPrescription->prescribe->sig;
 		$medicationsData[] = array(
+			@$inputSig->drug->ndcid,
 			@$inputSig->drug->rxNormId,
 			@$inputSig->drug->genericName,
 			@$inputSig->drug->brandName,

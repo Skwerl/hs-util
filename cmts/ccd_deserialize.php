@@ -57,22 +57,24 @@ $medicationsIndex = 0;
 foreach ($medications as $medication) {
 
 	$obj['medication'][$medicationsIndex]['drug'] = array(
-		'brandName' => s($medicationsTable[$medicationsIndex]->td[2]),
-		'genericName' => s($medicationsTable[$medicationsIndex]->td[1]),
-		'form' => s($medicationsTable[$medicationsIndex]->td[5]),
-		'strength' => s($medicationsTable[$medicationsIndex]->td[3]),
-		'routeCode' => s($medicationsTable[$medicationsIndex]->td[6]),
-		'rxNormId' => s($medicationsTable[$medicationsIndex]->td[0])
+		'ndcid' => s($medicationsTable[$medicationsIndex]->td[0]),
+		'brandName' => s($medicationsTable[$medicationsIndex]->td[3]),
+		'genericName' => s($medicationsTable[$medicationsIndex]->td[2]),
+		'form' => s($medicationsTable[$medicationsIndex]->td[6]),
+		'strength' => s($medicationsTable[$medicationsIndex]->td[4]),
+		'routeCode' => s($medicationsTable[$medicationsIndex]->td[7]),
+		'rxNormId' => s($medicationsTable[$medicationsIndex]->td[1])
 	);
 
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
-			'brandName' => s($medicationsTable[$medicationsIndex]->td[2]),
-			'genericName' => s($medicationsTable[$medicationsIndex]->td[1]),
-			'form' => s($medicationsTable[$medicationsIndex]->td[5]),
-			'strength' => s($medicationsTable[$medicationsIndex]->td[3]),
-			'routeCode' => s($medicationsTable[$medicationsIndex]->td[6]),
-			'rxNormId' => s($medicationsTable[$medicationsIndex]->td[0])
+			'ndcid' => s($medicationsTable[$medicationsIndex]->td[0]),
+			'brandName' => s($medicationsTable[$medicationsIndex]->td[3]),
+			'genericName' => s($medicationsTable[$medicationsIndex]->td[2]),
+			'form' => s($medicationsTable[$medicationsIndex]->td[6]),
+			'strength' => s($medicationsTable[$medicationsIndex]->td[4]),
+			'routeCode' => s($medicationsTable[$medicationsIndex]->td[7]),
+			'rxNormId' => s($medicationsTable[$medicationsIndex]->td[1])
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
