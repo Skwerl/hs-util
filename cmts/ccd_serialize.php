@@ -193,7 +193,7 @@ $ccdBody = $ccdXML->addChild('component')->addChild('structuredBody');
 
 $allergiesSchema = array('ALGSUMMARY' => array(
 	'SNOMED' => 'SNOMED',
-	'RxNorm' => 'RXNORM',
+	'RxNorm' => 'ALGRXN',
 	'Type' => 'ALGTYPE',
 	'Substance' => 'ALGSUB',
 	'Reaction' => 'ALGREACT',
@@ -218,7 +218,7 @@ foreach ($inputAllergies as $inputAllergy) {
 			'statusCode' => (@$inputAllergy->active == '1' ? 'active' : 'completed'),
 			'inversionInd' => 'false',
 			'allergyDate' => $inputAllergy->allergicReactionDate,
-			'allergyCode' => $inputAllergy->rxnormId,
+			'allergyCode' => $inputAllergy->snomed,
 			'allergyName' => $inputAllergy->name
 		)
 	);

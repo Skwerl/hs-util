@@ -100,7 +100,8 @@ foreach ($allergies as $allergy) {
 		'active' => (strtolower(s($allergiesTable[$allergiesIndex]->td[5])) == 'active' ? true : false),
 		'allergicReaction' => s($allergiesTable[$allergiesIndex]->td[4]),
 		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergiesTable[$allergiesIndex]->td[6]))),
-		'snomed' => s($allergiesTable[$allergiesIndex]->td[0])
+		'snomed' => s($allergiesTable[$allergiesIndex]->td[0]),
+		'rxnormId' => s($allergiesTable[$allergiesIndex]->td[1])
 	);
 	$allergiesIndex++;
 }
