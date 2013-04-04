@@ -50,7 +50,6 @@ $registry->addChild('submission-method','A');
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $patientTotal = $in->patientCount;
-$eligibleTotal = 0; foreach ($in->categories as $d) { $eligibleTotal += $d->qualfiedPatients; }
 
 $measures = $pqriXML->addChild('measure-group');
 $measures->addAttribute('ID','X');
@@ -63,8 +62,8 @@ $provider->addChild('encounter-to-date',date('m-d-Y'));
 
 $groupStat = $provider->addChild('measure-group-stat');
 $groupStat->addChild('ffs-patient-count',0);
-$groupStat->addChild('group-reporting-rate-numerator',0);
-$groupStat->addChild('group-eligible-instances',$eligibleTotal);
+$groupStat->addChild('group-reporting-rate-numerator',$patientTotal);
+$groupStat->addChild('group-eligible-instances',$patientTotal);
 $groupStat->addChild('group-reporting-rate',100);
 
 foreach ($in->categories as $measureData) {
