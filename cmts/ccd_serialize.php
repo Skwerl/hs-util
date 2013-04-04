@@ -633,6 +633,10 @@ foreach ($inputLabs as $inputLab) {
 		$nameParts = splitLabDescription($inputLabResult->name);
 		$resultDescription = $nameParts['resultDescription'];
 		$resultIdealRange = $nameParts['resultIdealRange'];
+		$resultDescription = $nameParts['resultDescription'];
+		if (!empty($nameParts['resultIdealRange'])) {
+			$resultDescription .= ' ('.$nameParts['resultIdealRange'].')';
+		}
 		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime(@$inputLabResult->date));
 		$labsData[$inputLabsIndex]['labProcedures'][] = array(
 			'procedureDescription' => 'Obtain sample for '.$inputLabResult->type,
@@ -640,6 +644,7 @@ foreach ($inputLabs as $inputLab) {
 		);
 		$labsData[$inputLabsIndex]['labResults'][] = array(
 			'resultCode' => $inputLabData->loincCode,
+			'resultType' => @$inputLabResult->type,
 			'resultDisplayName' => @$resultDescription,
 			'resultIdealRange' => @$resultIdealRange,
 			'resultMeasurement' => @$inputLabResult->value,
@@ -674,9 +679,8 @@ foreach ($labsData as $labBattery) {
 	foreach ($labBattery['labResults'] as $labResult) {
 		$labResultsDateString = strtotime($labBattery['labDate']);
 		$labResultsDateIndex[] = $labResultsDateString;
-		$labResultDescription = $labResult['resultDisplayName'].' ('.$labResult['resultIdealRange'].')';
-		$labResultsTableArray[$labBattery['labName']][$labResultDescription][$labResultsDateString] = array(
-			$labResult['resultCode'],
+		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['code'] = $labResult['resultCode'];
+		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['results'][$labResultsDateString] = array(
 			$labResult['resultMeasurement'].' '.$labResult['resultUnit'],
 			$labResult['resultAbnormal']
 		);
@@ -701,24 +705,23 @@ foreach ($labResultsDateIndex as $labResultsDate) {
 }
 
 $labsTableBody = $labsTable->addChild('tbody');
-
-foreach ($labResultsTableArray as $labResultsBattery => $labResultsSet) {
-		$labsTableRowHeader = $labsTableBody->addChild('tr')->addChild('td');
-		$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns*4);
-		$labsTableRowHeader->addChild('content', $labResultsBattery)->addAttribute('styleCode', 'BoldItalics');
-		foreach ($labResultsSet as $labResultsSetResult => $labResultsSetValue) {
-			$labsTableRow = $labsTableBody->addChild('tr');
-			$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][0]);
-			$labsTableRow->addChild('td', $labResultsSetResult);
-			foreach ($labResultsDateIndex as $labResultsDate) {
-				if (key($labResultsSetValue) == $labResultsDate) {
-					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][1]);
-					$labsTableRow->addChild('td', $labResultsSetValue[$labResultsDate][2]);
-				} else {
-					$labsTableRow->addChild('td')->addAttribute('colspan', 2);
-				}
+foreach ($labResultsTableArray as $labResultsType => $labResultsSet) {
+	$labsTableRowHeader = $labsTableBody->addChild('tr')->addChild('td');
+	$labsTableRowHeader->addAttribute('colspan', $labResultsTableColumns*4);
+	$labsTableRowHeader->addChild('content', $labResultsType)->addAttribute('styleCode', 'BoldItalics');
+	foreach ($labResultsSet as $labResultsSetName => $labResultsSetResults) {
+		$labsTableRow = $labsTableBody->addChild('tr');
+		$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['code']);
+		$labsTableRow->addChild('td', $labResultsSetName);
+		foreach ($labResultsDateIndex as $labResultsDate) {
+			if (isset($labResultsSet[$labResultsSetName]['results'][$labResultsDate])) {
+				$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['results'][$labResultsDate][0]);
+				$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['results'][$labResultsDate][1]);
+			} else {
+				$labsTableRow->addChild('td')->addAttribute('colspan', 2);
 			}
 		}
+	}
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/

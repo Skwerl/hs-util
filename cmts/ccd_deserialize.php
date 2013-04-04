@@ -133,12 +133,20 @@ $labs = $xml->component->structuredBody->component[3]->section->entry;
 $labsTable = $xml->component->structuredBody->component[3]->section->text->table->tbody->tr;
 $labsIndex = 0;
 
+$labType = '';
+$labsTypes = array();
+
+foreach ($labsTable as $tr) {
+	if (count($tr->td) == 1) {
+		$labType = s($tr->td->content);
+	} else {
+		$labsTypes[s($tr->td[1])] = $labType;
+	}
+}
+
 foreach ($labs as $battery) {
 	$organizer = $battery->organizer;
 	$obj['lab'][$labsIndex] = array(
-		'labOrder' => array(
-			'summary' => s($organizer->code['displayName'])
-		),
 		'labResult' =>array(
 			'loincCode' => s($organizer->code['code']),
 			'labTestResult' => array()
@@ -146,10 +154,11 @@ foreach ($labs as $battery) {
 	);
 	foreach($organizer->component as $component) {
 		if ($component->observation) {
+			$labName = s($component->observation->code['displayName']);
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d',strtotime(s($component->observation->effectiveTime['value']))),
-				'type' => s($organizer->code['displayName']),
-				'name' => s($component->observation->code['displayName']),
+				'type' => $labsTypes[stripslashes($labName)],
+				'name' => $labName,
 				'value' => s($component->observation->value['value']),
 				'unitOfMeasure' => s($component->observation->value['unit'])
 			);
