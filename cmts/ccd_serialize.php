@@ -652,7 +652,7 @@ foreach ($inputLabs as $inputLab) {
 			'resultUnit' => @$inputLabResult->unitOfMeasure,
 			'source' => @$inputLabResult->source,
 			'statusCode' => 'completed',
-			'interpretationCode' => 'N'
+			'interpretationCode' => @$inputLabResult->abnormal
 		);
 	}
 	$inputLabsIndex++;

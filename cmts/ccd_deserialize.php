@@ -160,7 +160,8 @@ foreach ($labs as $battery) {
 				'type' => $labsTypes[stripslashes($labName)],
 				'name' => $labName,
 				'value' => s($component->observation->value['value']),
-				'unitOfMeasure' => s($component->observation->value['unit'])
+				'unitOfMeasure' => s($component->observation->value['unit']),
+				'abnormal' => s($component->observation->interpretationCode['code'])
 			);
 		}
 	}
