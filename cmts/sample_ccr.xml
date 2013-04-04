@@ -635,9 +635,9 @@
           <BrandName>
             <Text>Diabeta</Text>
             <Code>
-              <Value>205875</Value>
-              <CodingSystem>RxNorm</CodingSystem>
-              <Version>2011-5</Version>
+              <Value>00039005110</Value>
+              <CodingSystem>NDC</CodingSystem>
+              <Version>2012</Version>
             </Code>
           </BrandName>
           <Strength>
@@ -715,9 +715,9 @@
           <BrandName>
             <Text>Lipitor</Text>
             <Code>
-              <Value>617314</Value>
-              <CodingSystem>RxNorm</CodingSystem>
-              <Version>2011-5</Version>
+              <Value>00071015540</Value>
+              <CodingSystem>NDC</CodingSystem>
+              <Version>2012</Version>
             </Code>
           </BrandName>
           <Strength>
@@ -795,9 +795,9 @@
           <BrandName>
             <Text>Lasix</Text>
             <Code>
-              <Value>200801</Value>
-              <CodingSystem>RxNorm</CodingSystem>
-              <Version>2011-5</Version>
+              <Value>00039006710</Value>
+              <CodingSystem>NDC</CodingSystem>
+              <Version>2012</Version>
             </Code>
           </BrandName>
           <Strength>
@@ -875,9 +875,9 @@
           <BrandName>
             <Text>Klor-Con</Text>
             <Code>
-              <Value>628958</Value>
-              <CodingSystem>RxNorm</CodingSystem>
-              <Version>2011-5</Version>
+              <Value>00245004115</Value>
+              <CodingSystem>NDC</CodingSystem>
+              <Version>2012</Version>
             </Code>
           </BrandName>
           <Strength>
@@ -1873,10 +1873,18 @@
           <Text>Home</Text>
         </Type>
         <Line1>758 Las Olas Dr.</Line1>
+        <Line2>Apt. #3</Line2>
         <City>Fort Lauderdale</City>
         <State>FL</State>
+        <Country>US</Country>
         <PostalCode>33011</PostalCode>
       </Address>
+      <Telephone>
+        <Value>954-555-1212</Value>
+        <Type>
+          <Text>Home</Text>
+        </Type>
+      </Telephone>
       <Source>
         <Actor>
           <ActorID>AA0002</ActorID>
