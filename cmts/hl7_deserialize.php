@@ -267,6 +267,18 @@ if (!empty($obr) && !empty($obx)) {
 		}
 		$labsIndex++;
 	}
+} else {
+
+/*//// ADT OBX SEGMENTs //////////////////////////////////////////////////////////////////////////*/
+
+	$adtobxs = $obx;
+	foreach ($adtobxs as $obx) {
+		$obxtype = $obx->getField(2);
+		if (strtoupper($obxtype) == 'NM') {
+			$obj['patient']['ageInYears'] = $obx->getField(5);
+		}
+	}	
+
 }
 
 /*//// IN1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
