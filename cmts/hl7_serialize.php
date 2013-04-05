@@ -150,11 +150,6 @@ if ($type == 'ADT') {
 	$obx->setField(2, 'HD');
 	$obx->setField(3, 'EHR Facility^2.16.840.1.113883.3.72.7.2^HL7');
 	$obx->setField(5, 'PH Facility'.$cs.$in->user->groupNpi.$cs.'NPI');
-	$obx->setField(6, implode($cs,array(
-		'a',
-		'year',
-		'ANS+'
-	)));
 	$obx->setField(11, 'F');	
 	$obx->setField(14, date('YmdHis'));
 	$msg->addSegment($obx);
