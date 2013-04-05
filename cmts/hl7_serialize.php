@@ -58,7 +58,7 @@ if (in_array('EVN',$segments)) {
 	$evn = new Net_HL7_Segment('EVN');
 	$evn->setField(1, $mvar);
 	$evn->setField(2, date('YmdHis'));
-	$evn->setField(6, 'PH Facility^2.16.840.1.113883.3.72.7.4^HL7');
+	$evn->setField(6, 'PH Facility'.$cs.$in->user->groupNpi.$cs.'NPI');
 	$msg->addSegment($evn);
 }
 
