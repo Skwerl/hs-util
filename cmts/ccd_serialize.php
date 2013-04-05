@@ -619,10 +619,16 @@ foreach ($medicationsData as $medicationData) {
 $labsData = array();
 $inputLabs = $in->lab;
 $inputLabsIndex = 0;
+
 foreach ($inputLabs as $inputLab) {
 	$inputLabData = $inputLab->labResult;
+	$inputLabName = $inputLab->labOrder->summary;
+	if (empty($inputLabName)) {
+		$nameParts = splitLabDescription($inputLabData->labTestResult[0]->name);
+		$inputLabName = $nameParts['resultDescription'];
+	}
 	$labsData[$inputLabsIndex] = array(
-		'labName' => $inputLab->labOrder->summary,
+		'labName' => $inputLabName,
 		'loincCode' => $inputLabData->loincCode,
 		'labDate' => '',
 		'labProcedures' => array(),
