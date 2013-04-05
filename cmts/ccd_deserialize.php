@@ -78,8 +78,8 @@ foreach ($medications as $medication) {
 		),
 		'dose' => s($medication->substanceAdministration->doseQuantity['value']),
 		'doseUnit' => s($medication->substanceAdministration->doseQuantity['unit']),
-		'route' => s($medicationsTable[$medicationsIndex]->td[6]),
-		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[7])
+		'route' => s($medicationsTable[$medicationsIndex]->td[7]),
+		'doseTiming' => s($medicationsTable[$medicationsIndex]->td[8])
 	)),
 	'createdAt' => date('c',strtotime(s($medicationsTable[$medicationsIndex]->td[8])))
 	);
