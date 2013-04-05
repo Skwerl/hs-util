@@ -140,6 +140,160 @@ if (in_array('PV1',$segments)) {
 	}
 }
 
+/*//// ADT OBX SEGMENTS //////////////////////////////////////////////////////////////////////////*/
+
+if ($type == 'ADT') {
+
+	# OBX SEGMENT FOR NPI
+	$obx = new Net_HL7_Segment('OBX');
+	$obx->setField(1, 1);
+	$obx->setField(2, 'HD');
+	$obx->setField(3, 'EHR Facility^2.16.840.1.113883.3.72.7.2^HL7');
+	$obx->setField(5, 'PH Facility'.$cs.$in->user->groupNpi.$cs.'NPI');
+	$obx->setField(6, implode($cs,array(
+		'a',
+		'year',
+		'ANS+'
+	)));
+	$obx->setField(11, 'F');	
+	$obx->setField(14, date('YmdHis'));
+	$msg->addSegment($obx);
+
+	# OBX SEGMENT FOR AGE
+	$obx = new Net_HL7_Segment('OBX');
+	$obx->setField(1, 2);
+	$obx->setField(2, 'NM');
+	$obx->setField(3, implode($cs,array(
+		'21612-7',
+		'Reported Patient Age',
+		'LN'
+	)));
+	$obx->setField(5, $in->patient->ageInYears);
+	$obx->setField(6, implode($cs,array(
+		'a',
+		'year',
+		'ANS+'
+	)));
+	$obx->setField(11, 'F');	
+	$msg->addSegment($obx);
+
+} else {
+
+/*//// SET UP ORC, OBR, OBX, SPM SEGMENTS (ORU) //////////////////////////////////////////////////*/
+
+	$setId = 1;
+	
+	foreach ($in->lab as $lab) {
+	
+		$order = $lab->labOrder;
+		$results = $lab->labResult;
+		$specimens = array();
+	
+/*//// ORC SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+	
+		$orc = new Net_HL7_Segment('ORC');
+		$orc->setField(1, 'RE');
+	
+		$orc->setField(12, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
+		$orc->setField(24, implode($cs, array(
+			$practice_address->address1,
+			$practice_address->address2,
+			$practice_address->city,
+			$practice_address->state,
+			$practice_address->postalCode,
+			$practice_address->countryCode,
+			'B'
+		)));
+	
+		$orc->setField(21, 'Lab Organization'.$cs.'L'.$cs.$cs.$cs.$cs.$results->facilityName.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1234');
+		$orc->setField(22, $results->facilityStreetAddress.$cs.$cs.$results->facilityCity.$cs.$results->facilityState.$cs.$results->facilityPostalCode.$cs.$cs.'B');
+		$orc->setField(23, $cs.$cs.$cs.$cs.$cs.$practice_phone->areaCode.$cs.$practice_phone->prefix.$practice_phone->suffix);
+	
+		if (in_array('ORC',$segments)) {
+			$msg->addSegment($orc);
+		}
+		
+/*//// OBR & OBX SEGMENTS ////////////////////////////////////////////////////////////////////////*/
+	
+		$subId = 1; foreach ($results->labTestResult as $result) {
+	
+			$abnormal = (string)$result->abnormal;
+			$abnormal_flags = array_flip($HL7abnormalFlags);
+			if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
+				$abnormal = 'NULL';
+			}
+			$nameParts = splitLabDescription($result->name);
+			$resultDescription = $nameParts['resultDescription'];
+			$resultIdealRange = $nameParts['resultIdealRange'];
+	
+			$obr = new Net_HL7_Segment('OBR');
+			$obr->setField(1, $setId);
+			$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
+			$obr->setField(4, $results->loincCode.$cs.$resultDescription.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
+			$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
+			$obr->setField(7, date('YmdHis'));
+			$obr->setField(22, date('YmdHis'));
+			$obr->setField(13, $result->type);
+			$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
+			$obr->setField(25, 'F');
+		
+			if (in_array('OBR',$segments)) {
+				$msg->addSegment($obr);
+			}
+	
+			$obx = new Net_HL7_Segment('OBX');
+			$obx->setField(1, $setId);
+			$obx->setField(2, (is_numeric($result->value) ? 'NM' : 'ST'));
+			$obx->setField(3, $results->loincCode.$cs.$resultDescription.$cs.'LN');
+			$obx->setField(4, $subId);
+			$obx->setField(7, $resultIdealRange);
+			$obx->setField(5, $result->value);
+			$obx->setField(6, $result->unitOfMeasure.$cs.$result->unitOfMeasure.$cs.'ANS+');
+			$obx->setField(8, $abnormal);
+			$obx->setField(11, 'F');
+			$obx->setField(14, date('YmdHis',strtotime($result->date)));
+			$obx->setField(19, date('YmdHis',strtotime($result->date)));
+			$obx->setField(23, $results->facilityName.$cs.'L'.$cs.$cs.$cs.$cs.'CLIA'.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1236');
+			$obx->setField(24, implode($cs, array(
+				$results->facilityStreetAddress, '',
+				$results->facilityCity,
+				$results->facilityState,
+				$results->facilityPostalCode, '',
+				'B'
+			)));
+			
+			if (in_array('OBX',$segments)) {
+				$msg->addSegment($obx);
+			}
+	
+/*//// SPM SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+	
+			if (in_array('SPM',$segments)) {
+				$spm = new Net_HL7_Segment('SPM');
+				$spm->setField(1, $setId);
+				$spm->setField(4, implode($cs, array(
+					'000',
+					$result->source,
+					'SCT',
+					'Alt ID',
+					'Alt Text',
+					'HL70487',
+					'20080131',
+					'2.5.1'
+				)));
+				$spm->setField(24, $result->condition);
+				$msg->addSegment($spm);
+			}
+			
+			$subId++;
+		}
+	
+		$setId++;
+	
+	}
+
+}
+
 /*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 if (in_array('AL1',$segments)) {
@@ -197,143 +351,6 @@ if (in_array('RXA',$segments)) {
 		$msg->addSegment($rxa);
 		$admin_sub_id++;
 	}
-}
-
-/*//// SET UP ORC, OBR, OBX, SPM SEGMENTS ////////////////////////////////////////////////////////*/
-
-$setId = 1;
-
-foreach ($in->lab as $lab) {
-
-	$order = $lab->labOrder;
-	$results = $lab->labResult;
-	$specimens = array();
-
-/*//// ORC SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
-
-	$orc = new Net_HL7_Segment('ORC');
-	$orc->setField(1, 'RE');
-
-	$orc->setField(12, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
-	$orc->setField(24, implode($cs, array(
-		$practice_address->address1,
-		$practice_address->address2,
-		$practice_address->city,
-		$practice_address->state,
-		$practice_address->postalCode,
-		$practice_address->countryCode,
-		'B'
-	)));
-
-	$orc->setField(21, 'Lab Organization'.$cs.'L'.$cs.$cs.$cs.$cs.$results->facilityName.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1234');
-	$orc->setField(22, $results->facilityStreetAddress.$cs.$cs.$results->facilityCity.$cs.$results->facilityState.$cs.$results->facilityPostalCode.$cs.$cs.'B');
-	$orc->setField(23, $cs.$cs.$cs.$cs.$cs.$practice_phone->areaCode.$cs.$practice_phone->prefix.$practice_phone->suffix);
-
-	if (in_array('ORC',$segments)) {
-		$msg->addSegment($orc);
-	}
-
-/*//// OBX SEGMENT FOR PATIENT AGE? //////////////////////////////////////////////////////////////*/
-
-/* On hold, pending clarification on issue #45
-
-if (in_array('OBX',$segments)) {
-	$obx = new Net_HL7_Segment('OBX');
-	$obx->setField(1, $setId);
-	$obx->setField(2, 'NM');
-	$obx->setField(3, implode($cs,array(
-		'21612-7',
-		'Reported Patient Age',
-		'LN'
-	)));
-	$obx->setField(5, '05');
-	$obx->setField(6, implode($cs,array(
-		'mo',
-		'month',
-		'ANS+'
-	)));
-	$msg->addSegment($obx);
-}
-
-*/
-
-/*//// OBR & OBX SEGMENTS ////////////////////////////////////////////////////////////////////////*/
-
-	$subId = 1; foreach ($results->labTestResult as $result) {
-
-		$abnormal = (string)$result->abnormal;
-		$abnormal_flags = array_flip($HL7abnormalFlags);
-		if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
-			$abnormal = 'NULL';
-		}
-		$nameParts = splitLabDescription($result->name);
-		$resultDescription = $nameParts['resultDescription'];
-		$resultIdealRange = $nameParts['resultIdealRange'];
-
-		$obr = new Net_HL7_Segment('OBR');
-		$obr->setField(1, $setId);
-		$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
-		$obr->setField(4, $results->loincCode.$cs.$resultDescription.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
-		$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
-		$obr->setField(7, date('YmdHis'));
-		$obr->setField(22, date('YmdHis'));
-		$obr->setField(13, $result->type);
-		$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
-		$obr->setField(25, 'F');
-	
-		if (in_array('OBR',$segments)) {
-			$msg->addSegment($obr);
-		}
-
-		$obx = new Net_HL7_Segment('OBX');
-		$obx->setField(1, $setId);
-		$obx->setField(2, (is_numeric($result->value) ? 'NM' : 'ST'));
-		$obx->setField(3, $results->loincCode.$cs.$resultDescription.$cs.'LN');
-		$obx->setField(4, $subId);
-		$obx->setField(7, $resultIdealRange);
-		$obx->setField(5, $result->value);
-		$obx->setField(6, $result->unitOfMeasure.$cs.$result->unitOfMeasure.$cs.'ANS+');
-		$obx->setField(8, $abnormal);
-		$obx->setField(11, 'F');
-		$obx->setField(14, date('YmdHis',strtotime($result->date)));
-		$obx->setField(19, date('YmdHis',strtotime($result->date)));
-		$obx->setField(23, $results->facilityName.$cs.'L'.$cs.$cs.$cs.$cs.'CLIA'.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1236');
-		$obx->setField(24, implode($cs, array(
-			$results->facilityStreetAddress, '',
-			$results->facilityCity,
-			$results->facilityState,
-			$results->facilityPostalCode, '',
-			'B'
-		)));
-		
-		if (in_array('OBX',$segments)) {
-			$msg->addSegment($obx);
-		}
-
-/*//// SPM SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
-
-		if (in_array('SPM',$segments)) {
-			$spm = new Net_HL7_Segment('SPM');
-			$spm->setField(1, $setId);
-			$spm->setField(4, implode($cs, array(
-				'000',
-				$result->source,
-				'SCT',
-				'Alt ID',
-				'Alt Text',
-				'HL70487',
-				'20080131',
-				'2.5.1'
-			)));
-			$spm->setField(24, $result->condition);
-			$msg->addSegment($spm);
-		}
-		
-		$subId++;
-	}
-
-	$setId++;
-
 }
 
 /*//// IN1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/

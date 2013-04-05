@@ -51,7 +51,6 @@ if ($translate_context == 'hl7') {
 				'PID',
 				'PV1',
 				'OBX',
-				'AL1',
 				'DG1'
 			);
 			break;
