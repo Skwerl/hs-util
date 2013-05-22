@@ -51,7 +51,7 @@
         "gender": "M",
         "language": "English",
         "patientConsent": null,
-        "maritalStatus": null,
+        "maritalStatus": "D",
         "race": "A",
         "ethnicity": "H",
         "smoking": 2,
