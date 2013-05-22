@@ -129,6 +129,7 @@ XMLaddManyAttributes($patient->addChild('administrativeGenderCode'), array(
 $patient->addChild('birthTime')->addAttribute('value', date('Ymd',strtotime($inputPatient->dob)));
 
 if (!empty($inputPatient->maritalStatus)) {
+	$inputMaritalStatus = $inputPatient->maritalStatus;
 	XMLaddManyAttributes($patient->addChild('maritalStatusCode'), array(
 		'code' => $inputMaritalStatus,
 		'displayName' => $HL7martialCodes[$inputMaritalStatus],

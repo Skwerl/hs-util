@@ -1358,7 +1358,7 @@ td {
 						<xsl:value-of select="@extension"/>
 					</xsl:if>
 					<xsl:text> </xsl:text>
-					<xsl:value-of select="@root"/>
+		<!--		<xsl:value-of select="@root"/>		-->
 				</xsl:if>
 			</xsl:when>
 			<xsl:otherwise>
