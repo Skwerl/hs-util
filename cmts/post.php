@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Test Console</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/jquery/1.7.2/jquery.min.js"></script>
 
 <style type="text/css">
 	#output {
