@@ -77,19 +77,21 @@ if ($pid->getField(14)) {
 	);
 }
 
-$addresses = explode($rs,$pid->getField(11));
-$obj['patient']['address'] = array();
-foreach ($addresses as $address) {
-	$address = explode($cs,$address);
-	$address_org = array();
-	$address_org['address1'] = $address[0]; 	
-	$address_org['address2'] = $address[1]; 	
-	$address_org['city'] = $address[2]; 	
-	$address_org['state'] = $address[3]; 	
-	$address_org['postalCode'] = $address[4]; 	
-	$address_org['countryCode'] = $address[5]; 	
-	$address_org['phone'] = $phone_org; 	
-	$obj['patient']['address'][] = $address_org;
+if ($pid->getField(11)) {
+	$addresses = explode($rs,$pid->getField(11));
+	$obj['patient']['address'] = array();
+	foreach ($addresses as $address) {
+		$address = explode($cs,$address);
+		$address_org = array();
+		$address_org['address1'] = $address[0]; 	
+		$address_org['address2'] = $address[1]; 	
+		$address_org['city'] = $address[2]; 	
+		$address_org['state'] = $address[3]; 	
+		$address_org['postalCode'] = $address[4]; 	
+		$address_org['countryCode'] = $address[5]; 	
+		$address_org['phone'] = $phone_org; 	
+		$obj['patient']['address'][] = $address_org;
+	}
 }
 
 /*//// PV1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
@@ -187,6 +189,7 @@ foreach ($rxa as $immunization) {
 
 $obr = $msg->getSegmentsByName('OBR');
 $obrs = array();
+
 foreach ($obr as $ord) {
 	$obrs[$ord->getField(1)] = $ord;
 }
@@ -218,18 +221,23 @@ if (!empty($obr) && !empty($obx)) {
 	$labsIndex = 0;
 	foreach ($obxs as $index => $labs) {
 		foreach ($labs as $lab) { // Yes, I know this is redundant...
-			$order = $obrs[$index];
+			$orderType = '';
+			$order = @$obrs[$index];
+			if (!empty($order)) {
+				$orderType = $order->getField(13);
+				$orderResultDate = date('Y-m-d', strtotime($ord->getField(22)));
+			}
 			$code = explode($cs,$lab->getField(3));
 			$labName = explode($cs,$lab->getField(23));
 			$labAddress = explode($cs,$lab->getField(24));
 			$obj['lab'][$labsIndex] = array(
 				'labResult' => array(
-					'loincCode' => $code[0],
-					'facilityName' => $labName[0],
-					'facilityStreetAddress' => $labAddress[0],
-					'facilityCity' => $labAddress[2],
-					'facilityState' => $labAddress[3],
-					'facilityPostalCode' => $labAddress[4],
+					'loincCode' => @$code[0],
+					'facilityName' => @$labName[0],
+					'facilityStreetAddress' => @$labAddress[0],
+					'facilityCity' => @$labAddress[2],
+					'facilityState' => @$labAddress[3],
+					'facilityPostalCode' => @$labAddress[4],
 				)
 			);
 		}
@@ -237,12 +245,16 @@ if (!empty($obr) && !empty($obx)) {
 			if ($obxIndex > $spmIndex) {
 				$spmIndex = array_shift($spmIndexes);
 			}
-			$spm = $msg->getSegmentByIndex($spmIndex);
-			$specimen = explode($cs,$spm->getField(4));
-		
+			$specDesc = '';
+			$specCond = '';
+			if ($spm = $msg->getSegmentByIndex($spmIndex)) {
+				@$specimen = explode($cs,$spm->getField(4));
+				@$specDesc = $specimen[1];			
+				@$specCond = $spm->getField(24);
+			}			
 			$code = explode($cs,$lab->getField(3));
-			$source = explode($cs,$lab->getField(4));
 			$unit = explode($cs,$lab->getField(6));
+			$unitOfMeasure = ''; if (isset($unit[1])) { $unitOfMeasure = $unit[1]; }
 			$abnormal = (string)$lab->getField(8);
 			$abnormalFlags = array_flip($HL7abnormalFlags);
 			if (empty($abnormal) || !in_array($abnormal, $abnormalFlags)) {
@@ -253,14 +265,22 @@ if (!empty($obr) && !empty($obx)) {
 			if (!empty($labIdealResult)) {
 				$labName .= ' ('.$labIdealResult.')';
 			}
+
+			$resultDate = '';
+			if ($obxResultDate = $lab->getField(14)) {
+				$resultDate = date('Y-m-d', strtotime($obxResultDate));			
+			} elseif (!empty($orderResultDate)) {
+				$resultDate = date('Y-m-d', strtotime($orderResultDate));			
+			}
+			
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
-				'date' => date('Y-m-d', strtotime($lab->getField(14))),
-				'type' => $order->getField(13),
+				'date' => $resultDate,
+				'type' => $orderType,
 				'name' => $labName,
 				'value' => $lab->getField(5),
-				'unitOfMeasure' => $unit[1],
-				'source' => $specimen[1],
-				'condition' => $spm->getField(24),
+				'unitOfMeasure' => $unitOfMeasure,
+				'source' => $specDesc,
+				'condition' => $specCond,
 				'abnormal' => $abnormal
 			);
 			$obxIndex = array_shift($obxIndexes);
