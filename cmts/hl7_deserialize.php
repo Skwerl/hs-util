@@ -99,11 +99,13 @@ if ($pid->getField(11)) {
 $pv1 = $msg->getSegmentsByName('PV1');
 
 foreach ($pv1 as $soap) {
-	$obj['soapNote'][] = array(
-		'subjective' => array(
-			'appointmentDate' => $soap->getField(26)
-		)
-	);
+	if ($soap->getField(26)) {
+		$obj['soapNote'][] = array(
+			'subjective' => array(
+				'appointmentDate' => $soap->getField(26)
+			)
+		);
+	}
 }
 
 /*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
@@ -187,74 +189,74 @@ foreach ($rxa as $immunization) {
 
 /*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
+$lineIndex = 0;
+$labIndexer = -1;
+$labGroups = array();
+
+foreach ($in as $segPeek) {
+	$segType = substr($segPeek,0,3);
+	if (strtoupper($segType == 'OBR')) {
+		$labIndexer++;
+		$labGroups[$labIndexer]['OBR'] = $lineIndex; 
+	}
+	if (strtoupper($segType == 'SPM')) {
+		$labGroups[$labIndexer]['SPM'][] = $lineIndex; 
+	}
+	if (strtoupper($segType == 'OBX')) {
+		$labGroups[$labIndexer]['OBX'][] = $lineIndex; 
+	}
+	$lineIndex++;
+}
+
 $obr = $msg->getSegmentsByName('OBR');
-$obrs = array();
-
-foreach ($obr as $ord) {
-	$obrs[$ord->getField(1)] = $ord;
-}
-
 $obx = $msg->getSegmentsByName('OBX');
-$obxs = array();
-foreach ($obx as $lab) {
-	$obxs[$lab->getField(1)][] = $lab;
-}
-
-$segmentCount = 1;
-$obxIndexes = array();
-$spmIndexes = array();
-
-foreach ($in as $segment) {
-	if (strtoupper(substr($segment,0,3)) == 'OBX') {
-		$obxIndexes[] = $segmentCount;
-	}
-	if (strtoupper(substr($segment,0,3)) == 'SPM') {
-		$spmIndexes[] = $segmentCount;
-	}
-	$segmentCount++;
-}
-
-$obxIndex = array_shift($obxIndexes);
-$spmIndex = array_shift($spmIndexes);
 
 if (!empty($obr) && !empty($obx)) {
+
 	$labsIndex = 0;
-	foreach ($obxs as $index => $labs) {
-		foreach ($labs as $lab) { // Yes, I know this is redundant...
+
+	foreach ($labGroups as $labGroup) {
+
+		$order = $msg->getSegmentByIndex($labGroup['OBR']+1);
+		if (!empty($order)) {
+			$orderMeta = explode($cs,$order->getField(4));
+			$orderCode = $orderMeta[0];
+			$orderName = $orderMeta[1];
 			$orderType = '';
-			$order = @$obrs[$index];
-			if (!empty($order)) {
-				$orderType = $order->getField(13);
-				$orderResultDate = date('Y-m-d', strtotime($ord->getField(22)));
-			}
-			$code = explode($cs,$lab->getField(3));
-			$labName = explode($cs,$lab->getField(23));
-			$labAddress = explode($cs,$lab->getField(24));
-			$obj['lab'][$labsIndex] = array(
-				'labResult' => array(
-					'loincCode' => @$code[0],
-					'facilityName' => @$labName[0],
-					'facilityStreetAddress' => @$labAddress[0],
-					'facilityCity' => @$labAddress[2],
-					'facilityState' => @$labAddress[3],
-					'facilityPostalCode' => @$labAddress[4],
-				)
-			);
+			$orderType = $order->getField(13);
+			$orderResultDate = date('Y-m-d', strtotime($order->getField(22)));
 		}
-		foreach ($labs as $lab) {
-			if ($obxIndex > $spmIndex) {
-				$spmIndex = array_shift($spmIndexes);
-			}
-			$specDesc = '';
-			$specCond = '';
-			if ($spm = $msg->getSegmentByIndex($spmIndex)) {
-				@$specimen = explode($cs,$spm->getField(4));
-				@$specDesc = $specimen[1];			
-				@$specCond = $spm->getField(24);
-			}			
+
+		$specName = '';
+		$specCond = '';
+		@$specimen = $msg->getSegmentByIndex($labGroup['SPM']+1);
+		if (!empty($specimen)) {
+			@$specDesc = explode($cs,$specimen->getField(4));
+			@$specName = $specDesc[1];			
+			@$specCond = $specimen->getField(24);
+		}
+
+		$obj['lab'][$labsIndex] = array(
+			'labOrder' => array(
+				'summary' => $orderName
+			),
+			'labResult' => array(
+				'loincCode' => $orderCode
+			)
+		);
+
+		foreach ($labGroup['OBX'] as $result) {
+
+			$lab = $msg->getSegmentByIndex($result+1);
+
 			$code = explode($cs,$lab->getField(3));
 			$unit = explode($cs,$lab->getField(6));
-			$unitOfMeasure = ''; if (isset($unit[1])) { $unitOfMeasure = $unit[1]; }
+			$unitOfMeasure = '';
+			if (isset($unit[1])) {
+				$unitOfMeasure = $unit[1];
+			} elseif (isset($unit[0])) {
+				$unitOfMeasure = $unit[0];
+			}
 			$abnormal = (string)$lab->getField(8);
 			$abnormalFlags = array_flip($HL7abnormalFlags);
 			if (empty($abnormal) || !in_array($abnormal, $abnormalFlags)) {
@@ -263,7 +265,7 @@ if (!empty($obr) && !empty($obx)) {
 			$labName = $code[1];
 			$labIdealResult = $lab->getField(7);
 			if (!empty($labIdealResult)) {
-				$labName .= ' ('.$labIdealResult.')';
+				$labName .= ' ('.trim($labIdealResult).')';
 			}
 
 			$resultDate = '';
@@ -272,21 +274,39 @@ if (!empty($obr) && !empty($obx)) {
 			} elseif (!empty($orderResultDate)) {
 				$resultDate = date('Y-m-d', strtotime($orderResultDate));			
 			}
-			
+
+			$facilityName = explode($cs,$lab->getField(23));
+			$facilityAddress = explode($cs,$lab->getField(24));
+
+			if (empty($facilityName[0])) {
+				$producerID = explode($cs,$lab->getField(15));
+				$facilityName = $producerID[1];
+			}
+			if (empty($facilityAddress[0])) {
+				$facilityAddress = array('','','','','');
+			}
+
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => $resultDate,
-				'type' => $orderType,
 				'name' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unitOfMeasure,
-				'source' => $specDesc,
+				'source' => $specName,
 				'condition' => $specCond,
-				'abnormal' => $abnormal
+				'abnormal' => $abnormal,
+				'facilityName' => @$facilityName,
+				'facilityStreetAddress' => @$facilityAddress[0],
+				'facilityCity' => @$facilityAddress[2],
+				'facilityState' => @$facilityAddress[3],
+				'facilityPostalCode' => @$facilityAddress[4]
 			);
-			$obxIndex = array_shift($obxIndexes);
+
 		}
+	
 		$labsIndex++;
+	
 	}
+
 } else {
 
 /*//// ADT OBX SEGMENTs //////////////////////////////////////////////////////////////////////////*/
