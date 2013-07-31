@@ -200,7 +200,7 @@ foreach ($in as $segPeek) {
 		$labGroups[$labIndexer]['OBR'] = $lineIndex; 
 	}
 	if (strtoupper($segType == 'SPM')) {
-		$labGroups[$labIndexer]['SPM'][] = $lineIndex; 
+		$labGroups[$labIndexer]['SPM'] = $lineIndex; 
 	}
 	if (strtoupper($segType == 'OBX')) {
 		$labGroups[$labIndexer]['OBX'][] = $lineIndex; 
@@ -237,11 +237,11 @@ if (!empty($obr) && !empty($obx)) {
 		}
 
 		$obj['lab'][$labsIndex] = array(
-			'labOrder' => array(
-				'summary' => $orderName
-			),
 			'labResult' => array(
-				'loincCode' => $orderCode
+				'loincCode' => $orderCode,
+				'description' => $orderName,
+				'source' => $specName,
+				'condition' => $specCond
 			)
 		);
 
@@ -291,8 +291,6 @@ if (!empty($obr) && !empty($obx)) {
 				'name' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unitOfMeasure,
-				'source' => $specName,
-				'condition' => $specCond,
 				'abnormal' => $abnormal,
 				'facilityName' => @$facilityName,
 				'facilityStreetAddress' => @$facilityAddress[0],
