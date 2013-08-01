@@ -98,13 +98,21 @@ if ($pid->getField(11)) {
 
 $pv1 = $msg->getSegmentsByName('PV1');
 
-foreach ($pv1 as $soap) {
-	if ($soap->getField(26)) {
+foreach ($pv1 as $pv) {
+	if ($pv->getField(26)) {
 		$obj['soapNote'][] = array(
 			'subjective' => array(
-				'appointmentDate' => $soap->getField(26)
+				'appointmentDate' => $pv->getField(26)
 			)
 		);
+	}
+	$referringDoc = explode($cs,$pv->getField(8));
+	if (isset($referringDoc[7])) {
+		if (strtoupper(trim($referringDoc[7])) === 'NPI') {
+			$obj['user'] = array(
+				'renderingNpi' => $referringDoc[0]
+			);
+		}
 	}
 }
 
@@ -198,12 +206,17 @@ foreach ($in as $segPeek) {
 	if (strtoupper($segType == 'OBR')) {
 		$labIndexer++;
 		$labGroups[$labIndexer]['OBR'] = $lineIndex; 
+		$currentObx = -1;
 	}
 	if (strtoupper($segType == 'SPM')) {
 		$labGroups[$labIndexer]['SPM'] = $lineIndex; 
 	}
 	if (strtoupper($segType == 'OBX')) {
-		$labGroups[$labIndexer]['OBX'][] = $lineIndex; 
+		$currentObx++;
+		$labGroups[$labIndexer]['OBX'][$currentObx]['OBX'] = $lineIndex;
+	}
+	if (strtoupper($segType == 'NTE')) {
+		$labGroups[$labIndexer]['OBX'][$currentObx]['NTE'][] = $lineIndex; 
 	}
 	$lineIndex++;
 }
@@ -224,7 +237,14 @@ if (!empty($obr) && !empty($obx)) {
 			$orderName = $orderMeta[1];
 			$orderType = '';
 			$orderType = $order->getField(13);
-			$orderResultDate = date('Y-m-d', strtotime($order->getField(22)));
+			$specimenReceived = trim($order->getField(14));
+			$resultsReceived = trim($order->getField(22));
+			if (!empty($resultsReceived)) {
+				$orderResultDate = date('Y-m-d', strtotime($resultsReceived));
+			}
+			if (empty($resultsReceived) && !empty($specimenReceived)) {
+				$orderResultDate = date('Y-m-d', strtotime($specimenReceived));
+			}
 		}
 
 		$specName = '';
@@ -247,7 +267,7 @@ if (!empty($obr) && !empty($obx)) {
 
 		foreach ($labGroup['OBX'] as $result) {
 
-			$lab = $msg->getSegmentByIndex($result+1);
+			$lab = $msg->getSegmentByIndex($result['OBX']+1);
 
 			$code = explode($cs,$lab->getField(3));
 			$unit = explode($cs,$lab->getField(6));
@@ -286,12 +306,21 @@ if (!empty($obr) && !empty($obx)) {
 				$facilityAddress = array('','','','','');
 			}
 
+			$notesArray = array();
+			if (isset($result['NTE'])) {
+				foreach ($result['NTE'] as $noteSeg) {
+					$note = $msg->getSegmentByIndex($noteSeg+1);
+					$notesArray[] = trim($note->getField(3));
+				}
+			}
+
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => $resultDate,
 				'name' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unitOfMeasure,
 				'abnormal' => $abnormal,
+				'notes' => $notesArray,
 				'facilityName' => @$facilityName,
 				'facilityStreetAddress' => @$facilityAddress[0],
 				'facilityCity' => @$facilityAddress[2],
