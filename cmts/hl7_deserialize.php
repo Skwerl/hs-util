@@ -288,6 +288,8 @@ if (!empty($obr) && !empty($obx)) {
 				$labName .= ' ('.trim($labIdealResult).')';
 			}
 
+			$loincCode = $code[0];
+
 			$resultDate = '';
 			if ($obxResultDate = $lab->getField(14)) {
 				$resultDate = date('Y-m-d', strtotime($obxResultDate));			
@@ -310,13 +312,17 @@ if (!empty($obr) && !empty($obx)) {
 			if (isset($result['NTE'])) {
 				foreach ($result['NTE'] as $noteSeg) {
 					$note = $msg->getSegmentByIndex($noteSeg+1);
-					$notesArray[] = trim($note->getField(3));
+					$noteString = trim($note->getField(3));
+					if (!empty($noteString)) {
+						$notesArray[] = $noteString;					
+					}
 				}
 			}
 
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => $resultDate,
-				'name' => $labName,
+				'loincCode' => $loincCode,
+				'description' => $labName,
 				'value' => $lab->getField(5),
 				'unitOfMeasure' => $unitOfMeasure,
 				'abnormal' => $abnormal,

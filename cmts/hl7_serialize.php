@@ -127,17 +127,29 @@ if (in_array('PID',$segments)) {
 
 /*//// PV1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
-if (in_array('PV1',$segments)) {
-	$visitNumber = 1;
-	foreach ($in->soapNote as $soap) {
-		$pv1 = new Net_HL7_Segment('PV1');
-		$pv1->setField(2, 'O');
-		$pv1->setField(19, $visitNumber);
-		$pv1->setField(26, date('YmdHis',strtotime($soap->createdAt)));
-		$pv1->setField(50, implode($cs,array($soap->identity,'','','','MR')));
-		$msg->addSegment($pv1);
-		$visitNumber++;
+if ($type == 'ORU') {
+
+	$pv1 = new Net_HL7_Segment('PV1');
+	if (!empty($in->user->renderingNpi)) {
+		$pv1->setField(8, implode($cs,array($in->user->renderingNpi,'','','','','','','NPI')));
 	}
+	$msg->addSegment($pv1);
+
+} else {
+
+	if (in_array('PV1',$segments)) {
+		$visitNumber = 1;
+		foreach ($in->soapNote as $soap) {
+			$pv1 = new Net_HL7_Segment('PV1');
+			$pv1->setField(2, 'O');
+			$pv1->setField(19, $visitNumber);
+			$pv1->setField(26, date('YmdHis',strtotime($soap->createdAt)));
+			$pv1->setField(50, implode($cs,array($soap->identity,'','','','MR')));
+			$msg->addSegment($pv1);
+			$visitNumber++;
+		}
+	}
+
 }
 
 /*//// ADT OBX SEGMENTS //////////////////////////////////////////////////////////////////////////*/
@@ -176,15 +188,17 @@ if ($type == 'ADT') {
 
 /*//// SET UP ORC, OBR, OBX, SPM SEGMENTS (ORU) //////////////////////////////////////////////////*/
 
-	$setId = 1;
+	$obrIndex = 1;
+	$obxIndex = 1;
+	$spmIndex = 1;
+	$nteIndex = 1;
 	
 	foreach ($in->lab as $lab) {
 	
-		$order = $lab->labOrder;
 		$results = $lab->labResult;
 		$specimens = array();
 	
-/*//// ORC SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
+/*//// ORC & OBR SEGMENTs ////////////////////////////////////////////////////////////////////////*/
 	
 		$orc = new Net_HL7_Segment('ORC');
 		$orc->setField(1, 'RE');
@@ -207,8 +221,24 @@ if ($type == 'ADT') {
 		if (in_array('ORC',$segments)) {
 			$msg->addSegment($orc);
 		}
+
+		$obr = new Net_HL7_Segment('OBR');
+		$obr->setField(1, $obrIndex);
+		$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
+		$obr->setField(4, $results->loincCode.$cs.$results->description.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
+		$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
+		$obr->setField(7, date('YmdHis'));
+		$obr->setField(22, date('YmdHis'));
+		$obr->setField(13, $result->type);
+		$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
+		$obr->setField(25, 'F');
+		$obrIndex++;
+	
+		if (in_array('OBR',$segments)) {
+			$msg->addSegment($obr);
+		}
 		
-/*//// OBR & OBX SEGMENTS ////////////////////////////////////////////////////////////////////////*/
+/*//// OBX & NTE SEGMENTS ////////////////////////////////////////////////////////////////////////*/
 	
 		$subId = 1; foreach ($results->labTestResult as $result) {
 	
@@ -217,29 +247,14 @@ if ($type == 'ADT') {
 			if (empty($abnormal) || !in_array($abnormal, $abnormal_flags)) {
 				$abnormal = 'NULL';
 			}
-			$nameParts = splitLabDescription($result->name);
+			$nameParts = splitLabDescription($result->description);
 			$resultDescription = $nameParts['resultDescription'];
 			$resultIdealRange = $nameParts['resultIdealRange'];
 	
-			$obr = new Net_HL7_Segment('OBR');
-			$obr->setField(1, $setId);
-			$obr->setField(3, '9700123^Lab^2.16.840.1.113883.19.3.1.6^ISO');
-			$obr->setField(4, $results->loincCode.$cs.$resultDescription.$cs.'LN'.$cs.'3456543'.$cs.'Alternate Description'.$cs.'99USI');
-			$obr->setField(16, '1234'.$cs.'Admit'.$cs.'Alan'.$cs.$cs.$cs.$cs.$cs.$cs.$in->organization.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO');
-			$obr->setField(7, date('YmdHis'));
-			$obr->setField(22, date('YmdHis'));
-			$obr->setField(13, $result->type);
-			$obr->setField(31, '787.91^DIARRHEA^I9CDX~780.6^Fever^I9CDX~786.2^Cough^I9CDX');
-			$obr->setField(25, 'F');
-		
-			if (in_array('OBR',$segments)) {
-				$msg->addSegment($obr);
-			}
-	
 			$obx = new Net_HL7_Segment('OBX');
-			$obx->setField(1, $setId);
+			$obx->setField(1, $obxIndex);
 			$obx->setField(2, (is_numeric($result->value) ? 'NM' : 'ST'));
-			$obx->setField(3, $results->loincCode.$cs.$resultDescription.$cs.'LN');
+			$obx->setField(3, $result->loincCode.$cs.$resultDescription.$cs.'LN');
 			$obx->setField(4, $subId);
 			$obx->setField(7, $resultIdealRange);
 			$obx->setField(5, $result->value);
@@ -247,43 +262,61 @@ if ($type == 'ADT') {
 			$obx->setField(8, $abnormal);
 			$obx->setField(11, 'F');
 			$obx->setField(14, date('YmdHis',strtotime($result->date)));
+			$obx->setField(15, implode($cs, array('',$result->facilityName)));
 			$obx->setField(19, date('YmdHis',strtotime($result->date)));
 			$obx->setField(23, $results->facilityName.$cs.'L'.$cs.$cs.$cs.$cs.'CLIA'.$ss.'2.16.840.1.113883.19.4.6'.$ss.'ISO'.$cs.'XX'.$cs.$cs.$cs.'1236');
 			$obx->setField(24, implode($cs, array(
-				$results->facilityStreetAddress, '',
-				$results->facilityCity,
-				$results->facilityState,
-				$results->facilityPostalCode, '',
+				$result->facilityStreetAddress, '',
+				$result->facilityCity,
+				$result->facilityState,
+				$result->facilityPostalCode, '',
 				'B'
 			)));
-			
+			$obxIndex++;
+
 			if (in_array('OBX',$segments)) {
 				$msg->addSegment($obx);
 			}
-	
+
+			if (in_array('NTE',$segments)) {
+				foreach ($result->notes as $note) {
+					$nte = new Net_HL7_Segment('NTE');
+					$nte->setField(1, $nteIndex);
+					$nte->setField(2, 'L');
+					$nte->setField(3, $note);
+					$nteIndex++;
+					$msg->addSegment($nte);
+				}
+			}
+
+			$nteIndex = 1;
+
+		}
+
 /*//// SPM SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 	
-			if (in_array('SPM',$segments)) {
-				$spm = new Net_HL7_Segment('SPM');
-				$spm->setField(1, $setId);
-				$spm->setField(4, implode($cs, array(
-					'000',
-					$result->source,
-					'SCT',
-					'Alt ID',
-					'Alt Text',
-					'HL70487',
-					'20080131',
-					'2.5.1'
-				)));
-				$spm->setField(24, $result->condition);
-				$msg->addSegment($spm);
-			}
-			
-			$subId++;
+		if (in_array('SPM',$segments)) {
+			$spm = new Net_HL7_Segment('SPM');
+			$spm->setField(1, $spmIndex);
+			$spm->setField(4, implode($cs, array(
+				'000',
+				$results->source,
+				'SCT',
+				'Alt ID',
+				'Alt Text',
+				'HL70487',
+				'20080131',
+				'2.5.1'
+			)));
+			$spm->setField(24, $results->condition);
+			$spmIndex++;
+			$msg->addSegment($spm);
 		}
-	
-		$setId++;
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+		$obxIndex = 1;
+		$spmIndex = 1;
 	
 	}
 
