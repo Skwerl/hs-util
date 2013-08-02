@@ -308,7 +308,7 @@ if ($type == 'ADT') {
 				'20080131',
 				'2.5.1'
 			)));
-			$spm->setField(24, $results->condition);
+			$spm->setField(24, $results->sourceCondition);
 			$spmIndex++;
 			$msg->addSegment($spm);
 		}
