@@ -36,6 +36,17 @@ foreach ($in as $segment) {
 
 $obj = array();
 
+/*//// PROVIDE META //////////////////////////////////////////////////////////////////////////////*/
+
+/*
+$obj['meta']['transformationFormat'] = $type;
+$obj['meta']['transformationFormatType'] = $mvar;
+$obj['meta']['transformationFormatCode'] = $type_code;
+$obj['meta']['transformationContext'] = strtoupper($translate_context);
+$obj['meta']['transformationMode'] = $mode;
+$obj['meta']['hl7Version'] = $hl7Globals['HL7_VERSION'];
+*/
+
 /*//// PID SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 $pid = $msg->getSegmentsByName('PID');
@@ -261,7 +272,7 @@ if (!empty($obr) && !empty($obx)) {
 				'loincCode' => $orderCode,
 				'description' => $orderName,
 				'source' => $specName,
-				'condition' => $specCond
+				'sourceCondition' => $specCond
 			)
 		);
 
