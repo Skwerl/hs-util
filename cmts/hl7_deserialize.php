@@ -4,6 +4,7 @@
 
 $postdata = file_get_contents("php://input");
 $postdata = str_replace("\r","\n",trim($postdata));
+$postdata = preg_replace("/[\n]+/", "\n", $postdata);
 
 // Simulate a post
 #require_once('sample_hl7.php');
