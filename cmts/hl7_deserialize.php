@@ -3,6 +3,7 @@
 /*//// PREPARE INPUT & OUTPUT ////////////////////////////////////////////////////////////////////*/
 
 $postdata = file_get_contents("php://input");
+$postdata = str_replace("\r","\n",trim($postdata));
 
 // Simulate a post
 #require_once('sample_hl7.php');
@@ -50,59 +51,64 @@ $obj['meta']['hl7Version'] = $hl7Globals['HL7_VERSION'];
 /*//// PID SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 $pid = $msg->getSegmentsByName('PID');
-$pid = $pid[0];
 
-$name = explode($cs,$pid->getField(5));
-$obj['patient']['lastName'] = $name[0];
-$obj['patient']['firstName'] = $name[1];
+if (isset($pid[0])) {
 
-$guid = array_shift(explode($cs,$pid->getField(3)));
-$obj['patient']['externalId'] = $guid;
-$obj['patient']['dob'] = $pid->getField(7);
-$obj['patient']['ssn'] = $pid->getField(19);
-$obj['patient']['gender'] = $pid->getField(8);
-
-$codedRace = explode($cs,$pid->getField(10));
-$obj['patient']['race'] = $codedRace[0];
-
-$codedEthnicity = explode($cs,$pid->getField(22));
-$obj['patient']['ethnicity'] = $codedEthnicity[0];
-
-$phone_org = array();
-if ($pid->getField(13)) {
-	$number = explode($cs,$pid->getField(13));
-	$phone_org[] = array(
-		'areaCode' => $number[5],
-		'prefix' => substr($number[6],0,3),
-		'suffix' => substr($number[6],3,4),
-		'type' => 'HOME',	
-	);
-}
-if ($pid->getField(14)) {
-	$number = explode($cs,$pid->getField(14));
-	$phone_org[] = array(
-		'areaCode' => $number[5],
-		'prefix' => substr($number[6],0,3),
-		'suffix' => substr($number[6],3,4),
-		'type' => 'OFFICE'
-	);
-}
-
-if ($pid->getField(11)) {
-	$addresses = explode($rs,$pid->getField(11));
-	$obj['patient']['address'] = array();
-	foreach ($addresses as $address) {
-		$address = explode($cs,$address);
-		$address_org = array();
-		$address_org['address1'] = $address[0]; 	
-		$address_org['address2'] = $address[1]; 	
-		$address_org['city'] = $address[2]; 	
-		$address_org['state'] = $address[3]; 	
-		$address_org['postalCode'] = $address[4]; 	
-		$address_org['countryCode'] = $address[5]; 	
-		$address_org['phone'] = $phone_org; 	
-		$obj['patient']['address'][] = $address_org;
+	$pid = $pid[0];
+	
+	$name = explode($cs,$pid->getField(5));
+	$obj['patient']['lastName'] = $name[0];
+	$obj['patient']['firstName'] = $name[1];
+	
+	$guid = array_shift(explode($cs,$pid->getField(3)));
+	$obj['patient']['externalId'] = $guid;
+	$obj['patient']['dob'] = $pid->getField(7);
+	$obj['patient']['ssn'] = $pid->getField(19);
+	$obj['patient']['gender'] = $pid->getField(8);
+	
+	$codedRace = explode($cs,$pid->getField(10));
+	$obj['patient']['race'] = $codedRace[0];
+	
+	$codedEthnicity = explode($cs,$pid->getField(22));
+	$obj['patient']['ethnicity'] = $codedEthnicity[0];
+	
+	$phone_org = array();
+	if ($pid->getField(13)) {
+		$number = explode($cs,$pid->getField(13));
+		$phone_org[] = array(
+			'areaCode' => $number[5],
+			'prefix' => substr($number[6],0,3),
+			'suffix' => substr($number[6],3,4),
+			'type' => 'HOME',	
+		);
 	}
+	if ($pid->getField(14)) {
+		$number = explode($cs,$pid->getField(14));
+		$phone_org[] = array(
+			'areaCode' => $number[5],
+			'prefix' => substr($number[6],0,3),
+			'suffix' => substr($number[6],3,4),
+			'type' => 'OFFICE'
+		);
+	}
+	
+	if ($pid->getField(11)) {
+		$addresses = explode($rs,$pid->getField(11));
+		$obj['patient']['address'] = array();
+		foreach ($addresses as $address) {
+			$address = explode($cs,$address);
+			$address_org = array();
+			$address_org['address1'] = $address[0]; 	
+			$address_org['address2'] = $address[1]; 	
+			$address_org['city'] = $address[2]; 	
+			$address_org['state'] = $address[3]; 	
+			$address_org['postalCode'] = $address[4]; 	
+			$address_org['countryCode'] = $address[5]; 	
+			$address_org['phone'] = $phone_org; 	
+			$obj['patient']['address'][] = $address_org;
+		}
+	}
+
 }
 
 /*//// PV1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
