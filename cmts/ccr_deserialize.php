@@ -188,11 +188,7 @@ $labs = $xml->Body->Results->Result;
 $labsIndex = 0;
 
 foreach ($labs as $lab) {
-	$obj['lab'][$labsIndex] = array(
-		'labOrder' => array(
-			'summary' => s($lab->Description->Text)
-		)
-	);
+	$obj['lab'][$labsIndex] = array();
 	$abnormal = strtoupper(s($result->Flag->Text));
 	$abnormalFlags = array_flip($HL7abnormalFlags);
 	$abnormalFlags = array_change_key_case($abnormalFlags, CASE_UPPER);
@@ -203,10 +199,11 @@ foreach ($labs as $lab) {
 	}
 	foreach ($lab->Test as $result) {
 		$obj['lab'][$labsIndex]['labResult']['loincCode'] = s($result->Description->Code->Value);
+		$obj['lab'][$labsIndex]['labResult']['description'] = s($lab->Description->Text);
 		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 			'date' => date('Y-m-d',strtotime(s($lab->DateTime->ExactDateTime))),
-			'type' => s($lab->Description->Text),
-			'name' => s($result->Description->Text),
+			'description' => s($result->Description->Text),
+			'loincCode' => s($result->Description->Code->Value),
 			'value' => s($result->TestResult->Value),
 			'unitOfMeasure' => s($result->TestResult->Units->Unit),
 			'abnormal' => $abnormalCode
