@@ -623,40 +623,30 @@ $inputLabsIndex = 0;
 
 foreach ($inputLabs as $inputLab) {
 	$inputLabData = $inputLab->labResult;
-	$inputLabName = $inputLab->labOrder->summary;
-	if (empty($inputLabName)) {
-		$nameParts = splitLabDescription($inputLabData->labTestResult[0]->name);
-		$inputLabName = $nameParts['resultDescription'];
-	}
 	$labsData[$inputLabsIndex] = array(
-		'labName' => $inputLabName,
+		'labName' => $inputLabData->description,
 		'loincCode' => $inputLabData->loincCode,
 		'labDate' => '',
 		'labProcedures' => array(),
 		'labResults' => array()
 	);
 	foreach ($inputLabData->labTestResult as $inputLabResult) {
-		$nameParts = splitLabDescription($inputLabResult->name);
-		$resultDescription = $nameParts['resultDescription'];
+		$resultDescription = $inputLabResult->description;
+		$nameParts = splitLabDescription($inputLabResult->description);
 		$resultIdealRange = $nameParts['resultIdealRange'];
-		$resultDescription = $nameParts['resultDescription'];
-		if (!empty($nameParts['resultIdealRange'])) {
-			$resultDescription .= ' ('.$nameParts['resultIdealRange'].')';
-		}
 		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime(@$inputLabResult->date));
 		$labsData[$inputLabsIndex]['labProcedures'][] = array(
-			'procedureDescription' => 'Obtain sample for '.$inputLabResult->type,
+			'procedureDescription' => 'Obtain sample for '.$inputLabResult->description,
 			'statusCode' => 'completed',
 		);
 		$labsData[$inputLabsIndex]['labResults'][] = array(
-			'resultCode' => $inputLabData->loincCode,
-			'resultType' => @$inputLabResult->type,
-			'resultDisplayName' => @$resultDescription,
+			'resultCode' => $inputLabResult->loincCode,
+			'resultDisplayName' => $inputLabResult->description,
 			'resultIdealRange' => @$resultIdealRange,
 			'resultMeasurement' => @$inputLabResult->value,
 			'resultAbnormal' => @$inputLabResult->abnormal,
 			'resultUnit' => @$inputLabResult->unitOfMeasure,
-			'source' => @$inputLabResult->source,
+			'source' => @$inputLabData->source,
 			'statusCode' => 'completed'
 		);
 	}
@@ -681,14 +671,17 @@ $labResultsDateIndex = array();
 $labResultsTableArray = array();
 
 foreach ($labsData as $labBattery) {
+	$resultCounter = 0;
 	foreach ($labBattery['labResults'] as $labResult) {
 		$labResultsDateString = strtotime($labBattery['labDate']);
 		$labResultsDateIndex[] = $labResultsDateString;
-		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['code'] = $labResult['resultCode'];
-		$labResultsTableArray[$labResult['resultType']][$labResult['resultDisplayName']]['results'][$labResultsDateString] = array(
+		$labResultsTableArray[$labBattery['labName']][$resultCounter]['code'] = $labResult['resultCode'];
+		$labResultsTableArray[$labBattery['labName']][$resultCounter]['description'] = $labResult['resultDisplayName'];
+		$labResultsTableArray[$labBattery['labName']][$resultCounter]['results'][$labResultsDateString] = array(
 			$labResult['resultMeasurement'].' '.$labResult['resultUnit'],
 			$HL7abnormalFlags[strtoupper($labResult['resultAbnormal'])]
 		);
+		$resultCounter++;
 	}
 }
 
@@ -725,7 +718,7 @@ foreach ($labResultsTableArray as $labResultsType => $labResultsSet) {
 	foreach ($labResultsSet as $labResultsSetName => $labResultsSetResults) {
 		$labsTableRow = $labsTableBody->addChild('tr');
 		$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['code']);
-		$labsTableRow->addChild('td', $labResultsSetName);
+		$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['description']);
 		foreach ($labResultsDateIndex as $labResultsDate) {
 			if (isset($labResultsSet[$labResultsSetName]['results'][$labResultsDate])) {
 				$labsTableRow->addChild('td', $labResultsSet[$labResultsSetName]['results'][$labResultsDate][0]);

@@ -133,17 +133,13 @@ foreach ($problems as $problem) {
 /*////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 $labs = $xml->component->structuredBody->component[3]->section->entry;
-$labsTable = $xml->component->structuredBody->component[3]->section->text->table->tbody->tr;
+$labsTable = $xml->component->structuredBody->component[3]->section->text->table->tbody;
 $labsIndex = 0;
 
-$labType = '';
-$labsTypes = array();
-
-foreach ($labsTable as $tr) {
-	if (count($tr->td) == 2) {
-		$labType = s($tr->td[0]->content);
-	} else {
-		$labsTypes[s($tr->td[1])] = $labType;
+$loincCodes = array();
+foreach ($labsTable->tr as $tr) {
+	if (count($tr->td) != 2) {
+		$loincCodes[s($tr->td[1])] = s($tr->td[0]);
 	}
 }
 
@@ -152,6 +148,7 @@ foreach ($labs as $battery) {
 	$obj['lab'][$labsIndex] = array(
 		'labResult' =>array(
 			'loincCode' => s($organizer->code['code']),
+			'description' => s($organizer->code['displayName']),			
 			'labTestResult' => array()
 		)
 	);
@@ -160,8 +157,8 @@ foreach ($labs as $battery) {
 			$labName = s($component->observation->code['displayName']);
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 				'date' => date('Y-m-d',strtotime(s($component->observation->effectiveTime['value']))),
-				'type' => $labsTypes[stripslashes($labName)],
-				'name' => $labName,
+				'loincCode' => $loincCodes[$labName],
+				'description' => $labName,
 				'value' => s($component->observation->value['value']),
 				'unitOfMeasure' => s($component->observation->value['unit']),
 				'abnormal' => s($component->observation->interpretationCode['code'])
