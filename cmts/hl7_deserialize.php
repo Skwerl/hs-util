@@ -317,6 +317,7 @@ if (!empty($obr) && !empty($obx)) {
 
 			$facilityName = explode($cs,$lab->getField(23));
 			$facilityAddress = explode($cs,$lab->getField(24));
+			$facilityName = $facilityName[0];
 
 			if (empty($facilityName[0])) {
 				$producerID = explode($cs,$lab->getField(15));
