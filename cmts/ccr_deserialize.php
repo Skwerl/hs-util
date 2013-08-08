@@ -98,9 +98,21 @@ foreach ($medications as $medication) {
 
 	$directions = $medication->Directions->Direction;
 	$strength = trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit));
+
+	$ndcidCode = null;
+	$rxnormCode = null;
+	foreach ($medication->Product->BrandName->Code as $medicationCode) {
+		if (strtoupper(s($medicationCode->CodingSystem)) == 'NDC') {
+			$ndcidCode = s($medicationCode->Value);
+		}
+		if (strtoupper(s($medicationCode->CodingSystem)) == 'RXNORM') {
+			$rxnormCode = s($medicationCode->Value);
+		}
+	}
 	
 	$obj['medication'][$medicationsIndex]['drug'] = array(
-		'ndcid' => s($medication->Product->BrandName->Code->Value),
+		'ndcid' => $ndcidCode,
+		'rxnormId' => $rxnormCode,
 		'brandName' => s($medication->Product->BrandName->Text),
 		'genericName' => s($medication->Product->ProductName->Text),
 		'form' => s($medication->Product->Form->Text),
@@ -110,7 +122,8 @@ foreach ($medications as $medication) {
 
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
-			'ndcid' => s($medication->Product->BrandName->Code->Value),
+			'ndcid' => $ndcidCode,
+			'rxnormId' => $rxnormCode,
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
