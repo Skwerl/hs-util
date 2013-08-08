@@ -161,7 +161,7 @@ foreach ($allergies as $allergy) {
 		'name' => s($allergy->Description->Text),
 		'allergicReaction' => s($allergy->Reaction->Description->Text),
 		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergy->DateTime->ExactDateTime))),
-		'snomed' => s($allergy->Description->Code->Value),
+		'rxNorm' => s($allergy->Description->Code->Value),
 		'active' => (strtolower(s($allergy->Status->Text)) == 'active' ? true : false)
 	);
 }
