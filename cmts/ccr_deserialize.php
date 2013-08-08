@@ -157,11 +157,22 @@ foreach ($problems as $problem) {
 $allergies = $xml->Body->Alerts->Alert;
 
 foreach ($allergies as $allergy) {
+	$snomedCode = null;
+	$rxnormCode = null;
+	foreach ($allergy->Description->Code as $allergyCode) {
+		if (strtoupper(s($allergyCode->CodingSystem)) == 'SNOMED') {
+			$snomedCode = s($allergyCode->Value);
+		}
+		if (strtoupper(s($allergyCode->CodingSystem)) == 'RXNORM') {
+			$rxnormCode = s($allergyCode->Value);
+		}
+	}
 	$obj['allergy'][] = array(
 		'name' => s($allergy->Description->Text),
 		'allergicReaction' => s($allergy->Reaction->Description->Text),
 		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergy->DateTime->ExactDateTime))),
-		'rxNorm' => s($allergy->Description->Code->Value),
+		'snomed' => $snomedCode,
+		'rxnormId' => $rxnormCode,
 		'active' => (strtolower(s($allergy->Status->Text)) == 'active' ? true : false)
 	);
 }
