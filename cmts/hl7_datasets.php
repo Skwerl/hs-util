@@ -58,4 +58,13 @@ $HL7ethnicityCodes = array(
 	'U' => 'Unknown'
 );
 
+$HL7addressTypes = array(
+	'B' => 'Business',
+	'C' => 'Current or Temporary',
+	'H' => 'Home',
+	'M' => 'Mailing',
+	'O' => 'Office',
+	'P' => 'Permanent'
+);
+
 ?>

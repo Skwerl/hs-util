@@ -93,7 +93,19 @@ if (in_array('PID',$segments)) {
 	
 	$addr_collapsed = array();
 	$countries = array();
+		
 	foreach ($in->patient->address as $address) {
+		switch(strtoupper($address->addressType)) {
+			case 'HOME':
+				$addressType = 'H';
+				break;
+			case 'OFFICE':
+				$addressType = 'O';
+				echo 'ass';
+				break;
+			default:
+				$addressType = 'M';	
+		}
 		$addr_collapsed[] = implode($cs, array(
 			$address->address1,
 			$address->address2,
@@ -101,7 +113,7 @@ if (in_array('PID',$segments)) {
 			$address->state,
 			$address->postalCode,
 			$address->countryCode,
-			'M'
+			$addressType,
 		));
 		$officeFound = false;
 		foreach ($address->phone as $ph) {

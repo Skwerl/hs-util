@@ -106,6 +106,7 @@ if (isset($pid[0])) {
 			$address_org['postalCode'] = $address[4]; 	
 			$address_org['countryCode'] = $address[5]; 	
 			$address_org['phone'] = $phone_org; 	
+			$address_org['addressType'] = strtoupper($HL7addressTypes[$address[6]]); 	
 			$obj['patient']['address'][] = $address_org;
 		}
 	}
