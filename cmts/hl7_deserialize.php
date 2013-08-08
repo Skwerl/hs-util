@@ -96,10 +96,10 @@ if (isset($pid[0])) {
 	if ($pid->getField(11)) {
 		$addresses = explode($rs,$pid->getField(11));
 		$obj['patient']['address'] = array();
-		$addressType = strtoupper($HL7addressTypes[$address[6]]);
-		if ($addressType == 'MAILING') { $addressType = 'BILLING'; } // SocialCare uses "BILLING" for HL7 address code M
 		foreach ($addresses as $address) {
 			$address = explode($cs,$address);
+			$addressType = strtoupper($HL7addressTypes[$address[6]]);
+			if ($addressType == 'MAILING') { $addressType = 'BILLING'; } // SocialCare uses "BILLING" for HL7 address code M
 			$address_org = array();
 			$address_org['address1'] = $address[0]; 	
 			$address_org['address2'] = $address[1]; 	
