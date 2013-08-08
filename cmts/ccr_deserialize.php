@@ -112,7 +112,7 @@ foreach ($medications as $medication) {
 	
 	$obj['medication'][$medicationsIndex]['drug'] = array(
 		'ndcid' => $ndcidCode,
-		'rxnormId' => $rxnormCode,
+		'rxNormId' => $rxnormCode,
 		'brandName' => s($medication->Product->BrandName->Text),
 		'genericName' => s($medication->Product->ProductName->Text),
 		'form' => s($medication->Product->Form->Text),
@@ -123,7 +123,7 @@ foreach ($medications as $medication) {
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
 			'ndcid' => $ndcidCode,
-			'rxnormId' => $rxnormCode,
+			'rxNormId' => $rxnormCode,
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
