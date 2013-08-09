@@ -101,7 +101,6 @@ if (in_array('PID',$segments)) {
 				break;
 			case 'OFFICE':
 				$addressType = 'O';
-				echo 'ass';
 				break;
 			default:
 				$addressType = 'M';	
