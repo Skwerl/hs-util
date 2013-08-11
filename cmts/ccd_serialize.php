@@ -619,39 +619,43 @@ foreach ($medicationsData as $medicationData) {
 
 $labsData = array();
 $inputLabs = $in->lab;
-$inputLabsIndex = 0;
+$labResultsDateIndex = array();
 
 foreach ($inputLabs as $inputLab) {
+
 	$inputLabData = $inputLab->labResult;
-	$labsData[$inputLabsIndex] = array(
-		'labName' => $inputLabData->description,
-		'loincCode' => $inputLabData->loincCode,
-		'labDate' => '',
-		'labProcedures' => array(),
-		'labResults' => array()
-	);
+	$labsData[$inputLabData->description]['labName'] = $inputLabData->description;
+	$labsData[$inputLabData->description]['loincCode'] = $inputLabData->loincCode;
+
 	foreach ($inputLabData->labTestResult as $inputLabResult) {
 		$resultDescription = $inputLabResult->description;
 		$nameParts = splitLabDescription($inputLabResult->description);
 		$resultIdealRange = $nameParts['resultIdealRange'];
-		$labsData[$inputLabsIndex]['labDate'] = date('Ymd', strtotime(@$inputLabResult->date));
-		$labsData[$inputLabsIndex]['labProcedures'][] = array(
+		$labsData[$inputLabData->description]['labProcedures'][] = array(
 			'procedureDescription' => 'Obtain sample for '.$inputLabResult->description,
 			'statusCode' => 'completed',
 		);
-		$labsData[$inputLabsIndex]['labResults'][] = array(
+
+		$labResultsDateString = date('Ymd', strtotime(@$inputLabResult->date));
+		$labResultsDateIndex[] = $labResultsDateString;
+
+		$labsData[$inputLabData->description]['labResults'][] = array(
 			'resultCode' => $inputLabResult->loincCode,
 			'resultDisplayName' => $inputLabResult->description,
 			'resultIdealRange' => @$resultIdealRange,
 			'resultMeasurement' => @$inputLabResult->value,
 			'resultAbnormal' => @$inputLabResult->abnormal,
 			'resultUnit' => @$inputLabResult->unitOfMeasure,
+			'labDate' => $labResultsDateString,
 			'source' => @$inputLabData->source,
 			'statusCode' => 'completed'
 		);
 	}
-	$inputLabsIndex++;
+
 }
+
+$labResultsDateIndex = array_unique($labResultsDateIndex);
+sort($labResultsDateIndex);
 
 $labs = $ccdBody->addChild('component')->addChild('section');
 XMLaddManyChildren($labs, array('templateId' => array('root' => '2.16.840.1.113883.3.88.11.83.122', 'assigningAuthorityName' => 'HITSP/C83')));
@@ -667,26 +671,20 @@ $labs->addChild('title', 'Diagnostic Results');
 
 /*//// LABS TABLE ////////////////////////////////////////////////////////////////////////////////*/
 
-$labResultsDateIndex = array();
 $labResultsTableArray = array();
 
 foreach ($labsData as $labBattery) {
 	$resultCounter = 0;
 	foreach ($labBattery['labResults'] as $labResult) {
-		$labResultsDateString = strtotime($labBattery['labDate']);
-		$labResultsDateIndex[] = $labResultsDateString;
 		$labResultsTableArray[$labBattery['labName']][$resultCounter]['code'] = $labResult['resultCode'];
 		$labResultsTableArray[$labBattery['labName']][$resultCounter]['description'] = $labResult['resultDisplayName'];
-		$labResultsTableArray[$labBattery['labName']][$resultCounter]['results'][$labResultsDateString] = array(
+		$labResultsTableArray[$labBattery['labName']][$resultCounter]['results'][$labResult['labDate']] = array(
 			$labResult['resultMeasurement'].' '.$labResult['resultUnit'],
 			$HL7abnormalFlags[strtoupper($labResult['resultAbnormal'])]
 		);
 		$resultCounter++;
 	}
 }
-
-$labResultsDateIndex = array_unique($labResultsDateIndex);
-sort($labResultsDateIndex);
 
 $labResultsTableColumns = count($labResultsDateIndex);
 
@@ -713,7 +711,7 @@ foreach ($labResultsTableArray as $labResultsType => $labResultsSet) {
 	foreach ($labResultsDateIndex as $labResultsDate) {
 		$labsTableRowHeaderDate = $labsTableRowHeader->addChild('td');
 		$labsTableRowHeaderDate->addAttribute('colspan', 2);
-		$labsTableRowHeaderDate->addChild('content', date('Y-m-d', $labResultsDate))->addAttribute('styleCode', 'BoldItalics');
+		$labsTableRowHeaderDate->addChild('content', date('Y-m-d', strtotime($labResultsDate)))->addAttribute('styleCode', 'BoldItalics');
 	}
 	foreach ($labResultsSet as $labResultsSetName => $labResultsSetResults) {
 		$labsTableRow = $labsTableBody->addChild('tr');
