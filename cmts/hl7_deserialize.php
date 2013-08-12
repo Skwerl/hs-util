@@ -63,7 +63,7 @@ if (isset($pid[0])) {
 	
 	$guid = array_shift(explode($cs,$pid->getField(3)));
 	$obj['patient']['externalId'] = $guid;
-	$obj['patient']['dob'] = $pid->getField(7);
+	$obj['patient']['dob'] = date('Y-m-d',strtotime($pid->getField(7)));
 	$obj['patient']['ssn'] = $pid->getField(19);
 	$obj['patient']['gender'] = $pid->getField(8);
 	
