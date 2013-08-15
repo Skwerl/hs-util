@@ -98,9 +98,21 @@ foreach ($medications as $medication) {
 
 	$directions = $medication->Directions->Direction;
 	$strength = trim(s($medication->Product->Strength->Value).' '.s($medication->Product->Strength->Units->Unit));
+
+	$ndcidCode = null;
+	$rxnormCode = null;
+	foreach ($medication->Product->BrandName->Code as $medicationCode) {
+		if (strtoupper(s($medicationCode->CodingSystem)) == 'NDC') {
+			$ndcidCode = s($medicationCode->Value);
+		}
+		if (strtoupper(s($medicationCode->CodingSystem)) == 'RXNORM') {
+			$rxnormCode = s($medicationCode->Value);
+		}
+	}
 	
 	$obj['medication'][$medicationsIndex]['drug'] = array(
-		'ndcid' => s($medication->Product->BrandName->Code->Value),
+		'ndcid' => $ndcidCode,
+		'rxNormId' => $rxnormCode,
 		'brandName' => s($medication->Product->BrandName->Text),
 		'genericName' => s($medication->Product->ProductName->Text),
 		'form' => s($medication->Product->Form->Text),
@@ -110,7 +122,8 @@ foreach ($medications as $medication) {
 
 	$obj['medication'][$medicationsIndex]['patientPrescription'][] = array('prescribe' => array('sig' => array(
 		'drug' => array(
-			'ndcid' => s($medication->Product->BrandName->Code->Value),
+			'ndcid' => $ndcidCode,
+			'rxNormId' => $rxnormCode,
 			'brandName' => s($medication->Product->BrandName->Text),
 			'genericName' => s($medication->Product->ProductName->Text),
 			'form' => s($medication->Product->Form->Text),
@@ -157,11 +170,22 @@ foreach ($problems as $problem) {
 $allergies = $xml->Body->Alerts->Alert;
 
 foreach ($allergies as $allergy) {
+	$snomedCode = null;
+	$rxnormCode = null;
+	foreach ($allergy->Description->Code as $allergyCode) {
+		if (strtoupper(s($allergyCode->CodingSystem)) == 'SNOMED') {
+			$snomedCode = s($allergyCode->Value);
+		}
+		if (strtoupper(s($allergyCode->CodingSystem)) == 'RXNORM') {
+			$rxnormCode = s($allergyCode->Value);
+		}
+	}
 	$obj['allergy'][] = array(
 		'name' => s($allergy->Description->Text),
 		'allergicReaction' => s($allergy->Reaction->Description->Text),
 		'allergicReactionDate' => date('Y-m-d',strtotime(s($allergy->DateTime->ExactDateTime))),
-		'snomed' => s($allergy->Description->Code->Value),
+		'snomed' => $snomedCode,
+		'rxnormId' => $rxnormCode,
 		'active' => (strtolower(s($allergy->Status->Text)) == 'active' ? true : false)
 	);
 }
@@ -188,11 +212,7 @@ $labs = $xml->Body->Results->Result;
 $labsIndex = 0;
 
 foreach ($labs as $lab) {
-	$obj['lab'][$labsIndex] = array(
-		'labOrder' => array(
-			'summary' => s($lab->Description->Text)
-		)
-	);
+	$obj['lab'][$labsIndex] = array();
 	$abnormal = strtoupper(s($result->Flag->Text));
 	$abnormalFlags = array_flip($HL7abnormalFlags);
 	$abnormalFlags = array_change_key_case($abnormalFlags, CASE_UPPER);
@@ -203,10 +223,11 @@ foreach ($labs as $lab) {
 	}
 	foreach ($lab->Test as $result) {
 		$obj['lab'][$labsIndex]['labResult']['loincCode'] = s($result->Description->Code->Value);
+		$obj['lab'][$labsIndex]['labResult']['description'] = s($lab->Description->Text);
 		$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
 			'date' => date('Y-m-d',strtotime(s($lab->DateTime->ExactDateTime))),
-			'type' => s($lab->Description->Text),
-			'name' => s($result->Description->Text),
+			'description' => s($result->Description->Text),
+			'loincCode' => s($result->Description->Code->Value),
 			'value' => s($result->TestResult->Value),
 			'unitOfMeasure' => s($result->TestResult->Units->Unit),
 			'abnormal' => $abnormalCode

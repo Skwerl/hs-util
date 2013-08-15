@@ -3,6 +3,8 @@
 /*//// PREPARE INPUT & OUTPUT ////////////////////////////////////////////////////////////////////*/
 
 $postdata = file_get_contents("php://input");
+$postdata = str_replace("\r","\n",trim($postdata));
+$postdata = preg_replace("/[\n]+/", "\n", $postdata);
 
 // Simulate a post
 #require_once('sample_hl7.php');
@@ -36,72 +38,103 @@ foreach ($in as $segment) {
 
 $obj = array();
 
+/*//// PROVIDE META //////////////////////////////////////////////////////////////////////////////*/
+
+/*
+$obj['meta']['transformationFormat'] = $type;
+$obj['meta']['transformationFormatType'] = $mvar;
+$obj['meta']['transformationFormatCode'] = $type_code;
+$obj['meta']['transformationContext'] = strtoupper($translate_context);
+$obj['meta']['transformationMode'] = $mode;
+$obj['meta']['hl7Version'] = $hl7Globals['HL7_VERSION'];
+*/
+
 /*//// PID SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 $pid = $msg->getSegmentsByName('PID');
-$pid = $pid[0];
 
-$name = explode($cs,$pid->getField(5));
-$obj['patient']['lastName'] = $name[0];
-$obj['patient']['firstName'] = $name[1];
+if (isset($pid[0])) {
 
-$guid = array_shift(explode($cs,$pid->getField(3)));
-$obj['patient']['externalId'] = $guid;
-$obj['patient']['dob'] = $pid->getField(7);
-$obj['patient']['ssn'] = $pid->getField(19);
-$obj['patient']['gender'] = $pid->getField(8);
+	$pid = $pid[0];
+	
+	$name = explode($cs,$pid->getField(5));
+	$obj['patient']['lastName'] = $name[0];
+	$obj['patient']['firstName'] = $name[1];
+	
+	$guid = array_shift(explode($cs,$pid->getField(3)));
+	$obj['patient']['externalId'] = $guid;
+	$obj['patient']['dob'] = date('Y-m-d',strtotime($pid->getField(7)));
+	$obj['patient']['ssn'] = $pid->getField(19);
+	$obj['patient']['gender'] = $pid->getField(8);
+	
+	$codedRace = explode($cs,$pid->getField(10));
+	$obj['patient']['race'] = $codedRace[0];
+	
+	$codedEthnicity = explode($cs,$pid->getField(22));
+	$obj['patient']['ethnicity'] = $codedEthnicity[0];
+	
+	$phone_org = array();
+	if ($pid->getField(13)) {
+		$number = explode($cs,$pid->getField(13));
+		$phone_org[] = array(
+			'areaCode' => $number[5],
+			'prefix' => substr($number[6],0,3),
+			'suffix' => substr($number[6],3,4),
+			'type' => 'HOME',	
+		);
+	}
+	if ($pid->getField(14)) {
+		$number = explode($cs,$pid->getField(14));
+		$phone_org[] = array(
+			'areaCode' => $number[5],
+			'prefix' => substr($number[6],0,3),
+			'suffix' => substr($number[6],3,4),
+			'type' => 'OFFICE'
+		);
+	}
+	
+	if ($pid->getField(11)) {
+		$addresses = explode($rs,$pid->getField(11));
+		$obj['patient']['address'] = array();
+		foreach ($addresses as $address) {
+			$address = explode($cs,$address);
+			$addressType = strtoupper($HL7addressTypes[$address[6]]);
+			if ($addressType == 'MAILING') { $addressType = 'BILLING'; } // SocialCare uses "BILLING" for HL7 address code M
+			$address_org = array();
+			$address_org['address1'] = $address[0]; 	
+			$address_org['address2'] = $address[1]; 	
+			$address_org['city'] = $address[2]; 	
+			$address_org['state'] = $address[3]; 	
+			$address_org['postalCode'] = $address[4]; 	
+			$address_org['countryCode'] = $address[5]; 	
+			$address_org['phone'] = $phone_org; 	
+			$address_org['addressType'] = $addressType; 	
+			$obj['patient']['address'][] = $address_org;
+		}
+	}
 
-$codedRace = explode($cs,$pid->getField(10));
-$obj['patient']['race'] = $codedRace[0];
-
-$codedEthnicity = explode($cs,$pid->getField(22));
-$obj['patient']['ethnicity'] = $codedEthnicity[0];
-
-$phone_org = array();
-if ($pid->getField(13)) {
-	$number = explode($cs,$pid->getField(13));
-	$phone_org[] = array(
-		'areaCode' => $number[5],
-		'prefix' => substr($number[6],0,3),
-		'suffix' => substr($number[6],3,4),
-		'type' => 'HOME',	
-	);
-}
-if ($pid->getField(14)) {
-	$number = explode($cs,$pid->getField(14));
-	$phone_org[] = array(
-		'areaCode' => $number[5],
-		'prefix' => substr($number[6],0,3),
-		'suffix' => substr($number[6],3,4),
-		'type' => 'OFFICE'
-	);
-}
-
-$addresses = explode($rs,$pid->getField(11));
-$obj['patient']['address'] = array();
-foreach ($addresses as $address) {
-	$address = explode($cs,$address);
-	$address_org = array();
-	$address_org['address1'] = $address[0]; 	
-	$address_org['address2'] = $address[1]; 	
-	$address_org['city'] = $address[2]; 	
-	$address_org['state'] = $address[3]; 	
-	$address_org['postalCode'] = $address[4]; 	
-	$address_org['countryCode'] = $address[5]; 	
-	$address_org['phone'] = $phone_org; 	
-	$obj['patient']['address'][] = $address_org;
 }
 
 /*//// PV1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
 $pv1 = $msg->getSegmentsByName('PV1');
 
-foreach ($pv1 as $soap) {
-	$obj['soapNote'][] = array(
-		'subjective' => array(
-			'appointmentDate' => $soap->getField(26)
-		)
-	);
+foreach ($pv1 as $pv) {
+	if ($pv->getField(26)) {
+		$obj['soapNote'][] = array(
+			'subjective' => array(
+				'appointmentDate' => $pv->getField(26)
+			)
+		);
+	}
+	$referringDoc = explode($cs,$pv->getField(8));
+	if (isset($referringDoc[7])) {
+		if (strtoupper(trim($referringDoc[7])) === 'NPI') {
+			$obj['user'] = array(
+				'renderingNpi' => $referringDoc[0]
+			);
+		}
+	}
 }
 
 /*//// AL1 SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
@@ -185,64 +218,86 @@ foreach ($rxa as $immunization) {
 
 /*//// OBX SEGMENT ///////////////////////////////////////////////////////////////////////////////*/
 
+$lineIndex = 0;
+$labIndexer = -1;
+$labGroups = array();
+
+foreach ($in as $segPeek) {
+	$segType = substr($segPeek,0,3);
+	if (strtoupper($segType == 'OBR')) {
+		$labIndexer++;
+		$labGroups[$labIndexer]['OBR'] = $lineIndex; 
+		$currentObx = -1;
+	}
+	if (strtoupper($segType == 'SPM')) {
+		$labGroups[$labIndexer]['SPM'] = $lineIndex; 
+	}
+	if (strtoupper($segType == 'OBX')) {
+		$currentObx++;
+		$labGroups[$labIndexer]['OBX'][$currentObx]['OBX'] = $lineIndex;
+	}
+	if (strtoupper($segType == 'NTE')) {
+		$labGroups[$labIndexer]['OBX'][$currentObx]['NTE'][] = $lineIndex; 
+	}
+	$lineIndex++;
+}
+
 $obr = $msg->getSegmentsByName('OBR');
-$obrs = array();
-foreach ($obr as $ord) {
-	$obrs[$ord->getField(1)] = $ord;
-}
-
 $obx = $msg->getSegmentsByName('OBX');
-$obxs = array();
-foreach ($obx as $lab) {
-	$obxs[$lab->getField(1)][] = $lab;
-}
-
-$segmentCount = 1;
-$obxIndexes = array();
-$spmIndexes = array();
-
-foreach ($in as $segment) {
-	if (strtoupper(substr($segment,0,3)) == 'OBX') {
-		$obxIndexes[] = $segmentCount;
-	}
-	if (strtoupper(substr($segment,0,3)) == 'SPM') {
-		$spmIndexes[] = $segmentCount;
-	}
-	$segmentCount++;
-}
-
-$obxIndex = array_shift($obxIndexes);
-$spmIndex = array_shift($spmIndexes);
 
 if (!empty($obr) && !empty($obx)) {
+
 	$labsIndex = 0;
-	foreach ($obxs as $index => $labs) {
-		foreach ($labs as $lab) { // Yes, I know this is redundant...
-			$order = $obrs[$index];
-			$code = explode($cs,$lab->getField(3));
-			$labName = explode($cs,$lab->getField(23));
-			$labAddress = explode($cs,$lab->getField(24));
-			$obj['lab'][$labsIndex] = array(
-				'labResult' => array(
-					'loincCode' => $code[0],
-					'facilityName' => $labName[0],
-					'facilityStreetAddress' => $labAddress[0],
-					'facilityCity' => $labAddress[2],
-					'facilityState' => $labAddress[3],
-					'facilityPostalCode' => $labAddress[4],
-				)
-			);
-		}
-		foreach ($labs as $lab) {
-			if ($obxIndex > $spmIndex) {
-				$spmIndex = array_shift($spmIndexes);
+
+	foreach ($labGroups as $labGroup) {
+
+		$order = $msg->getSegmentByIndex($labGroup['OBR']+1);
+		if (!empty($order)) {
+			$orderMeta = explode($cs,$order->getField(4));
+			$orderCode = $orderMeta[0];
+			$orderName = $orderMeta[1];
+			$orderType = '';
+			$orderType = $order->getField(13);
+			$specimenReceived = trim($order->getField(14));
+			$resultsReceived = trim($order->getField(22));
+			if (!empty($resultsReceived)) {
+				$orderResultDate = date('Y-m-d', strtotime($resultsReceived));
 			}
-			$spm = $msg->getSegmentByIndex($spmIndex);
-			$specimen = explode($cs,$spm->getField(4));
-		
+			if (empty($resultsReceived) && !empty($specimenReceived)) {
+				$orderResultDate = date('Y-m-d', strtotime($specimenReceived));
+			}
+		}
+
+		$specName = '';
+		$specCond = '';
+		@$specimen = $msg->getSegmentByIndex($labGroup['SPM']+1);
+		if (!empty($specimen)) {
+			@$specDesc = explode($cs,$specimen->getField(4));
+			@$specName = $specDesc[1];			
+			@$specCond = $specimen->getField(24);
+		}
+
+		$obj['lab'][$labsIndex] = array(
+			'labResult' => array(
+				'loincCode' => $orderCode,
+				'description' => $orderName,
+				'source' => $specName,
+				'sourceCondition' => $specCond
+			)
+		);
+
+		foreach ($labGroup['OBX'] as $result) {
+
+			$lab = $msg->getSegmentByIndex($result['OBX']+1);
+
 			$code = explode($cs,$lab->getField(3));
-			$source = explode($cs,$lab->getField(4));
 			$unit = explode($cs,$lab->getField(6));
+			$unitOfMeasure = '';
+			if (isset($unit[1])) {
+				$unitOfMeasure = $unit[1];
+			} elseif (isset($unit[0])) {
+				$unitOfMeasure = $unit[0];
+			}
 			$abnormal = (string)$lab->getField(8);
 			$abnormalFlags = array_flip($HL7abnormalFlags);
 			if (empty($abnormal) || !in_array($abnormal, $abnormalFlags)) {
@@ -251,22 +306,62 @@ if (!empty($obr) && !empty($obx)) {
 			$labName = $code[1];
 			$labIdealResult = $lab->getField(7);
 			if (!empty($labIdealResult)) {
-				$labName .= ' ('.$labIdealResult.')';
+				$labName .= ' ('.trim($labIdealResult).')';
 			}
+
+			$loincCode = $code[0];
+
+			$resultDate = '';
+			if ($obxResultDate = $lab->getField(14)) {
+				$resultDate = date('Y-m-d', strtotime($obxResultDate));			
+			} elseif (!empty($orderResultDate)) {
+				$resultDate = date('Y-m-d', strtotime($orderResultDate));			
+			}
+
+			$facilityName = explode($cs,$lab->getField(23));
+			$facilityAddress = explode($cs,$lab->getField(24));
+			$facilityName = $facilityName[0];
+
+			if (empty($facilityName[0])) {
+				$producerID = explode($cs,$lab->getField(15));
+				$facilityName = $producerID[1];
+			}
+			if (empty($facilityAddress[0])) {
+				$facilityAddress = array('','','','','');
+			}
+
+			$notesArray = array();
+			if (isset($result['NTE'])) {
+				foreach ($result['NTE'] as $noteSeg) {
+					$note = $msg->getSegmentByIndex($noteSeg+1);
+					$noteString = trim($note->getField(3));
+					if (!empty($noteString)) {
+						$notesArray[] = $noteString;					
+					}
+				}
+			}
+
 			$obj['lab'][$labsIndex]['labResult']['labTestResult'][] = array(
-				'date' => date('Y-m-d', strtotime($lab->getField(14))),
-				'type' => $order->getField(13),
-				'name' => $labName,
+				'date' => $resultDate,
+				'loincCode' => $loincCode,
+				'description' => $labName,
 				'value' => $lab->getField(5),
-				'unitOfMeasure' => $unit[1],
-				'source' => $specimen[1],
-				'condition' => $spm->getField(24),
-				'abnormal' => $abnormal
+				'unitOfMeasure' => $unitOfMeasure,
+				'abnormal' => $abnormal,
+				'notes' => $notesArray,
+				'facilityName' => @$facilityName,
+				'facilityStreetAddress' => @$facilityAddress[0],
+				'facilityCity' => @$facilityAddress[2],
+				'facilityState' => @$facilityAddress[3],
+				'facilityPostalCode' => @$facilityAddress[4]
 			);
-			$obxIndex = array_shift($obxIndexes);
+
 		}
+	
 		$labsIndex++;
+	
 	}
+
 } else {
 
 /*//// ADT OBX SEGMENTs //////////////////////////////////////////////////////////////////////////*/

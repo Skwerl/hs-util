@@ -59,6 +59,7 @@ if ($translate_context == 'hl7') {
 			array_push($segments,
 				'SFT',			
 				'PID',
+				'PV1',
 				'NTE',
 				'SPM',
 				'ORC',

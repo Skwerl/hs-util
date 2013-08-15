@@ -278,7 +278,7 @@ class Net_HL7_Message {
      */
     public function getSegmentByIndex($index)
     {
-        if ($index >= count($this->_segments)) {
+        if (($index >= count($this->_segments)) || empty($index)) {
             return NULL;
         }
 
