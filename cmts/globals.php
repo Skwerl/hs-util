@@ -1,0 +1,84 @@
+<?php
+
+//error_reporting(0);
+date_default_timezone_set('America/Los_Angeles');
+
+$allGlobals['API_ROOT'] = '/cmts/';
+$allGlobals['WEB_ROOT'] = 'https://cmts.socialcare.com:8443';
+
+$allGlobals['VENDOR'] = 'HealthSymmetric, Inc.';
+$allGlobals['APPLICATION'] = 'SocialCare Connect';
+$allGlobals['INSTALL_DATE'] = date('Ymd', strtotime('2013-01-01'));
+$allGlobals['BINARY_ID'] = '000';
+$allGlobals['VERSION'] = '0.1';
+
+if ($translate_context == 'ccd') {
+	
+	$XMLGlobals['XSI'] = 'http://www.w3.org/2001/XMLSchema-instance';
+	$XMLGlobals['XSD'] = 'http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd';
+	$XMLGlobals['XSCHEMA'] = 'urn:hl7-org:v3';
+	$XMLGlobals['LANGUAGE_CODE'] = 'en-US';
+
+}
+
+if ($translate_context == 'hl7') {
+
+	//$lib_path = 'Net/'; // Load via PEAR
+	$lib_path = '/srv/hs-util/current/lib/';
+	
+	require_once $lib_path.'HL7.php';
+	require_once $lib_path.'HL7/Message.php';
+	require_once $lib_path.'HL7/Segment.php';
+	require_once $lib_path.'HL7/Segments/MSH.php';
+
+	$hl7Globals['HL7_VERSION'] = '2.3.1';
+	$hl7Globals['FIELD_SEPARATOR'] = '|';
+	$hl7Globals['COMPONENT_SEPARATOR'] = '^';
+	$hl7Globals['REPETITION_SEPARATOR'] = '~';
+	$hl7Globals['ESCAPE_CHARACTER'] = '\\';
+	$hl7Globals['SUBCOMPONENT_SEPARATOR'] = '&';
+		
+	$cs = $hl7Globals['COMPONENT_SEPARATOR'];
+	$ss = $hl7Globals['SUBCOMPONENT_SEPARATOR'];
+	$rs = $hl7Globals['REPETITION_SEPARATOR'];
+
+	$type_string = $type.$cs.$mvar.$cs.$type_code;
+	
+	$segments = array('MSH');
+	switch($type) {
+		case 'ADT':
+			array_push($segments,
+				'EVN',
+				'PID',
+				'PV1',
+				'OBX',
+				'DG1'
+			);
+			break;
+		case 'ORU':
+			array_push($segments,
+				'SFT',			
+				'PID',
+				'PV1',
+				'NTE',
+				'SPM',
+				'ORC',
+				'OBR',
+				'OBX'
+			);
+			break;
+		case 'VXU':
+			array_push($segments,
+				'PID',
+				'RXA',
+				'RXR'
+			);
+			break;
+	}
+
+}
+
+require_once './functions.php';
+require_once './hl7_datasets.php';
+
+?>
